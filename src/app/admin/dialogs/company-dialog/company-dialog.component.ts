@@ -71,9 +71,12 @@ export class CompanyDialogComponent implements OnInit {
     if(this.form.invalid) {
       return;
     }
+    const payload: Company = this.form.value;
     if (this.update) {
       // TODO: Implement
     }
+    payload.stateLicence = this.StateLicenceChecks.filter(sl => sl.selected).map(sl => sl.name as string);
+
     this.dialogRef.close(this.company);
   }
 
