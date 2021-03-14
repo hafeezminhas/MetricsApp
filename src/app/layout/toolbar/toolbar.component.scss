@@ -1,0 +1,17 @@
+.flexExpand {
+  flex: 1 1 auto;
+}
+
+.mat-toolbar {
+  background: #f2f2f2;
+  box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+  animation: .6s slideDown forwards;
+
+  .toolbar-logo {
+    width: 140px;
+  }
+
+  .mat-menu-trigger {
+    background-color: transparent;
+  }
+}

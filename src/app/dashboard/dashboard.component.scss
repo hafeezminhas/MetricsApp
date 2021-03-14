@@ -1,0 +1,34 @@
+.widget-card {
+  padding: 10px 15px;
+
+  .inner {
+    padding: 10px 20px;
+    border: 1px solid #c6c6c6;
+    border-radius: 5px;
+    box-shadow: 3px 2px 3px 0 rgb(0 0 0 / 30%);
+    background: linear-gradient(45deg, #d4d4d4, #f7f7f7);
+
+    .img {
+      padding: 10px 0;
+      img {
+        width: 80px;
+        vertical-align: center;
+      }
+    }
+
+    .stats {
+      text-align: right;
+
+      .value {
+        font-family: 'Lato', sans-serif;
+        font-size: 3rem;
+        margin: 0;
+      }
+
+      .label {
+        font-size: 1rem;
+        margin: 0;
+      }
+    }
+  }
+}

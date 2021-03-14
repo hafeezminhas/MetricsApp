@@ -1,0 +1,32 @@
+.register {
+  background-image: url('/assets/images/backgrounds/auth_bg.jpg');
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+mat-card {
+max-width: 480px;
+margin: 15% auto;
+text-align: center;
+background-color: #fff;
+
+&:not([class*=mat-elevation-z]) {
+  box-shadow: 0 2px 1px -1px rgb(134, 134, 134, 1),
+              0 1px 1px 0 rgb(134, 134, 134, 1),
+              0 1px 3px 0 rgb(134, 134, 134, 1);
+}
+}
+
+.mat-input-element {
+  font-size: 1.55rem !important;
+}
+
+.signin-content {
+padding: 60px 1rem;
+}
+
+.full-width-input {
+width: 100%;
+}

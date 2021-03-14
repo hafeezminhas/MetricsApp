@@ -1,0 +1,19 @@
+<div class="admin-wrapper">
+  <section fxLayout="row wrap" class="admin-header">
+    <h4 class="m-0" fxFlex>Admin Controls</h4>
+    <span fxFlex></span>
+    <div fxLayout="row" fxLayoutAlign="end start" fxFlex="30">
+      <ul class="admin-links">
+        <li class="admin-links-item" fxFlex><a [routerLink]="['/admin']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Dashboard </a> </li>
+        <li class="admin-links-item" fxFlex><a [routerLink]="['companies']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Companies </a> </li>
+        <li class="admin-links-item" fxFlex><a [routerLink]="['users']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> Users </a> </li>
+      </ul>
+    </div>
+  </section>
+
+  <section fxLayout="row" class="admin-container">
+    <div fxFlex="100" class="py-12">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,35 @@
+<div class="login">
+  <div class="signin-content">
+    <mat-card color="dark" class="p-24">
+      <mat-card-content fxLayout="row wrap">
+        <div fxLayout="row wrap" class="p-20">
+          <div fxFlex="100" fxLayoutAlign="center start">
+            <img src="assets/images/logos/logo_sm.png" width="180" alt="" class="logo">
+          </div>
+        </div>
+
+        <div class="error-message" fxFlex="100" fxLayoutAlign="center start" *ngIf="error$ | async as error">
+          <span><mat-icon>error</mat-icon></span> {{error | json}}
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-20">
+          <p>Please login to continue</p>
+          <mat-form-field type="standard" class="full-width">
+            <input type="email" matInput placeholder="Email" formControlName="email" required>
+            <mat-error *ngIf="submitted && f.email.errors && f.email.errors.required"> email cannot be blank </mat-error>
+            <mat-error *ngIf="submitted && f.email.errors && f.email.errors.email"> please provide a valid email </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput type="password" placeholder="Password" formControlName="password" required>
+            <mat-error *ngIf="submitted && f.password.errors && f.password.errors.required"> password cannot be blank </mat-error>
+          </mat-form-field>
+          <div class="py-12">
+            <button mat-raised-button color="primary" class="mat-raised-button"> <img src="assets/images/anime/loader.gif" class="mr-4" width="20" alt="" *ngIf="loading$ | async as loading"> Login</button>
+            <span class="px-8"></span>
+            <button mat-raised-button color="accent" class="mat-raised-button" (click)="cancel()"> Cancel</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

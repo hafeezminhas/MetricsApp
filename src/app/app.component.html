@@ -1,0 +1,4 @@
+<ngx-loading-bar color="#04B130" height="2px" ref="router"></ngx-loading-bar>
+<app-toolbar (navToggle)="sideNavToggle($event)" *ngIf="loggedIn$ | async"></app-toolbar>
+<app-sidenav #sidenav *ngIf="loggedIn$ | async"></app-sidenav>
+<router-outlet *ngIf="!(loggedIn$ | async)"></router-outlet>

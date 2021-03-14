@@ -1,0 +1,15 @@
+<section id="vendor-section" class="vendor-section" [ngClass]="{'light-gray': backgroundGray}">
+  <div class="container">
+    <div class="section-header">
+      <h2>Key Customers</h2>
+      <p>We provide our services to many big names including</p>
+    </div>
+    <div >
+      <ul fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="20px">
+        <li fxFlex="100" fxFlex.gt-md="20" *ngFor="let v of vendors">
+          <img src="assets/images/companies/sample_farmer.png" alt="">
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,61 @@
+<div class="register">
+  <div class="signin-content">
+    <mat-card color="dark" class="p-24">
+      <mat-card-content>
+        <div fxLayout="row wrap" class="p-20">
+          <div fxFlex="100" fxLayoutAlign="center start">
+            <img src="assets/images/logos/sample.png" width="180" alt="" class="logo">
+          </div>
+          <div fxFlex="100" fxLayoutAlign="center start" *ngIf="error$ | async as error">
+            <mat-icon>error</mat-icon> {{error | json}}
+          </div>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-20">
+          <p>Please provide your registration deails</p>
+
+          <mat-form-field type="standard" class="full-width">
+            <input type="text" matInput placeholder="First Name" formControlName="firstname" required>
+            <mat-error *ngIf="submitted && f.firstname.errors && f.firstname.errors.required"> first name is required </mat-error>
+          </mat-form-field>
+
+          <mat-form-field type="standard" class="full-width">
+            <input type="text" matInput placeholder="Last Name" formControlName="lastname" required>
+            <mat-error *ngIf="submitted && f.lastname.errors && f.lastname.errors.required"> last name is required </mat-error>
+          </mat-form-field>
+
+          <mat-form-field type="standard" class="full-width">
+            <input type="email" matInput placeholder="Email" formControlName="email" required>
+            <mat-error *ngIf="submitted && f.email.errors && f.email.errors.required"> email cannot be blank </mat-error>
+            <mat-error *ngIf="submitted && f.email.errors && f.email.errors.email"> please provide a valid email </mat-error>
+          </mat-form-field>
+
+          <mat-form-field type="standard" class="full-width">
+            <input type="text" matInput placeholder="Address Line 1" formControlName="address1" required>
+            <mat-error *ngIf="submitted && f.address1.errors && f.address1.errors.required"> address is required </mat-error>
+          </mat-form-field>
+
+          <mat-form-field type="standard" class="full-width">
+            <input type="text" matInput placeholder="Address Line 2" formControlName="address2" required>
+          </mat-form-field>
+
+          <mat-form-field type="standard" class="full-width">
+            <input type="text" matInput placeholder="Postcode" formControlName="postcode" required>
+            <mat-error *ngIf="submitted && f.postcode.errors && f.postcode.errors.required"> postcode is required </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <input matInput type="password" placeholder="Password" formControlName="password" required>
+            <mat-error *ngIf="submitted && f.password.errors && f.password.errors.required"> password cannot be blank </mat-error>
+          </mat-form-field>
+
+          <div class="py-20 mt-12">
+            <button mat-raised-button color="primary" class="mat-raised-button mr-8">
+              <img src="assets/images/anime/loader.gif" class="mr-4" width="20" alt="" *ngIf="loading"> Register
+            </button>
+            <button mat-raised-button color="warn" class="mat-raised-button" (click)="cancel()"> Cancel </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

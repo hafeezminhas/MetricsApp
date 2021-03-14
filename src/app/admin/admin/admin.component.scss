@@ -1,0 +1,42 @@
+.admin-wrapper {
+
+  .admin-header {
+    padding: 15px 30px;
+    background-color: #266706;
+
+    h4 {
+      color: #fff;
+    }
+  }
+}
+
+.admin-links {
+  padding: 0;
+  margin: 0;
+
+  &-item {
+    padding: 5px;
+    margin-right: 5px;
+    list-style: none;
+    display: inline-block;
+
+    a {
+      padding: 4px 10px;
+      background-color: transparent;
+      color: #fff;
+
+      &:hover {
+        box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.3);
+      }
+
+      &.active {
+        font-weight: 600;
+        border-bottom: 2px solid #eee;
+      }
+    }
+  }
+}
+
+.admin-container {
+  padding: 0 30px;
+}

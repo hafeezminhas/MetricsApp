@@ -1,0 +1,41 @@
+/* 
+* REQUIRED STYLES 
+*/
+@import "main/scaffolding";
+@import "main/typography";
+
+.error-message {
+  font-family: $lato-sans;
+  font-size: 1rem;
+  color: $error;
+
+  mat-icon {
+    font-size: 1.2rem;
+  }
+}
+
+.dialog-wrapper {
+  padding: 1rem auto;
+}
+
+.mat-dialog-container {
+  background-color: #fff;
+}
+
+.mat-dialog-actions {
+  padding: 2rem 1rem !important;
+}
+
+fieldset {
+  margin-bottom: 1rem;
+  padding: 1rem auto 0;
+  border: 1px solid #888888;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.mat-error {
+  color: #ff1201;
+}
+

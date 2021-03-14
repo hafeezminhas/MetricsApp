@@ -1,0 +1,15 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="'/accounts'"> Accounts </a>
+      <a mat-list-item [routerLink]="'/requests/service'"> Service Reuqests </a>
+      <a mat-list-item [routerLink]="'/requests/quote'"> Quote Requests </a>
+      <a mat-list-item [routerLink]="'/pending'"> Pending Requests </a>
+      <a mat-list-item [routerLink]="'/onhold'"> On Hold Requests </a>
+      <a mat-list-item [routerLink]="'/processed'"> Processed Recently </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
