@@ -77,7 +77,7 @@ export class CompanyDialogComponent implements OnInit {
     }
     payload.stateLicence = this.StateLicenceChecks.filter(sl => sl.selected).map(sl => sl.name as string);
 
-    this.dialogRef.close(this.company);
+    this.dialogRef.close(payload);
   }
 
   close(): void {
