@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "serve": "ng serve --port 2222 --proxy-config proxy.config.json",
+    "serve": "ng serve --aot --port 2222 --proxy-config proxy.config.json",
     "dev": "concurrently \"nodemon server\" \"npm run serve\"",
     "start": "npm run serve",
     "build": "ng build",

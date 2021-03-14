@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 class PlantServiceState {
   plants: any;
-  error: any;
   page: number;
-  pages: number;
   limit: number;
+  search: string;
+  error: any;
 }
 
 const API_PREFIX = 'api';
@@ -15,20 +16,27 @@ const API_PREFIX = 'api';
   providedIn: 'root'
 })
 export class PlantService {
-  private _state$ = new BehaviorSubject<PlantServiceState>({
+  private plantState$ = new BehaviorSubject<PlantServiceState>({
     plants: null,
-    error: null,
     page: 1,
-    pages: 1,
-    limit: 10
+    limit: 10,
+    search: null,
+    error: null,
   });
-  state$ = this._state$.asObservable();
+  state$ = this.plantState$.asObservable();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  init() {}
+  getPlants(page: number, limit: number, search?: string): Observable<any> {
+    const params = new HttpParams()
+      .set('page', `${page}`)
+      .set('limit', `${limit}`)
+      .set('search', `${search}`);
 
-  public subscribe(callback: (model: PlantServiceState) => void) {
-    return this.state$.subscribe(callback);
+    return this.http.get(`${API_PREFIX}/plants?` + params);
+  }
+
+  update(page: number, limit: number, search?: string): Observable<any> {
+    return this.http.get(`${API_PREFIX}`);
   }
 }

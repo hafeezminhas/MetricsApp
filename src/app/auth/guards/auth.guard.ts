@@ -7,6 +7,7 @@ import { select, Store } from '@ngrx/store';
 
 import { AuthSelectors } from './../store/auth.selectors';
 import { AppState } from './../../store/state';
+import {AuthRole} from '../models/enum/auth-role';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AuthGuard implements CanActivate {
         if (!user) {
           this.router.navigate(['/login']);
         }
-        if (route.data.role && route.data.role.indexOf(user.role) === -1) {
+        if (route.data.role && (AuthRole[user.role] < AuthRole[route.data.role])) {
           this.router.navigate(['/login']);
           return false;
         }
