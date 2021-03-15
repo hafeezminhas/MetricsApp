@@ -64,6 +64,10 @@ export class CompaniesService {
     return this.http.get(`${API_PREFIX}/companies/${id}?full=${full}`);
   }
 
+  addCompany(payload: any): Observable<any> {
+    return this.http.post(`${API_PREFIX}/companies`, payload);
+  }
+
   updateCompany(id: string, payload: any): Observable<any> {
     return this.http.put(`${API_PREFIX}/companies/${id}`, payload);
   }

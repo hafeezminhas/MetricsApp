@@ -35,11 +35,9 @@ export class CompanyDialogComponent implements OnInit {
     Object.keys(CompanySize).forEach((k: string) => {
       this.CompanySizeOptions.push({ value: k, label: CompanySize[k] });
     });
-    console.log(this.CompanySizeOptions);
     Object.keys(StateLicenceType).filter(k => isNaN(k as any)).forEach((k: string) => {
-      this.StateLicenceChecks.push({ name: k, selected: this.update ? (this.company.stateLicence.indexOf(k) !== -1) : false });
+      this.StateLicenceChecks.push({ name: k, selected: this.update ? (this.company.stateLicense.indexOf(k) !== -1) : false });
     });
-    console.log(this.StateLicenceChecks);
     this.form = this.fb.group({
       name:     ['', Validators.required],
       email:    ['', [Validators.required, Validators.pattern(this.emailRegx)]],
@@ -56,6 +54,12 @@ export class CompanyDialogComponent implements OnInit {
       metricId: ['', Validators.required],
       subscriptionType: 1,
     });
+
+    if (this.update) {
+      const body = { ...this.company };
+      delete body.stateLicense;
+      this.form.patchValue(body);
+    }
   }
 
   get f(): any {
@@ -71,10 +75,13 @@ export class CompanyDialogComponent implements OnInit {
     if(this.form.invalid) {
       return;
     }
+    const payload: Company = this.form.value;
     if (this.update) {
       // TODO: Implement
     }
-    this.dialogRef.close(this.company);
+    payload.stateLicense = this.StateLicenceChecks.filter(sl => sl.selected).map(sl => sl.name as string);
+
+    this.dialogRef.close(payload);
   }
 
   close(): void {
