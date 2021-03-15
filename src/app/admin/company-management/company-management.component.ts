@@ -67,11 +67,12 @@ export class CompanyManagementComponent implements OnInit, AfterViewInit {
         console.log('res', res);
       }, err => {
         console.log('err', err);
-      })
+      });
     });
   }
 
-  edit(comp: Company): void {
+  update(comp: Company): void {
+    console.log(comp);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;

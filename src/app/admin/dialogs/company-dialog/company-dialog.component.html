@@ -112,7 +112,7 @@
           <mat-form-field class="form-field" appearance="outline">
             <mat-label>Subscription Type</mat-label>
             <mat-select>
-              <mat-option *ngFor="let sub of Subscriptions" [value]="sub.type">{{sub.value}}</mat-option>
+              <mat-option *ngFor="let sub of Subscriptions" [value]="sub.value">{{sub.label}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -131,7 +131,9 @@
           <ul class="checkbox-group-list" fxFlex="100">
             <li *ngFor="let sl of StateLicenceChecks; let i = index">
               <a (click)="toggleLicence(i, sl.selected)" class="check-link" [ngClass]="{ 'checked' : sl.selected }">
-                <span>{{sl.name}}</span> <mat-icon *ngIf="sl.selected">check</mat-icon>
+                <mat-icon *ngIf="sl.selected">check_circle</mat-icon>
+                <mat-icon *ngIf="!sl.selected">check_circle_outline</mat-icon>
+                <span>{{sl.name}}</span>
               </a>
             </li>
           </ul>

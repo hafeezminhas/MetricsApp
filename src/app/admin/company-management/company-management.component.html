@@ -54,7 +54,7 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell class="duration-cell" *matCellDef="let company" fxLayout="row" fxLayoutGap="5px">
-          <button mat-icon-button class="mat-btn-primary"> <mat-icon>edit</mat-icon> </button>
+          <button mat-icon-button class="mat-btn-primary" (click)="update(company)"> <mat-icon>edit</mat-icon> </button>
           <button mat-icon-button class="mat-btn-danger"> <mat-icon>delete</mat-icon> </button>
         </mat-cell>
       </ng-container>
