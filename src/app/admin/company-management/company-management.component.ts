@@ -62,6 +62,12 @@ export class CompanyManagementComponent implements OnInit, AfterViewInit {
     const createDialog = this.dialog.open(CompanyDialogComponent, dialogConfig);
     createDialog.afterClosed().subscribe(payload => {
       // TODO: Implement API integration for Create Company
+      console.log(payload);
+      this.companyService.addCompany(payload).subscribe(res => {
+        console.log('res', res);
+      }, err => {
+        console.log('err', err);
+      })
     });
   }
 
