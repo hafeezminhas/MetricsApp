@@ -85,6 +85,11 @@ export class CompanyManagementComponent implements OnInit, AfterViewInit {
     const updateDialog = this.dialog.open(CompanyDialogComponent, dialogConfig);
     updateDialog.afterClosed().subscribe(payload => {
       // TODO: Implement API integration for Update Company
+      this.companyService.updateCompany(comp._id, payload).subscribe(res => {
+        console.log('update', res);
+      }, err => {
+        console.log('err', err);
+      });
     });
   }
 }

@@ -1,1 +1,59 @@
-<p>user-management works!</p>
+<div fxLayout="row wrap">
+    <section fxFlex="100" fxLayout="row" class="mt-1">
+        <h5 class="m-0">Users ({{dataSource.count}})</h5>
+        <span fxFlex></span>
+        <button mat-icon-button matTooltip="Add User" (click)="addNew()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </section>
+    <section fxFlex="100">
+        <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading$ | async as loading"></mat-progress-bar>
+        <mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+
+            <ng-container matColumnDef="firstName">
+                <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.firstName}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="lastName">
+                <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let user">{{user.lastName}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let user">{{user.email}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="phone">
+                <mat-header-cell *matHeaderCellDef>Phone</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let user">{{user.phone}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+                <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let user">{{user.role}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell class="duration-cell" *matCellDef="let user" fxLayout="row" fxLayoutGap="5px">
+                    <button mat-icon-button class="mat-btn-primary" (click)="update(user)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button class="mat-btn-danger">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        </mat-table>
+        <mat-paginator [length]="pageConfig" [pageSize]="pageConfig.limit" [pageSizeOptions]="pageSizes">
+        </mat-paginator>
+    </section>
+
+</div>

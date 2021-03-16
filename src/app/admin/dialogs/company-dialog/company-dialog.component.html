@@ -47,7 +47,7 @@
           <mat-form-field class="form-field" appearance="outline">
             <mat-label> Established </mat-label>
             <mat-label>Choose a date</mat-label>
-            <input matInput [matDatepicker]="picker">
+            <input matInput [matDatepicker]="picker" formControlName="established">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -102,7 +102,7 @@
         <div fxFlex="100" fxFlex.gt-md="29">
           <mat-form-field class="form-field" appearance="outline">
             <mat-label>Company Size</mat-label>
-            <mat-select formControlName="state">
+            <mat-select formControlName="companySize">
               <mat-option *ngFor="let cs of CompanySizeOptions" [value]="cs.value">{{cs.label}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -111,7 +111,7 @@
         <div fxFlex="100" fxFlex.gt-md="29">
           <mat-form-field class="form-field" appearance="outline">
             <mat-label>Subscription Type</mat-label>
-            <mat-select>
+            <mat-select formControlName="subscriptionType">
               <mat-option *ngFor="let sub of Subscriptions" [value]="sub.value">{{sub.label}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -145,7 +145,7 @@
       </fieldset>
 
       <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
-        <button type="submit" class="mat-raised-button mat-primary">Save</button>
+        <button type="submit" class="mat-raised-button mat-primary">{{ update ? 'Update' : 'Save' }}</button>
         <button type="button" class="mat-raised-button" (click)="close()">Close</button>
       </div>
     </form>
