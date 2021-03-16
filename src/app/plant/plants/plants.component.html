@@ -1,1 +1,68 @@
-<p>plants works!</p>
+<div fxLayout="row wrap">
+  <section fxFlex="100" fxLayout="row" class="mt-1">
+    <h5 class="m-0">Plants ({{dataSource.count || 0}})</h5>
+    <span fxFlex></span>
+    <button mat-icon-button matTooltip="Add Company" (click)="addNew()"> <mat-icon>add</mat-icon> </button>
+  </section>
+
+  <section fxFlex="100">
+    <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading$ | async as loading"></mat-progress-bar>
+    <mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let plant">{{plant.name}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="metric">
+        <mat-header-cell *matHeaderCellDef>Metric Id</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let plant">{{plant.metricId}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="strain">
+        <mat-header-cell *matHeaderCellDef>Strain</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let plant">{{plant.strain}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell class="description-cell" *matCellDef="let plant" fxLayout="row wrap">{{plant.type}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="planted">
+        <mat-header-cell *matHeaderCellDef>Subscription</mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let plant">
+          <div class="subscription sub-{{plant.subscriptionType}}">{{planted | date}}</div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="mother">
+        <mat-header-cell *matHeaderCellDef>State Lincense</mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let plant" fxLayout="row wrap"> {{plant.mother || 'None'}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="phase">
+        <mat-header-cell *matHeaderCellDef>Users</mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let plant">{{plant.phase}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell class="duration-cell" *matCellDef="let plant" fxLayout="row" fxLayoutGap="5px">
+          <button mat-icon-button class="mat-btn-primary"> <mat-icon>edit</mat-icon> </button>
+          <button mat-icon-button class="mat-btn-danger"> <mat-icon>delete</mat-icon> </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    </mat-table>
+    <mat-paginator [length]="pageConfig"
+                   [pageSize]="pageConfig.limit"
+                   [pageSizeOptions]="pageSizes">
+    </mat-paginator>
+  </section>
+
+</div>

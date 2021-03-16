@@ -1,8 +1,33 @@
 @import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
 @include mat-core();
 
-// Keep atleast one file
-@import "themes/egret-indigo";
+// Define the default theme (same as the example above).
+$milkbottle-app-primary: mat-palette($mat-green);
+$milkbottle-app-accent:  mat-palette($mat-green, A600, A100, A400);
+$milkbottle-app-theme:   mat-light-theme((
+  color: (
+    primary: $milkbottle-app-primary,
+    accent: $milkbottle-app-accent,
+  )
+));
 
-$background: map-get($egret-theme, background);
-$foreground: map-get($egret-theme, foreground);
+// Include the default theme styles (color and default density)
+@include angular-material-theme($milkbottle-app-theme);
+
+
+// Define an alternate dark theme.
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent:  mat-palette($mat-amber, A200, A100, A400);
+$dark-warn:    mat-palette($mat-deep-orange);
+$dark-theme:   mat-dark-theme((
+  color: (
+    primary: $dark-primary,
+    accent: $dark-accent,
+    warn: $dark-warn,
+  )
+));

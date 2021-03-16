@@ -1,6 +1,5 @@
 import {PlantPhaseHistory} from './phase-history';
 
-
 interface Plant {
   name: string;
   metricId: string;
@@ -11,6 +10,7 @@ interface Plant {
   currentPhase: string;
   phaseHistory: PlantPhaseHistory[];
   location: string;
+  company: string;
 }
 
 export { Plant };

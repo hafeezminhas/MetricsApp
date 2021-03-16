@@ -1,0 +1,15 @@
+.phase-history {
+  padding: 0.5rem;
+  margin: 0;
+
+  &-header, &-item {
+    list-style: none;
+    padding: 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  &-header {
+    font-weight: 600;
+    border-bottom: 1px solid #888;
+  }
+}
