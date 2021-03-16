@@ -35,6 +35,10 @@ fieldset {
   border-radius: 4px;
 }
 
+.mat-form-field-invalid.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #ff1201;
+}
+
 .mat-error {
   color: #ff1201;
 }

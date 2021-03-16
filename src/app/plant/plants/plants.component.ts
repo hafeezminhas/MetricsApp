@@ -45,7 +45,9 @@ export class PlantsComponent implements OnInit, AfterViewInit {
 
     const addDialog = this.dialog.open(PlantDialogComponent, dialogConfig);
     addDialog.afterClosed().subscribe(payload => {
-
+      if (payload) {
+        this.plantService.create(payload).subscribe();
+      }
     });
   }
 

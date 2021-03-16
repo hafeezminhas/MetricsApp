@@ -130,10 +130,12 @@
         <div fxFlex="100" fxFlex.gt-md="99" fxLayout="row">
           <ul class="checkbox-group-list" fxFlex="100">
             <li *ngFor="let sl of StateLicenceChecks; let i = index">
-              <a (click)="toggleLicence(i, sl.selected)" class="check-link" [ngClass]="{ 'checked' : sl.selected }">
-                <mat-icon *ngIf="sl.selected">check_circle</mat-icon>
-                <mat-icon *ngIf="!sl.selected">check_circle_outline</mat-icon>
-                <span>{{sl.name}}</span>
+              <a fxLayout="row" (click)="toggleLicence(i, sl.selected)" class="check-link" [ngClass]="{ 'checked' : sl.selected }">
+                <span>
+                  <mat-icon *ngIf="sl.selected">check_circle</mat-icon>
+                  <mat-icon *ngIf="!sl.selected">check_circle_outline</mat-icon>
+                </span>
+                <span class="ml-4">{{sl.name}}</span>
               </a>
             </li>
           </ul>

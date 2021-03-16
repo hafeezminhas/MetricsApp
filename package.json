@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "serve": "ng serve --aot --port 2222 --proxy-config proxy.config.json",
+    "serve": "ng serve --port 2222 --proxy-config proxy.config.json",
     "dev": "concurrently \"nodemon server\" \"npm run serve\"",
     "start": "npm run serve",
     "build": "ng build",
@@ -13,7 +13,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~10.2.0",
+    "@angular/animations": "~11.2.5",
     "@angular/cdk": "^10.2.7",
     "@angular/common": "~10.2.0",
     "@angular/compiler": "~10.2.0",
