@@ -129,8 +129,8 @@
           <li class="phase-history-item" fxLayout="row" fxFlex="100" *ngFor="let hist of plant.phaseHistory">
             <div class="inner" fxFlex="100" fxLayout="row">
               <div class="phase" fxFlex="35">Vegetative</div>
-              <div class="start" fxFlex="25">{{ '2021-03-06T18:05:51.786Z' | date:'mediumDate' }}</div>
-              <div class="end" fxFlex="25">{{ '2021-03-06T18:05:51.786Z' | date:'mediumDate' }}</div>
+              <div class="start" fxFlex="25">{{  hist.start | date:'mediumDate' }}</div>
+              <div class="end" fxFlex="25">{{ hist.end | date:'mediumDate' }}</div>
               <div class="actions" fxFlex="15" fxLayoutAlign="end">
                 <a (click)="removeHistory()"> <mat-icon>close</mat-icon> </a>
               </div>

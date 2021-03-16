@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {phaseHistoryList} from '../../../data/enums/PlantPhases';
 import {PlantPhaseHistory} from '../../../data/models/phase-history';
+import { NgPopupsService } from 'ng-popups';
 
 @Component({
   selector: 'app-plant-dialog',
@@ -29,6 +30,7 @@ export class PlantDialogComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<PlantDialogComponent>,
+              private ngPopup: NgPopupsService,
               @Inject(MAT_DIALOG_DATA) data) {
       this.plant = data.plant;
       this.update = data.update;
@@ -98,9 +100,11 @@ export class PlantDialogComponent implements OnInit {
   }
 
   addItem(): void {
-    console.log(this.phaseHistoryModel);
-    if(this.plant.phaseHistory.filter(ph => ph.phase === this.phaseHistoryModel.phase).length) {
-      alert(`The phase history item with phase ${this.phaseHistoryModel.phase} already exist`);
+    if (!this.plant.phaseHistory) {
+      this.plant.phaseHistory = [];
+    }
+    if (this.plant.phaseHistory.filter(ph => ph.phase === this.phaseHistoryModel.phase).length) {
+      this.ngPopup.alert(`The phase history item with phase ${this.phaseHistoryModel.phase} already exist`);
       return;
     }
 
