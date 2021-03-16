@@ -1,10 +1,11 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {Plant} from '../../../data/models/plant';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {phaseHistoryList} from '../../../data/enums/PlantPhases';
 import {PlantPhaseHistory} from '../../../data/models/phase-history';
 import { NgPopupsService } from 'ng-popups';
+import {MatSelect} from '@angular/material/select';
 
 @Component({
   selector: 'app-plant-dialog',
@@ -82,12 +83,13 @@ export class PlantDialogComponent implements OnInit {
     }
     const payload: Plant = this.form.value;
     payload.plantedOn = this.plant.plantedOn;
+    payload.phaseHistory = [...this.plant.phaseHistory];
     console.log(payload);
 
-    // this.dialogRef.close(payload);
+    this.dialogRef.close(payload);
   }
 
-  close() {
+  close(): void {
     this.dialogRef.close();
   }
 
@@ -104,7 +106,7 @@ export class PlantDialogComponent implements OnInit {
       this.plant.phaseHistory = [];
     }
     if (this.plant.phaseHistory.filter(ph => ph.phase === this.phaseHistoryModel.phase).length) {
-      this.ngPopup.alert(`The phase history item with phase ${this.phaseHistoryModel.phase} already exist`);
+      this.ngPopup.alert(`The phase history item with phase ${this.phaseHistoryModel.phase} already exist`, { title: 'Duplicate Entry', okButtonText: 'I Understand' });
       return;
     }
 
@@ -112,8 +114,12 @@ export class PlantDialogComponent implements OnInit {
     this.phaseHistoryModel = { phase: null, start: null, end: null };
   }
 
-  removeItem(idx: number): void {
-    this.plant.phaseHistory.splice(1, idx);
+  removeHistory(idx: number): void {
+    this.ngPopup.confirm(`Are you sure you want to remove this phase history entry?`, { title: 'Confirm Removal' }).subscribe(res => {
+      if(res) {
+        this.plant.phaseHistory.splice(1, idx);
+      }
+    });
   }
 
 }

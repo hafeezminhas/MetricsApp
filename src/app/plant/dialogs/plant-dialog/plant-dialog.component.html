@@ -89,23 +89,23 @@
 
         <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="1%">
           <mat-form-field class="form-field" appearance="outline" fxFlex="30">
-            <mat-label> Phase </mat-label>
-            <mat-select (valueChange)="phaseSelect($event)">
-              <mat-option value> Select </mat-option>
+            <mat-label> Select Phase </mat-label>
+            <mat-select [(ngModel)]="phaseHistoryModel.phase" [ngModelOptions]="{standalone: true}" (selectionChange)="phaseSelect($event.value)">
+              <mat-option value> Select Phase </mat-option>
               <mat-option *ngFor="let ph of PhaseHistoryList" [value]="ph"> {{ph}} </mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field class="form-field" appearance="outline" fxFlex="29">
             <mat-label>Start</mat-label>
-            <input matInput [matDatepicker]="startPicker" (dateChange)="setHistoryDate($event.value, 'start')">
+            <input matInput [matDatepicker]="startPicker" [(ngModel)]="phaseHistoryModel.start" [ngModelOptions]="{standalone: true}">
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
             <mat-datepicker #startPicker></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field class="form-field" appearance="outline" fxFlex="29">
             <mat-label>End</mat-label>
-            <input matInput [matDatepicker]="endPicker" (dateChange)="setHistoryDate($event.value, 'end')">
+            <input matInput [matDatepicker]="endPicker" [(ngModel)]="phaseHistoryModel.end" [ngModelOptions]="{standalone: true}">
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
             <mat-datepicker #endPicker></mat-datepicker>
           </mat-form-field>
@@ -128,7 +128,7 @@
           </li>
           <li class="phase-history-item" fxLayout="row" fxFlex="100" *ngFor="let hist of plant.phaseHistory">
             <div class="inner" fxFlex="100" fxLayout="row">
-              <div class="phase" fxFlex="35">Vegetative</div>
+              <div class="phase" fxFlex="35">{{hist.phase}}</div>
               <div class="start" fxFlex="25">{{  hist.start | date:'mediumDate' }}</div>
               <div class="end" fxFlex="25">{{ hist.end | date:'mediumDate' }}</div>
               <div class="actions" fxFlex="15" fxLayoutAlign="end">
