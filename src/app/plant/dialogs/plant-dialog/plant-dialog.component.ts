@@ -28,7 +28,6 @@ export class PlantDialogComponent implements OnInit {
   };
 
   constructor(private fb: FormBuilder,
-              private dialogService: NgxCool
               private dialogRef: MatDialogRef<PlantDialogComponent>,
               @Inject(MAT_DIALOG_DATA) data) {
       this.plant = data.plant;
