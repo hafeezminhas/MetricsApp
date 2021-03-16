@@ -61,4 +61,12 @@ export class UsersService {
     }
   }
 
+  addUser(payload) {
+
+  }
+
+  updateUser(payload) {
+
+  }
+
 }

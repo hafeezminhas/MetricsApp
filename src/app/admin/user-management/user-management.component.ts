@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { UsersService } from '../services/users.service';
 import { UsersDataSource } from '../datasources/UsersDataSource';
 import { tap } from 'rxjs/operators';
 import { User } from 'src/app/auth/models/user';
+import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
 
 @Component({
   selector: 'app-user-management',
@@ -39,10 +40,44 @@ export class UserManagementComponent implements OnInit {
   }
 
   addNew() {
-    
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.position = { top: '5%' };
+    dialogConfig.width = '680px';
+    dialogConfig.minHeight = '550px';
+    dialogConfig.data = { company: {}, update: false };
+
+    const createDialog = this.dialog.open(UserDialogComponent, dialogConfig);
+    createDialog.afterClosed().subscribe(payload => {
+      // TODO: Implement API integration for Create User 
+      /* this.userService.addUser(payload).subscribe(res => {
+        console.log('res', res);
+      }, err => {
+        console.log('err', err);
+      }); */
+    });
   }
 
   update(user: User) {
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.position = { top: '5%' };
+    dialogConfig.width = '680px';
+    dialogConfig.minHeight = '550px';
+    dialogConfig.data = { user, update: true };
+
+    const createDialog = this.dialog.open(UserDialogComponent, dialogConfig);
+    createDialog.afterClosed().subscribe(payload => {
+      // TODO: Implement API integration for Create User 
+      /* this.userService.updateUser(payload).subscribe(res => {
+        console.log('res', res);
+      }, err => {
+        console.log('err', err);
+      }); */
+    });
   }
 }
