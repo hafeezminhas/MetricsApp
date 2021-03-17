@@ -5,7 +5,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {phaseHistoryList} from '../../../data/enums/PlantPhases';
 import {PlantPhaseHistory} from '../../../data/models/phase-history';
 import { NgPopupsService } from 'ng-popups';
-import {MatSelect} from '@angular/material/select';
 
 @Component({
   selector: 'app-plant-dialog',
@@ -23,11 +22,13 @@ export class PlantDialogComponent implements OnInit {
     { label: 'Clone', value: 2 },
   ];
 
-  phaseHistoryModel: PlantPhaseHistory = {
+  phaseHistoryModel: PlantPhaseHistory | any = {
     phase: null,
     start: null,
-    end: null
+    end: null,
   };
+  phaseHistory: PlantPhaseHistory[] | any[];
+  errors: string[];
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<PlantDialogComponent>,
@@ -45,27 +46,33 @@ export class PlantDialogComponent implements OnInit {
       metricId:     ['', Validators.required],
       strain:       ['', Validators.required],
       type:         [1, Validators.required],
-      plantedOn:    null,
+      plantedOn:    [null, Validators.required],
       mother:       null,
       currentPhase: ['', Validators.required],
-      location:     '',
+      location:     ['', Validators.required],
     });
 
     if (this.update) {
-      const body = { ...this.plant };
-      this.form.patchValue(body);
+      this.form.patchValue({ phaseHistory: false, ...this.plant });
+
+      if (this.plant.phaseHistory.length) {
+        this.phaseHistory = this.plant.phaseHistory.map(ph => ({ ...ph, isNew: false }));
+      }
+    } else {
+      this.phaseHistory = [];
     }
 
-    this.form.patchValue({
-      name: 'Red Root',
-      metricId: 'SD5S64D',
-      strain: 'Gorilla Glue',
-      plantedOn: new Date('2021-03-06T18:05:51.786Z'),
-      mother: null,
-      currentPhase: 'Seedling',
-      phaseHistory: [],
-      location: '3247893'
-    });
+    // TODO: to be removed
+    // this.form.patchValue({
+    //   name: 'Red Root',
+    //   metricId: 'SD5S64D',
+    //   strain: 'Gorilla Glue',
+    //   plantedOn: new Date('2021-03-06T18:05:51.786Z'),
+    //   mother: null,
+    //   currentPhase: 'Seedling',
+    //   phaseHistory: [],
+    //   location: '3247893'
+    // });
   }
 
   get f(): any {
@@ -81,9 +88,22 @@ export class PlantDialogComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    this.errors = [];
+    if (!this.plant.plantedOn) {
+      this.errors.push('Planted On Date is required');
+    }
+    if (this.errors.length) {
+      return;
+    }
+
     const payload: Plant = this.form.value;
     payload.plantedOn = this.plant.plantedOn;
-    payload.phaseHistory = [...this.plant.phaseHistory];
+    payload.phaseHistory = [];
+    this.phaseHistory = this.phaseHistory.filter(ph => ph.isNew === true);
+    this.phaseHistory.forEach(ph => {
+      delete ph.isNew;
+    });
+    payload.phaseHistory = [...this.phaseHistory];
     console.log(payload);
 
     this.dialogRef.close(payload);
@@ -102,22 +122,23 @@ export class PlantDialogComponent implements OnInit {
   }
 
   addItem(): void {
-    if (!this.plant.phaseHistory) {
-      this.plant.phaseHistory = [];
-    }
-    if (this.plant.phaseHistory.filter(ph => ph.phase === this.phaseHistoryModel.phase).length) {
-      this.ngPopup.alert(`The phase history item with phase ${this.phaseHistoryModel.phase} already exist`, { title: 'Duplicate Entry', okButtonText: 'I Understand' });
+    if (this.phaseHistory.filter(ph => ph.phase === this.phaseHistoryModel.phase).length) {
+      this.ngPopup.alert(`The phase history item with phase ${this.phaseHistoryModel.phase} already exist`, {
+        title: 'Duplicate Entry', okButtonText: 'I Understand'
+      });
+
       return;
     }
 
-    this.plant.phaseHistory.push({ ...this.phaseHistoryModel });
+    this.phaseHistory.push({ ...this.phaseHistoryModel, isNew: true });
     this.phaseHistoryModel = { phase: null, start: null, end: null };
   }
 
   removeHistory(idx: number): void {
     this.ngPopup.confirm(`Are you sure you want to remove this phase history entry?`, { title: 'Confirm Removal' }).subscribe(res => {
-      if(res) {
-        this.plant.phaseHistory.splice(1, idx);
+      console.log(idx, this.phaseHistory);
+      if (res && this.phaseHistory[idx].isNew) {
+        this.phaseHistory.splice(1, idx);
       }
     });
   }

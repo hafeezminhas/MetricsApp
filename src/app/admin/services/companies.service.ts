@@ -31,8 +31,12 @@ export class CompaniesService {
   update(page: number, limit: number, query?: string): void {
     const params = new HttpParams()
                             .set('page', page.toString())
-                            .set('limit', limit.toString())
-                            .set('search', query);
+                            .set('limit', limit.toString());
+
+    if (query) {
+      params.set('search', `${query}`);
+    }
+
     const url = `${API_PREFIX}/companies?` + params.toString();
 
     this.http.get(url).subscribe((res: CompaniesServiceState) => {
@@ -48,8 +52,11 @@ export class CompaniesService {
     } else {
       const params = new HttpParams()
                               .set('page', page.toString())
-                              .set('limit', limit.toString())
-                              .set('search', query);
+                              .set('limit', limit.toString());
+      if (query) {
+        params.set('search', `${query}`);
+      }
+
       const url = `${API_PREFIX}/companies?` + params.toString();
       return this.http.get(url).pipe(
         tap((res: CompaniesServiceState) => {
