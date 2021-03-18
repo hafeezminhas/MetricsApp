@@ -31,7 +31,7 @@ const ngxPopupsConfig: NgPopupsGlobalConfig = {
   theme: 'material',
   okButtonText: 'Yes',
   cancelButtonText: 'No',
-  color: '#8030c3',
+  color: '#266706',
   titles: {
     alert: 'Danger!',
     confirm: 'Confirmation',

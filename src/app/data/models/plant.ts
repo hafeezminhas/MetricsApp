@@ -1,6 +1,7 @@
 import {PlantPhaseHistory} from './phase-history';
 
 interface Plant {
+  _id?: string;
   name: string;
   metricId: string;
   strain: string;

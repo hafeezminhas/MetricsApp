@@ -5,7 +5,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {phaseHistoryList} from '../../../data/enums/PlantPhases';
 import {PlantPhaseHistory} from '../../../data/models/phase-history';
 import { NgPopupsService } from 'ng-popups';
-import {MatSelect} from '@angular/material/select';
+import {debounceTime, finalize, switchMap, tap} from 'rxjs/operators';
+import {PlantService} from '../../services/plant.service';
 
 @Component({
   selector: 'app-plant-dialog',
@@ -23,15 +24,24 @@ export class PlantDialogComponent implements OnInit {
     { label: 'Clone', value: 2 },
   ];
 
-  phaseHistoryModel: PlantPhaseHistory = {
+  phaseHistoryModel: PlantPhaseHistory | any = {
     phase: null,
     start: null,
-    end: null
+    end: null,
   };
+  phaseHistory: PlantPhaseHistory[] | any[];
+  errors: string[];
+
+  mothers: Plant[] = [];
+  filteredMothers: Plant[] = [];
+  selectedMother: any;
+  mothersSearching: boolean;
+  mothersSearchErr: string;
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<PlantDialogComponent>,
               private ngPopup: NgPopupsService,
+              private plantService: PlantService,
               @Inject(MAT_DIALOG_DATA) data) {
       this.plant = data.plant;
       this.update = data.update;
@@ -45,27 +55,23 @@ export class PlantDialogComponent implements OnInit {
       metricId:     ['', Validators.required],
       strain:       ['', Validators.required],
       type:         [1, Validators.required],
-      plantedOn:    null,
+      plantedOn:    [null, Validators.required],
       mother:       null,
       currentPhase: ['', Validators.required],
-      location:     '',
+      location:     ['', Validators.required],
     });
 
     if (this.update) {
-      const body = { ...this.plant };
-      this.form.patchValue(body);
+      this.form.patchValue({ phaseHistory: false, ...this.plant });
+
+      if (this.plant.phaseHistory.length) {
+        this.phaseHistory = this.plant.phaseHistory.map(ph => ({ ...ph, isNew: false }));
+      }
+    } else {
+      this.phaseHistory = [];
     }
 
-    this.form.patchValue({
-      name: 'Red Root',
-      metricId: 'SD5S64D',
-      strain: 'Gorilla Glue',
-      plantedOn: new Date('2021-03-06T18:05:51.786Z'),
-      mother: null,
-      currentPhase: 'Seedling',
-      phaseHistory: [],
-      location: '3247893'
-    });
+    this.setupMothersSearch();
   }
 
   get f(): any {
@@ -81,9 +87,23 @@ export class PlantDialogComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    this.errors = [];
+    if (!this.plant.plantedOn) {
+      this.errors.push('Planted On Date is required');
+    }
+    if (this.errors.length) {
+      return;
+    }
+
     const payload: Plant = this.form.value;
     payload.plantedOn = this.plant.plantedOn;
-    payload.phaseHistory = [...this.plant.phaseHistory];
+    payload.phaseHistory = [];
+    this.phaseHistory = this.phaseHistory.filter(ph => ph.isNew === true);
+    this.phaseHistory.forEach(ph => {
+      delete ph.isNew;
+    });
+    payload.phaseHistory = [...this.phaseHistory];
+    payload.mother = payload.mother ? this.selectedMother.metricId : null;
     console.log(payload);
 
     this.dialogRef.close(payload);
@@ -102,22 +122,50 @@ export class PlantDialogComponent implements OnInit {
   }
 
   addItem(): void {
-    if (!this.plant.phaseHistory) {
-      this.plant.phaseHistory = [];
-    }
-    if (this.plant.phaseHistory.filter(ph => ph.phase === this.phaseHistoryModel.phase).length) {
-      this.ngPopup.alert(`The phase history item with phase ${this.phaseHistoryModel.phase} already exist`, { title: 'Duplicate Entry', okButtonText: 'I Understand' });
+    if (this.phaseHistory.filter(ph => ph.phase === this.phaseHistoryModel.phase).length) {
+      this.ngPopup.alert(`The phase history item with phase ${this.phaseHistoryModel.phase} already exist`, {
+        title: 'Duplicate Entry', okButtonText: 'I Understand'
+      });
+
       return;
     }
 
-    this.plant.phaseHistory.push({ ...this.phaseHistoryModel });
+    this.phaseHistory.push({ ...this.phaseHistoryModel, isNew: true });
     this.phaseHistoryModel = { phase: null, start: null, end: null };
   }
 
   removeHistory(idx: number): void {
     this.ngPopup.confirm(`Are you sure you want to remove this phase history entry?`, { title: 'Confirm Removal' }).subscribe(res => {
-      if(res) {
-        this.plant.phaseHistory.splice(1, idx);
+      console.log(idx, this.phaseHistory);
+      if (res && this.phaseHistory[idx].isNew) {
+        this.phaseHistory.splice(1, idx);
+      }
+    });
+  }
+
+  motherSelect(e): void {
+    this.selectedMother = e.source.value;
+    this.form.controls.mother.setValue(e.source.value.metricId);
+  }
+
+  private setupMothersSearch(): void {
+    this.form.controls.mother.valueChanges.pipe(
+      debounceTime(500),
+      tap(() => {
+        this.mothersSearchErr = '';
+        this.mothersSearching = true;
+        this.filteredMothers = [];
+      }),
+      switchMap(value => this.plantService.searchPlants(value).pipe(
+        finalize(() => {
+          this.mothersSearching = false;
+        }))
+      )
+    ).subscribe((res: any) => {
+      if (res.error) {
+        this.mothersSearchErr = res.error;
+      } else {
+        this.filteredMothers = res.plants;
       }
     });
   }
