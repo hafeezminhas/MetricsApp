@@ -245,7 +245,13 @@ code {
     font-weight: 300;
 }
 .font-normal {
-    font-weight: normal !important;
+  font-weight: normal !important;
+}
+.font-md {
+  font-size: 1.2rem !important;
+}
+.font-lg {
+  font-size: 1.5rem !important;
 }
 .text-muted {
     color: rgba(0, 0, 0, .54) !important;

@@ -36,7 +36,7 @@
 
       <ng-container matColumnDef="mother">
         <mat-header-cell *matHeaderCellDef>Mother</mat-header-cell>
-        <mat-cell *matCellDef="let plant"> <span *ngIf="plant.mother">{{plant.mother?.name}}</span> <span class="noval">None</span> </mat-cell>
+        <mat-cell *matCellDef="let plant"> <span *ngIf="plant.mother">{{plant.mother}}</span> <span *ngIf="!plant.mother" class="noval">None</span> </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="phase">
@@ -46,7 +46,7 @@
 
       <ng-container matColumnDef="histories">
         <mat-header-cell *matHeaderCellDef>Phase Histories</mat-header-cell>
-        <mat-cell *matCellDef="let plant">{{plant.phaseHistory.length}}</mat-cell>
+        <mat-cell *matCellDef="let plant"><mat-icon>history</mat-icon> <span class="font-lg"> {{plant.phaseHistory.length}}</span></mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="actions">

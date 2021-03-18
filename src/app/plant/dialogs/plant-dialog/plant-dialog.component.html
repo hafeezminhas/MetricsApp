@@ -64,9 +64,17 @@
         </div>
 
         <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
-          <mat-form-field class="form-field" appearance="outline" fxFlex="100">
-            <mat-label> Mother </mat-label>
-            <input matInput formControlName="mother">
+          <mat-form-field class="pr-4" appearance="outline" fxFlex="100">
+            <input matInput placeholder="Mother Plant" aria-label="mother" [matAutocomplete]="mother" formControlName="mother">
+            <mat-autocomplete #mother="matAutocomplete">
+              <mat-option *ngIf="mothersSearching" class="is-loading">loading...</mat-option>
+              <ng-container *ngIf="!mothersSearching">
+                <mat-option *ngFor="let mother of filteredMothers" [value]="mother" (onSelectionChange)="motherSelect($event)">
+                  <img class="autocomp-img" aria-hidden src="assets/images/icons/cann_leaf.png" style="width: 25px; vertical-align: middle; margin-right: 8px">
+                  <span>{{mother.metricId}}</span> | <small>{{mother.name}}</small>
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
 

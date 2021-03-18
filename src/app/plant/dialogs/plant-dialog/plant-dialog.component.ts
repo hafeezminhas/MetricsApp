@@ -5,6 +5,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {phaseHistoryList} from '../../../data/enums/PlantPhases';
 import {PlantPhaseHistory} from '../../../data/models/phase-history';
 import { NgPopupsService } from 'ng-popups';
+import {debounceTime, finalize, switchMap, tap} from 'rxjs/operators';
+import {PlantService} from '../../services/plant.service';
 
 @Component({
   selector: 'app-plant-dialog',
@@ -30,9 +32,16 @@ export class PlantDialogComponent implements OnInit {
   phaseHistory: PlantPhaseHistory[] | any[];
   errors: string[];
 
+  mothers: Plant[] = [];
+  filteredMothers: Plant[] = [];
+  selectedMother: any;
+  mothersSearching: boolean;
+  mothersSearchErr: string;
+
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<PlantDialogComponent>,
               private ngPopup: NgPopupsService,
+              private plantService: PlantService,
               @Inject(MAT_DIALOG_DATA) data) {
       this.plant = data.plant;
       this.update = data.update;
@@ -62,17 +71,7 @@ export class PlantDialogComponent implements OnInit {
       this.phaseHistory = [];
     }
 
-    // TODO: to be removed
-    // this.form.patchValue({
-    //   name: 'Red Root',
-    //   metricId: 'SD5S64D',
-    //   strain: 'Gorilla Glue',
-    //   plantedOn: new Date('2021-03-06T18:05:51.786Z'),
-    //   mother: null,
-    //   currentPhase: 'Seedling',
-    //   phaseHistory: [],
-    //   location: '3247893'
-    // });
+    this.setupMothersSearch();
   }
 
   get f(): any {
@@ -104,6 +103,7 @@ export class PlantDialogComponent implements OnInit {
       delete ph.isNew;
     });
     payload.phaseHistory = [...this.phaseHistory];
+    payload.mother = payload.mother ? this.selectedMother.metricId : null;
     console.log(payload);
 
     this.dialogRef.close(payload);
@@ -139,6 +139,33 @@ export class PlantDialogComponent implements OnInit {
       console.log(idx, this.phaseHistory);
       if (res && this.phaseHistory[idx].isNew) {
         this.phaseHistory.splice(1, idx);
+      }
+    });
+  }
+
+  motherSelect(e): void {
+    this.selectedMother = e.source.value;
+    this.form.controls.mother.setValue(e.source.value.metricId);
+  }
+
+  private setupMothersSearch(): void {
+    this.form.controls.mother.valueChanges.pipe(
+      debounceTime(500),
+      tap(() => {
+        this.mothersSearchErr = '';
+        this.mothersSearching = true;
+        this.filteredMothers = [];
+      }),
+      switchMap(value => this.plantService.searchPlants(value).pipe(
+        finalize(() => {
+          this.mothersSearching = false;
+        }))
+      )
+    ).subscribe((res: any) => {
+      if (res.error) {
+        this.mothersSearchErr = res.error;
+      } else {
+        this.filteredMothers = res.plants;
       }
     });
   }

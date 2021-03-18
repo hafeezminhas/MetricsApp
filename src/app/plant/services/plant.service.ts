@@ -49,6 +49,10 @@ export class PlantService {
     }
   }
 
+  searchPlants(query: string): Observable<any> {
+    return this.http.get(`${API_PREFIX}/plants?search=${query}`);
+  }
+
   create(payload: Plant): Observable<any> {
     return this.http.post(`${API_PREFIX}/plants`, payload).pipe(
       tap(() => this.update())
