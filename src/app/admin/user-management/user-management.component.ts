@@ -4,8 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { UsersService } from '../services/users.service';
 import { UsersDataSource } from '../datasources/UsersDataSource';
 import { tap } from 'rxjs/operators';
-import { User } from 'src/app/auth/models/user';
 import { UserDialogComponent } from '../dialogs/user-dialog/user-dialog.component';
+import { User } from 'src/app/data/models/user';
 
 @Component({
   selector: 'app-user-management',
@@ -52,11 +52,11 @@ export class UserManagementComponent implements OnInit {
     const createDialog = this.dialog.open(UserDialogComponent, dialogConfig);
     createDialog.afterClosed().subscribe(payload => {
       // TODO: Implement API integration for Create User 
-      /* this.userService.addUser(payload).subscribe(res => {
+      this.userService.addUser(payload).subscribe(res => {
         console.log('res', res);
       }, err => {
         console.log('err', err);
-      }); */
+      });
     });
   }
 
@@ -73,11 +73,11 @@ export class UserManagementComponent implements OnInit {
     const createDialog = this.dialog.open(UserDialogComponent, dialogConfig);
     createDialog.afterClosed().subscribe(payload => {
       // TODO: Implement API integration for Create User 
-      /* this.userService.updateUser(payload).subscribe(res => {
+      this.userService.edit(user.id, payload).subscribe(res => {
         console.log('res', res);
       }, err => {
         console.log('err', err);
-      }); */
+      });
     });
   }
 }
