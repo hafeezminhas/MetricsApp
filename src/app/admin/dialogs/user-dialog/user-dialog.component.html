@@ -47,13 +47,64 @@
                     </div>
                 </div>
 
-                <div fxFlex="100">
+                <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+                    <div fxFlex="100" fxFlex.gt-md="49.5">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'"
+                                formControlName="password">
+                            <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+                                {{ hidePassword ? 'visibility_off' : 'visibility'}}
+                            </mat-icon>
+                            <mat-error *ngIf="f.password.touched && f.password.invalid">
+                                <span *ngIf="f.password.errors.required">password is required</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-md="49.5">
+                        <mat-form-field class="form-field" appearance="outline">
+                            <input matInput placeholder="Confirm Password"
+                                [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword"
+                                [errorStateMatcher]="matcher">
+                            <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+                                {{ hideConfirmPassword ? 'visibility_off' : 'visibility'}}
+                            </mat-icon>
+                            <mat-error *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid">
+                                <span *ngIf="f.confirmPassword.errors.required">
+                                    Confirm Password is required
+                                </span>
+                            </mat-error>
+                            <mat-error *ngIf="form.errors?.notSame">
+                                Passwords do not match
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- <div fxFlex="100">
                     <mat-form-field class="form-field" appearance="outline">
                         <mat-label> Role</mat-label>
                         <input matInput formControlName="role">
                         <mat-error *ngIf="f.role.touched && f.role.invalid">
                             <span *ngIf="f.role.errors.required">role is required</span>
                         </mat-error>
+                    </mat-form-field>
+                </div> -->
+
+                <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
+                    <mat-form-field class="pr-4" appearance="outline" fxFlex="100">
+                        <input matInput placeholder="Company" aria-label="company" [matAutocomplete]="company"
+                            formControlName="company">
+                        <mat-autocomplete #company="matAutocomplete">
+                            <mat-option *ngIf="companiesSearching" class="is-loading">loading...</mat-option>
+                            <ng-container *ngIf="!companiesSearching">
+                                <mat-option *ngFor="let company of filteredCompanies" [value]="company"
+                                    (onSelectionChange)="companySelect($event)">
+                                    <img class="autocomp-img" aria-hidden src="assets/images/icons/cann_leaf.png"
+                                        style="width: 25px; vertical-align: middle; margin-right: 8px">
+                                    <span>{{company.metricId}}</span> | <small>{{company.name}}</small>
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </div>
             </fieldset>
