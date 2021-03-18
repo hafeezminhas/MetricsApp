@@ -32,7 +32,6 @@ export class PlantDialogComponent implements OnInit {
   phaseHistory: PlantPhaseHistory[] | any[];
   errors: string[];
 
-  mothers: Plant[] = [];
   filteredMothers: Plant[] = [];
   selectedMother: any;
   mothersSearching: boolean;

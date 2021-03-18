@@ -65,6 +65,7 @@
 
         <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
           <mat-form-field class="pr-4" appearance="outline" fxFlex="100">
+            <mat-label> Mother </mat-label>
             <input matInput placeholder="Mother Plant" aria-label="mother" [matAutocomplete]="mother" formControlName="mother">
             <mat-autocomplete #mother="matAutocomplete">
               <mat-option *ngIf="mothersSearching" class="is-loading">loading...</mat-option>
