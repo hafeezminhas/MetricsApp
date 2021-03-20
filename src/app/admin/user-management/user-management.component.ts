@@ -73,7 +73,7 @@ export class UserManagementComponent implements OnInit {
     const createDialog = this.dialog.open(UserDialogComponent, dialogConfig);
     createDialog.afterClosed().subscribe(payload => {
       // TODO: Implement API integration for Create User 
-      this.userService.edit(user.id, payload).subscribe(res => {
+      this.userService.edit(user._id, payload).subscribe(res => {
         console.log('res', res);
       }, err => {
         console.log('err', err);

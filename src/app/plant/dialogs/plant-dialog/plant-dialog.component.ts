@@ -134,10 +134,12 @@ export class PlantDialogComponent implements OnInit {
   }
 
   removeHistory(idx: number): void {
+    console.log(this.phaseHistory);
+    console.log(idx);
     this.ngPopup.confirm(`Are you sure you want to remove this phase history entry?`, { title: 'Confirm Removal' }).subscribe(res => {
       console.log(idx, this.phaseHistory);
       if (res && this.phaseHistory[idx].isNew) {
-        this.phaseHistory.splice(1, idx);
+        this.phaseHistory.splice(idx, 1);
       }
     });
   }

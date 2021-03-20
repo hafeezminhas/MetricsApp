@@ -27,7 +27,6 @@ export class PlantsDataSource implements DataSource<Plant> {
   loadPlants(page: number, limit: number, search?: string): void {
     this.loadingSubject$.next(true);
     this.plantService.getPlants(page + 1, limit, search).pipe(
-      first(),
       catchError(() => of([])),
       finalize(() => this.loadingSubject$.next(false))
     ).subscribe(res => {

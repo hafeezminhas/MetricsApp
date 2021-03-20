@@ -48,7 +48,9 @@ export class PlantsComponent implements OnInit, AfterViewInit {
     const addDialog = this.dialog.open(PlantDialogComponent, dialogConfig);
     addDialog.afterClosed().subscribe(payload => {
       if (payload) {
-        this.plantService.create(payload).subscribe();
+        this.plantService.create(payload).subscribe(res => {
+          this.dataSource.loadPlants(1, 10);
+        });
       }
     });
   }
@@ -66,7 +68,9 @@ export class PlantsComponent implements OnInit, AfterViewInit {
     const updateDialog = this.dialog.open(PlantDialogComponent, dialogConfig);
     updateDialog.afterClosed().subscribe(payload => {
       if (payload) {
-        this.plantService.edit(plant._id, payload).subscribe();
+        this.plantService.edit(plant._id, payload).subscribe(res => {
+          this.dataSource.loadPlants(1, 10);
+        });
       }
     });
   }
@@ -74,7 +78,9 @@ export class PlantsComponent implements OnInit, AfterViewInit {
   remove(plant: Plant): void {
     this.ngPopup.confirm(`Are you sure you want to remove the selected plant?`, { title: 'Confirm Removal' }).subscribe(res => {
       if(res) {
-        this.plantService.remove(plant._id).subscribe();
+        this.plantService.remove(plant._id).subscribe(res => {
+          this.dataSource.loadPlants(1, 10);
+        });
       }
     });
   }
