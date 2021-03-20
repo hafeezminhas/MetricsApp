@@ -23,7 +23,7 @@ export class UserManagementComponent implements OnInit {
   pageSizes = [5, 10, 20];
 
   dataSource: UsersDataSource;
-  displayedColumns = ['firstName', 'lastName', 'email', 'phone', 'role'];
+  displayedColumns = ['firstName', 'lastName', 'email', 'phone', 'role', 'company', 'active', 'locked', 'actions'];
 
   constructor(private dialog: MatDialog, private userService: UsersService) { }
 

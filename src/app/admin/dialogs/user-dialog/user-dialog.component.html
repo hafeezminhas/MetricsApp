@@ -63,13 +63,13 @@
                     <div fxFlex="100" fxFlex.gt-md="49.5">
                         <mat-form-field class="form-field" appearance="outline">
                             <input matInput placeholder="Confirm Password"
-                                [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword"
+                                [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirm"
                                 [errorStateMatcher]="matcher">
                             <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
                                 {{ hideConfirmPassword ? 'visibility_off' : 'visibility'}}
                             </mat-icon>
-                            <mat-error *ngIf="f.confirmPassword.touched && f.confirmPassword.invalid">
-                                <span *ngIf="f.confirmPassword.errors.required">
+                            <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
+                                <span *ngIf="f.confirm.errors.required">
                                     Confirm Password is required
                                 </span>
                             </mat-error>
