@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Plant} from '../../data/models/plant';
-import {tap} from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Plant } from '../../data/models/plant';
+import { tap } from 'rxjs/operators';
 
 class PlantServiceState {
   plants: any;
@@ -71,12 +71,12 @@ export class PlantService {
     );
   }
 
-  update(page: number= this.plantState$.value.page,
-         limit: number= this.plantState$.value.limit,
-         search?: string): void {
+  update(page: number = this.plantState$.value.page,
+    limit: number = this.plantState$.value.limit,
+    search?: string): void {
     const params = new HttpParams()
-                            .set('page', `${page}`)
-                            .set('limit', `${limit}`);
+      .set('page', `${page}`)
+      .set('limit', `${limit}`);
     if (search) {
       params.set('search', `${search}`);
     }

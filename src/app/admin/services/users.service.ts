@@ -41,7 +41,7 @@ export class UsersService {
     if (query) {
       params.set('search', `${query}`);
     }
-    const url = `${API_PREFIX}/users?` + params.toString();
+    const url = `${API_PREFIX}/auth/users?` + params.toString();
 
     this.http.get(url).subscribe((res: UsersServiceState) => {
       this.usersState$.next(res);
@@ -61,7 +61,7 @@ export class UsersService {
       if (query) {
         params.set('search', `${query}`);
       }
-      const url = `${API_PREFIX}/users?` + params.toString();
+      const url = `${API_PREFIX}/auth/users?` + params.toString();
       return this.http.get(url).pipe(
         tap((res: UsersServiceState) => {
           this.usersState$.next(res);
@@ -72,13 +72,13 @@ export class UsersService {
   }
 
   addUser(payload: User): Observable<any> {
-    return this.http.post(`${API_PREFIX}/users`, payload).pipe(
+    return this.http.post(`${API_PREFIX}/auth/users`, payload).pipe(
       tap(() => this.update())
     );
   }
 
   edit(id: string, payload: User): Observable<any> {
-    return this.http.put(`${API_PREFIX}/users/${id}`, payload).pipe(
+    return this.http.put(`${API_PREFIX}/auth/users/${id}`, payload).pipe(
       tap(() => this.update())
     );
   }

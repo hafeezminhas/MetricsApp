@@ -35,6 +35,27 @@
                 <mat-cell class="description-cell" *matCellDef="let user">{{user.role}}</mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="company">
+                <mat-header-cell *matHeaderCellDef>Company</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let user">{{user.company?.name}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="active">
+                <mat-header-cell *matHeaderCellDef>Is Active</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let user">
+                    <mat-icon class="user-active" *ngIf="user.isActive">person_pin</mat-icon>
+                    <mat-icon class="user-inactive" *ngIf="!user.isActive">person_pin</mat-icon>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="locked">
+                <mat-header-cell *matHeaderCellDef>Is Locked</mat-header-cell>
+                <mat-cell class="description-cell" *matCellDef="let user">
+                    <mat-icon class="user-locked" *ngIf="user.isLocked">lock</mat-icon>
+                    <mat-icon class="user-unlocked" *ngIf="!user.isLocked">lock_open</mat-icon>
+                </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell class="duration-cell" *matCellDef="let user" fxLayout="row" fxLayoutGap="5px">

@@ -26,7 +26,7 @@ export class UserDialogComponent implements OnInit {
 
   hidePassword = true;
   hideConfirmPassword = true;
-  matcher = new ConfirmPasswordErrorStateMatcher();
+  matcher = new confirmErrorStateMatcher();
 
   constructor(private fb: FormBuilder,
     private dialogRef: MatDialogRef<UserDialogComponent>,
@@ -67,7 +67,7 @@ export class UserDialogComponent implements OnInit {
         isActive: [true],
         isLocked: [false],
         password: ['', Validators.required],
-        confirmPassword: ['', Validators.required],
+        confirm: ['', Validators.required],
         company: ['', Validators.required],
         role: ['ADMIN', Validators.required]
       }, { validators: this.checkPasswords });
@@ -79,9 +79,9 @@ export class UserDialogComponent implements OnInit {
 
   checkPasswords(group: FormGroup) {
     const password = group.get('password').value;
-    const confirmPassword = group.get('confirmPassword').value;
+    const confirm = group.get('confirm').value;
 
-    return password === confirmPassword ? null : { notSame: true }
+    return password === confirm ? null : { notSame: true }
   }
 
   get f(): any {
@@ -93,7 +93,6 @@ export class UserDialogComponent implements OnInit {
     payload.company = payload.company ? this.selectedCompany.id : null;
     delete payload.isActive;
     delete payload.isLocked;
-    delete payload.confirmPassword;
     this.dialogRef.close(payload);
   }
 
@@ -129,7 +128,7 @@ export class UserDialogComponent implements OnInit {
   }
 }
 
-export class ConfirmPasswordErrorStateMatcher implements ErrorStateMatcher {
+export class confirmErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const invalidCtrl = !!(control?.invalid && control?.touched && control?.parent?.dirty);
     const invalidParent = !!(control?.parent?.errors?.notSame);
