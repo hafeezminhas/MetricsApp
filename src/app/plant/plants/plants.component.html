@@ -63,9 +63,10 @@
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
     </mat-table>
-    <mat-paginator [length]="pageConfig"
+    <mat-paginator [length]="dataSource.count || 0"
                    [pageSize]="pageConfig.limit"
-                   [pageSizeOptions]="pageSizes">
+                   [pageSizeOptions]="pageSizes"
+                   (page)="pageChange($event)">
     </mat-paginator>
   </section>
 

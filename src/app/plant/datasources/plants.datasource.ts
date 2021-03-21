@@ -1,9 +1,9 @@
-import {CollectionViewer, DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable, of} from 'rxjs';
-import {catchError, finalize, first} from 'rxjs/operators';
+import { CollectionViewer, DataSource } from '@angular/cdk/collections';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, finalize, first } from 'rxjs/operators';
 
-import {PlantService} from '../services/plant.service';
-import {Plant} from '../../data/models/plant';
+import { PlantService } from '../services/plant.service';
+import { Plant } from '../../data/models/plant';
 
 export class PlantsDataSource implements DataSource<Plant> {
 
@@ -13,7 +13,7 @@ export class PlantsDataSource implements DataSource<Plant> {
   public loading$ = this.loadingSubject$.asObservable();
   public count: number;
 
-  constructor(private plantService: PlantService) {}
+  constructor(private plantService: PlantService) { }
 
   connect(collectionViewer: CollectionViewer): Observable<Plant[]> {
     return this.plantsSubject$.asObservable();
@@ -24,14 +24,12 @@ export class PlantsDataSource implements DataSource<Plant> {
     this.loadingSubject$.complete();
   }
 
-  loadPlants(page: number, limit: number, search?: string): void {
+  init(): void {
     this.loadingSubject$.next(true);
-    this.plantService.getPlants(page + 1, limit, search).pipe(
-      catchError(() => of([])),
-      finalize(() => this.loadingSubject$.next(false))
-    ).subscribe(res => {
-      this.count = res.count;
+    this.plantService.state$.subscribe((res) => {
+      this.loadingSubject$.next(res.pending);
       this.plantsSubject$.next(res.plants);
+      this.count = res.count;
     });
   }
 }

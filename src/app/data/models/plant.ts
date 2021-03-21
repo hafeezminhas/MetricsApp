@@ -1,4 +1,4 @@
-import {PlantPhaseHistory} from './phase-history';
+import { PlantPhaseHistory } from './phase-history';
 
 interface Plant {
   _id?: string;
@@ -14,4 +14,11 @@ interface Plant {
   company: string;
 }
 
-export { Plant };
+interface PlantResponse {
+  plants: Plant[],
+  page: number,
+  limit: number;
+  count: number;
+}
+
+export { Plant, PlantResponse };

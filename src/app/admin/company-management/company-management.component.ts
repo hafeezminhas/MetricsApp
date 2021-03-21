@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {CompaniesService} from '../services/companies.service';
 import {CompaniesDataSource} from '../datasources/CompaniesDataSource';
 import {StateLicenceType} from '../../data/enums/state-license.enum';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {tap} from 'rxjs/operators';
 import {SubscriptionType} from '../../data/enums/subscription-type.enum';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
@@ -30,15 +30,16 @@ export class CompanyManagementComponent implements OnInit, AfterViewInit {
   constructor(private dialog: MatDialog, private companyService: CompaniesService) {}
 
   ngOnInit(): void {
+    this.companyService.load();
     this.dataSource = new CompaniesDataSource(this.companyService);
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.loadCompanies(this.paginator.pageIndex, this.paginator.pageSize);
-    this.paginator.page.pipe(
-       tap(() => this.companyService.update(this.paginator.pageIndex, this.paginator.pageSize))
-    )
-    .subscribe();
+    this.dataSource.init();
+  }
+
+  pageChange($event: PageEvent) {
+    this.companyService.changePage($event);
   }
 
   getLicense(val: number): string {

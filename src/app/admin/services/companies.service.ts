@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Company } from '../../data/models/company';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Company, CompanyResponse } from '../../data/models/company';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { first, tap } from 'rxjs/operators';
+import { catchError, finalize, tap } from 'rxjs/operators';
+import { PageEvent } from '@angular/material/paginator';
 
 const API_PREFIX = 'api';
 
@@ -11,6 +12,9 @@ class CompaniesServiceState {
   limit: number;
   companies: Company[];
   search: string;
+  error: any;
+  pending: boolean;
+  count: number;
 }
 
 @Injectable({
@@ -19,52 +23,58 @@ class CompaniesServiceState {
 export class CompaniesService {
   companiesState$ = new BehaviorSubject<CompaniesServiceState>({
     page: 1,
-    limit: 10,
+    limit: 5,
     companies: null,
-    search: null
+    search: null,
+    error: null,
+    pending: false,
+    count: 0
   });
-  state$ = this.companiesState$.asObservable();
-  stateinit = false;
+  initialized = false;
 
   constructor(private http: HttpClient) { }
 
-  update(page: number, limit: number, query?: string): void {
+  get state$(): Observable<CompaniesServiceState> {
+    return this.companiesState$.asObservable();
+  }
+
+  load(page: number = this.companiesState$.value.page,
+    limit: number = this.companiesState$.value.limit,
+    query?: string): void {
+    if (this.initialized) {
+      return;
+    }
+    this.companiesState$.next({ ...this.companiesState$.value, pending: true });
     const params = new HttpParams()
       .set('page', page.toString())
-      .set('limit', limit.toString());
-
+      .set('limit', limit.toString())
     if (query) {
       params.set('search', `${query}`);
     }
 
     const url = `${API_PREFIX}/companies?` + params.toString();
 
-    this.http.get(url).subscribe((res: CompaniesServiceState) => {
-      this.companiesState$.next(res);
-      this.stateinit = true;
-    });
+    this.http.get(url).pipe(
+      catchError((error) => {
+        this.companiesState$.next({ ...this.companiesState$.value, error });
+        return throwError(error);
+      }),
+      tap((companyResponse: CompanyResponse) => {
+        this.initialized = true;
+        this.companiesState$.next({ ...this.companiesState$.value, pending: false, ...companyResponse, error: null });
+      }),
+      finalize(() => this.companiesState$.next({ ...this.companiesState$.value, pending: false }))
+    ).subscribe();
   }
 
-  getCompanies(page: number, limit: number, query?: string): Observable<any> {
-    const current = this.companiesState$.value;
-    if (current.page === (page) && current.limit === limit) {
-      return this.state$;
-    } else {
-      const params = new HttpParams()
-        .set('page', page.toString())
-        .set('limit', limit.toString());
-      if (query) {
-        params.set('search', `${query}`);
-      }
-
-      const url = `${API_PREFIX}/companies?` + params.toString();
-      return this.http.get(url).pipe(
-        tap((res: CompaniesServiceState) => {
-          this.companiesState$.next(res);
-          this.stateinit = true;
-        })
-      );
-    }
+  changePage(pageEvent: PageEvent) {
+    this.initialized = false;
+    this.companiesState$.next({
+      ...this.companiesState$.value,
+      limit: pageEvent.pageSize,
+      page: pageEvent.pageIndex + 1
+    })
+    this.load();
   }
 
   getCompany(id: string, full: boolean = false): Observable<any> {
@@ -72,15 +82,24 @@ export class CompaniesService {
   }
 
   addCompany(payload: any): Observable<any> {
-    return this.http.post(`${API_PREFIX}/companies`, payload);
+    this.initialized = false;
+    return this.http.post(`${API_PREFIX}/companies`, payload).pipe(
+      tap(() => this.load())
+    );
   }
 
   updateCompany(id: string, payload: any): Observable<any> {
-    return this.http.put(`${API_PREFIX}/companies/${id}`, payload);
+    this.initialized = false;
+    return this.http.put(`${API_PREFIX}/companies/${id}`, payload).pipe(
+      tap(() => this.load())
+    );
   }
 
   removeCompany(id: string, payload: any): Observable<any> {
-    return this.http.put(`${API_PREFIX}/companies/${id}`, payload);
+    this.initialized = false;
+    return this.http.put(`${API_PREFIX}/companies/${id}`, payload).pipe(
+      tap(() => this.load())
+    );
   }
 
   searchCompany(query: string): Observable<any> {
