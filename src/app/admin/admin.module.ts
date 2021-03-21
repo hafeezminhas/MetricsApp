@@ -9,6 +9,7 @@ import {MaterialModule} from '../material/material.module';
 import { CompanyDialogComponent } from './dialogs/company-dialog/company-dialog.component';
 import {UserDialogComponent} from './dialogs/user-dialog/user-dialog.component';
 import {SharedModule} from '../shared/shared.module';
+import { NgxMaskModule } from 'ngx-mask';
 
 const routes: Route[] = [
   {
@@ -36,6 +37,7 @@ const routes: Route[] = [
     RouterModule.forChild(routes),
     MaterialModule,
     SharedModule,
+    NgxMaskModule.forChild()
   ],
   exports: [RouterModule],
   entryComponents: [CompanyDialogComponent, UserDialogComponent]

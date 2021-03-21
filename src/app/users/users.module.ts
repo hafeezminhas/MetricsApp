@@ -6,6 +6,7 @@ import { MaterialModule } from '../material/material.module';
 import { UsersComponent } from './components/users/users.component';
 import { UsersBaseComponent } from './components/users-base/users-base.component';
 import { UserDialogComponent } from './dialogs/user-dialog/user-dialog.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 const routes: Route[] = [
   {
@@ -26,7 +27,8 @@ const routes: Route[] = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MaterialModule
+    MaterialModule,
+    NgxMaskModule.forChild()
   ],
   entryComponents: [
     UserDialogComponent

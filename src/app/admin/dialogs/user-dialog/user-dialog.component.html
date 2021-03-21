@@ -39,7 +39,8 @@
                     <div fxFlex="100" fxFlex.gt-md="49.5">
                         <mat-form-field class="form-field" appearance="outline">
                             <mat-label> Phone </mat-label>
-                            <input matInput formControlName="phone">
+                            <input matInput formControlName="phone" [mask]="'(000) 000 0000'"
+                                maxlength="14">
                             <mat-error *ngIf="f.phone.touched && f.phone.invalid">
                                 <span *ngIf="f.phone.errors.required">phone is required</span>
                             </mat-error>
@@ -63,11 +64,8 @@
                     <div fxFlex="100" fxFlex.gt-md="49.5">
                         <mat-form-field class="form-field" appearance="outline">
                             <input matInput placeholder="Confirm Password"
-                                [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirm"
+                                type="password" formControlName="confirm"
                                 [errorStateMatcher]="matcher">
-                            <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
-                                {{ hideConfirmPassword ? 'visibility_off' : 'visibility'}}
-                            </mat-icon>
                             <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
                                 <span *ngIf="f.confirm.errors.required">
                                     Confirm Password is required
