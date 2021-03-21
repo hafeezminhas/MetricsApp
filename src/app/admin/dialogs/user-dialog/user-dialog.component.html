@@ -47,7 +47,7 @@
                     </div>
                 </div>
 
-                <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+                <div *ngIf="!update" fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
                     <div fxFlex="100" fxFlex.gt-md="49.5">
                         <mat-form-field class="form-field" appearance="outline">
                             <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'"
@@ -67,14 +67,6 @@
                                 <span *ngIf="f.confirm.errors.required"> Confirm Password is required </span>
                                 <span *ngIf="f.confirm.errors?.passwordConfirm"> Passwords do not match </span>
                             </mat-error>
-                            <!-- <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
-                                <span *ngIf="f.confirm.errors.required">
-                                    Confirm Password is required
-                                </span>
-                            </mat-error>
-                            <mat-error *ngIf="form.errors?.passwordConfirm">
-                                Passwords do not match
-                            </mat-error> -->
                         </mat-form-field>
                     </div>
                 </div>

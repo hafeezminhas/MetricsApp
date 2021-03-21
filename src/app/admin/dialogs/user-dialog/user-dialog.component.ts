@@ -51,7 +51,9 @@ export class UserDialogComponent implements OnInit {
         }),
         company: ['', Validators.required]
       });
-      this.form.patchValue(this.user);
+      const payload: any = { ...this.user };
+      payload.company = this.user.company?.name;
+      this.form.patchValue(payload);
     } else { // Create
       this.form = this.fb.group({
         firstName: ['', Validators.required],
