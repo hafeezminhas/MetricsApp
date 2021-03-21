@@ -28,6 +28,7 @@ export class UsersDataSource implements DataSource<User> {
         this.usersService.state$.subscribe((res) => {
             this.loadingSubject$.next(res.pending);
             this.usersSubject$.next(res.users);
+            this.count = res.count;
         });
     }
 }

@@ -1,6 +1,6 @@
 <div fxLayout="row wrap">
     <section fxFlex="100" fxLayout="row" class="mt-1">
-        <h5 class="m-0">Users ({{dataSource.count}})</h5>
+        <h5 class="m-0">Users ({{dataSource.count || 0}})</h5>
         <span fxFlex></span>
         <button mat-icon-button matTooltip="Add User" (click)="addNew()">
             <mat-icon>add</mat-icon>
@@ -73,7 +73,8 @@
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
         </mat-table>
-        <mat-paginator [length]="pageConfig" [pageSize]="pageConfig.limit" [pageSizeOptions]="pageSizes">
+        <mat-paginator [length]="dataSource.count || 0" [pageSize]="pageConfig.limit" [pageSizeOptions]="pageSizes"
+            (page)="pageChange($event)">
         </mat-paginator>
     </section>
 

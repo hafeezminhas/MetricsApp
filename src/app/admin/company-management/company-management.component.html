@@ -1,6 +1,6 @@
 <div fxLayout="row wrap">
   <section fxFlex="100" fxLayout="row" class="mt-1">
-    <h5 class="m-0">Companies ({{dataSource.count}})</h5>
+    <h5 class="m-0">Companies ({{dataSource.count || 0}})</h5>
     <span fxFlex></span>
     <button mat-icon-button color="primary" matTooltip="Add Company" (click)="addNew()"> <mat-icon>add</mat-icon> </button>
   </section>
@@ -64,9 +64,10 @@
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
     </mat-table>
-    <mat-paginator [length]="pageConfig"
+    <mat-paginator [length]="dataSource.count || 0"
                    [pageSize]="pageConfig.limit"
-                   [pageSizeOptions]="pageSizes">
+                   [pageSizeOptions]="pageSizes"
+                   (page)="pageChange($event)">
     </mat-paginator>
   </section>
 
