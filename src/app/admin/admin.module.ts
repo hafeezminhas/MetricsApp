@@ -7,7 +7,8 @@ import {Route, RouterModule} from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import {MaterialModule} from '../material/material.module';
 import { CompanyDialogComponent } from './dialogs/company-dialog/company-dialog.component';
-import { UserDialogComponent } from './dialogs/user-dialog/user-dialog.component';
+import {UserDialogComponent} from './dialogs/user-dialog/user-dialog.component';
+import {SharedModule} from '../shared/shared.module';
 
 const routes: Route[] = [
   {
@@ -33,7 +34,8 @@ const routes: Route[] = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MaterialModule
+    MaterialModule,
+    SharedModule,
   ],
   exports: [RouterModule],
   entryComponents: [CompanyDialogComponent, UserDialogComponent]

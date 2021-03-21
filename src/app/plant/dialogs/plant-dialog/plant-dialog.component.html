@@ -1,0 +1,170 @@
+<div class="dialog-wrapper" fxLayout="row wrap" fxLayoutAlign="center start">
+  <h2 mat-dialog-title>{{update? 'Update Company' : 'Create Plant'}}</h2>
+
+  <mat-dialog-content fxFlex="100">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate autocomplete="off">
+      <fieldset fxFlex="100" fxLayout="row wrap">
+        <legend>Plant Details</legend>
+
+        <div fxFlex="100" fxLayout="row" fxLayoutGap="0" *ngIf="errors?.length">
+          <ul class="errors-list" fxFlex="100">
+            <li *ngFor="let err of errors"><span><mat-icon>error</mat-icon></span> {{err}}</li>
+          </ul>
+        </div>
+
+        <div fxFlex="100" fxLayout="row" fxLayoutGap="0">
+          <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+            <mat-label> Name</mat-label>
+            <input matInput formControlName="name" >
+            <mat-error *ngIf="f.name.touched && f.name.invalid">
+              <span *ngIf="f.name.errors.required">plant name is required</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Metric Id </mat-label>
+              <input matInput formControlName="metricId" >
+              <mat-error *ngIf="f.metricId.touched && f.metricId.invalid">
+                <span *ngIf="f.metricId.errors.required">Metric Id is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Strain </mat-label>
+              <input matInput formControlName="strain">
+              <mat-error *ngIf="f.strain.touched && f.strain.invalid">
+                <span *ngIf="f.strain.errors.required">Strain is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label>Current Phase</mat-label>
+              <mat-select formControlName="type">
+                <mat-option *ngFor="let t of PlantType" [value]="t.value">{{t.label}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Planted On </mat-label>
+              <input matInput formControlName="plantedOn" [matDatepicker]="picker" (dateChange)="onDateChange($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
+          <mat-form-field class="pr-4" appearance="outline" fxFlex="100">
+            <mat-label> Mother </mat-label>
+            <input matInput placeholder="Mother Plant" aria-label="mother" [matAutocomplete]="mother" formControlName="mother">
+            <mat-autocomplete #mother="matAutocomplete">
+              <mat-option *ngIf="mothersSearching" class="is-loading">loading...</mat-option>
+              <ng-container *ngIf="!mothersSearching">
+                <mat-option *ngFor="let mother of filteredMothers" [value]="mother" (onSelectionChange)="motherSelect($event)">
+                  <img class="autocomp-img" aria-hidden src="assets/images/icons/cann_leaf.png" style="width: 25px; vertical-align: middle; margin-right: 8px">
+                  <span>{{mother.metricId}}</span> | <small>{{mother.name}}</small>
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label>Current Phase</mat-label>
+              <mat-select formControlName="currentPhase">
+                <mat-option *ngFor="let ph of PhaseHistoryList" [value]="ph">{{ph}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxFlex.gt-md="49.5">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Location </mat-label>
+              <input matInput formControlName="location">
+              <mat-error *ngIf="f.location.touched && f.location.invalid">
+                <span *ngIf="f.location.errors.required">Location is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset fxFlex="100" fxLayout="row wrap">
+        <legend>Phase History</legend>
+
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="1%">
+          <mat-form-field class="form-field" appearance="outline" fxFlex="30">
+            <mat-label> Select Phase </mat-label>
+            <mat-select [(ngModel)]="phaseHistoryModel.phase" [ngModelOptions]="{standalone: true}" (selectionChange)="phaseSelect($event.value)">
+              <mat-option value> Select Phase </mat-option>
+              <mat-option *ngFor="let ph of PhaseHistoryList" [value]="ph"> {{ph}} </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="form-field" appearance="outline" fxFlex="29">
+            <mat-label>Start</mat-label>
+            <input matInput [matDatepicker]="startPicker" [(ngModel)]="phaseHistoryModel.start" [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="form-field" appearance="outline" fxFlex="29">
+            <mat-label>End</mat-label>
+            <input matInput [matDatepicker]="endPicker" [(ngModel)]="phaseHistoryModel.end" [ngModelOptions]="{standalone: true}">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+
+          <div fxFlex="9" fxLayoutAlign="end start">
+            <button type="button" mat-mini-fab style="margin: 8px 0 0" [disabled]="!phaseHistoryModel.phase || !phaseHistoryModel.start" (click)="addItem()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <ul class="phase-history" fxFlex="100" fxLayout="row wrap">
+          <li class="phase-history-header" fxLayout="row" fxFlex="100">
+            <div class="inner" fxFlex="100" fxLayout="row">
+              <div class="phase" fxFlex="35">Phase</div>
+              <div class="start" fxFlex="25">Start</div>
+              <div class="end" fxFlex="25">End</div>
+              <div class="actions" fxFlex="15"></div>
+            </div>
+          </li>
+          <li class="phase-history-item" fxLayout="row" fxFlex="100" *ngFor="let hist of phaseHistory; let i = index">
+            <div class="inner" fxFlex="100" fxLayout="row">
+              <div class="phase" fxFlex="35">{{hist.phase}}</div>
+              <div class="start" fxFlex="25">{{  hist.start | date:'mediumDate' }}</div>
+              <div class="end" fxFlex="25">{{ hist.end | date:'mediumDate' }}</div>
+              <div class="actions" fxFlex="15" fxLayoutAlign="end">
+                <a (click)="removeHistory(i)" *ngIf="hist.isNew"> <mat-icon>close</mat-icon> </a>
+              </div>
+            </div>
+          </li>
+          <li class="phase-history-item" *ngIf="!plant.phaseHistory?.length"> No phase history available</li>
+        </ul>
+      </fieldset>
+
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button type="submit" mat-raised-button color="primary">Save</button>
+        <button type="button" mat-raised-button color="default" (click)="close()">Close</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
+  </mat-dialog-actions>
+
+</div>

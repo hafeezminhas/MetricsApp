@@ -3,6 +3,7 @@
 */
 @import "main/scaffolding";
 @import "main/typography";
+@import "main/mixins";
 
 .error-message {
   font-family: $lato-sans;
@@ -35,7 +36,136 @@ fieldset {
   border-radius: 4px;
 }
 
+.mat-form-field-invalid.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #ff1201;
+}
+
 .mat-error {
   color: #ff1201;
+}
+
+.noval {
+  color: #f44336;
+  font-weight: 600;
+}
+
+.errors-list {
+  padding: 0;
+
+  li {
+    display: block;
+    list-style: none;
+    color: #ff1201;
+    padding: 0.1rem 0.4rem;
+
+    mat-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+}
+
+/* -----  Plant Phases  ----- */
+$phase-seedling: #6f599f;
+$phase-clone: #811d2b;
+$phase-vegetative: #3e63cb;
+$phase-flowering: #ff3452;
+$phase-mother: #207a6d;
+$phase-harvested: #75420b;
+
+.plant-phase {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 15px;
+  color: #fff;
+
+  &.seedling {
+    background-color: $phase-seedling;
+  }
+  &.clone {
+    background-color: $phase-clone;
+  }
+  &.Vegetative {
+    background-color: $phase-vegetative;
+  }
+  &.flowering {
+    background-color: $phase-flowering;
+  }
+  &.mother {
+    background-color: $phase-mother;
+  }
+  &.harvested {
+    background-color: $phase-harvested;
+  }
+}
+
+/* ----- User Status ----- */
+.user-role {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 15px;
+  color: #fff;
+
+  &.user {
+    background-color: #207a6d;
+  }
+
+  &.admin {
+    background-color: #886dc3;
+  }
+
+  &.xadmin {
+    background-color: #c3283e;
+  }
+}
+
+/* -----  Material Design Styles  ----- */
+.navbar-link {
+  &.active {
+    color: #18a212;
+  }
+}
+
+/* -----  Material Design Styles  ----- */
+$mat-table-row: #b8b8b8;
+
+.mat-table {
+  box-shadow: none;
+  border: 1px solid $mat-table-row;
+
+  .mat-header-row {
+    border-bottom-color: $mat-table-row;
+
+    .mat-header-cell {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+  }
+
+
+  .mat-row {
+    border-color: $mat-table-row;
+
+    .mat-btn-primary {
+      mat-icon {
+        color: #3689ff;
+        font-size: 1.2rem;
+      }
+    }
+
+    .mat-btn-danger {
+      mat-icon {
+        color: #ff3452;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+mat-paginator {
+  box-shadow: none;
+  border: 1px solid $mat-table-row;
+  border-top-color: #fff;
 }
 

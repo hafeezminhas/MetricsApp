@@ -2,7 +2,7 @@
   <section fxFlex="100" fxLayout="row" class="mt-1">
     <h5 class="m-0">Companies ({{dataSource.count}})</h5>
     <span fxFlex></span>
-    <button mat-icon-button matTooltip="Add Company" (click)="addNew()"> <mat-icon>add</mat-icon> </button>
+    <button mat-icon-button color="primary" matTooltip="Add Company" (click)="addNew()"> <mat-icon>add</mat-icon> </button>
   </section>
   <section fxFlex="100">
     <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading$ | async as loading"></mat-progress-bar>
@@ -54,7 +54,7 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell class="duration-cell" *matCellDef="let company" fxLayout="row" fxLayoutGap="5px">
-          <button mat-icon-button class="mat-btn-primary"> <mat-icon>edit</mat-icon> </button>
+          <button mat-icon-button class="mat-btn-primary" (click)="update(company)"> <mat-icon>edit</mat-icon> </button>
           <button mat-icon-button class="mat-btn-danger"> <mat-icon>delete</mat-icon> </button>
         </mat-cell>
       </ng-container>

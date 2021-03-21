@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { LayoutModule } from './layout/layout.module';
 import { AuthModule } from './auth/auth.module';
@@ -25,20 +26,21 @@ import * as fromApp from './store';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgPopupsGlobalConfig, NgPopupsModule } from 'ng-popups';
 import { NotFoundComponent } from './not-found/not-found.component';
-import {LoadingBarInterceptor} from '@ngx-loading-bar/http-client/loading-bar.interceptor';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MAT_DATE_FORMATS} from '@angular/material/core';
 
 const ngxPopupsConfig: NgPopupsGlobalConfig = {
   theme: 'material',
   okButtonText: 'Yes',
   cancelButtonText: 'No',
-  color: '#8030c3',
+  color: '#266706',
   titles: {
     alert: 'Danger!',
     confirm: 'Confirmation',
     prompt: 'Website asks...'
   }
+};
+const maskConfig: Partial<IConfig> = {
+  validation: false,
 };
 
 @NgModule({
@@ -55,6 +57,7 @@ const ngxPopupsConfig: NgPopupsGlobalConfig = {
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     NgPopupsModule.forRoot(ngxPopupsConfig),
+    NgxMaskModule.forRoot(maskConfig),
     LoadingBarHttpClientModule,
     LoadingBarModule,
     LoadingBarRouterModule,

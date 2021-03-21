@@ -59,10 +59,22 @@ export class CompanyManagementComponent implements OnInit, AfterViewInit {
     dialogConfig.minHeight = '550px';
     dialogConfig.data = { company: {}, update: false };
 
-    this.dialog.open(CompanyDialogComponent, dialogConfig);
+    const createDialog = this.dialog.open(CompanyDialogComponent, dialogConfig);
+    createDialog.afterClosed().subscribe(payload => {
+      // TODO: Implement API integration for Create Company
+      console.log(payload);
+      if (payload) {
+        this.companyService.addCompany(payload).subscribe(res => {
+          console.log('res', res);
+        }, err => {
+          console.log('err', err);
+        });
+      }
+    });
   }
 
-  edit(comp: Company): void {
+  update(comp: Company): void {
+    console.log(comp);
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -72,6 +84,14 @@ export class CompanyManagementComponent implements OnInit, AfterViewInit {
     dialogConfig.minHeight = '550px';
     dialogConfig.data = { company: comp, update: true };
 
-    this.dialog.open(CompanyDialogComponent, dialogConfig);
+    const updateDialog = this.dialog.open(CompanyDialogComponent, dialogConfig);
+    updateDialog.afterClosed().subscribe(payload => {
+      // TODO: Implement API integration for Update Company
+      this.companyService.updateCompany(comp._id, payload).subscribe(res => {
+        console.log('update', res);
+      }, err => {
+        console.log('err', err);
+      });
+    });
   }
 }

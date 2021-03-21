@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Company} from '../../data/models/company';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {first, tap} from 'rxjs/operators';
+import { Company } from '../../data/models/company';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { first, tap } from 'rxjs/operators';
 
 const API_PREFIX = 'api';
 
@@ -26,13 +26,17 @@ export class CompaniesService {
   state$ = this.companiesState$.asObservable();
   stateinit = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   update(page: number, limit: number, query?: string): void {
     const params = new HttpParams()
-                            .set('page', page.toString())
-                            .set('limit', limit.toString())
-                            .set('search', query);
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    if (query) {
+      params.set('search', `${query}`);
+    }
+
     const url = `${API_PREFIX}/companies?` + params.toString();
 
     this.http.get(url).subscribe((res: CompaniesServiceState) => {
@@ -47,9 +51,12 @@ export class CompaniesService {
       return this.state$;
     } else {
       const params = new HttpParams()
-                              .set('page', page.toString())
-                              .set('limit', limit.toString())
-                              .set('search', query);
+        .set('page', page.toString())
+        .set('limit', limit.toString());
+      if (query) {
+        params.set('search', `${query}`);
+      }
+
       const url = `${API_PREFIX}/companies?` + params.toString();
       return this.http.get(url).pipe(
         tap((res: CompaniesServiceState) => {
@@ -64,11 +71,19 @@ export class CompaniesService {
     return this.http.get(`${API_PREFIX}/companies/${id}?full=${full}`);
   }
 
+  addCompany(payload: any): Observable<any> {
+    return this.http.post(`${API_PREFIX}/companies`, payload);
+  }
+
   updateCompany(id: string, payload: any): Observable<any> {
     return this.http.put(`${API_PREFIX}/companies/${id}`, payload);
   }
 
   removeCompany(id: string, payload: any): Observable<any> {
     return this.http.put(`${API_PREFIX}/companies/${id}`, payload);
+  }
+
+  searchCompany(query: string): Observable<any> {
+    return this.http.get(`${API_PREFIX}/companies?search=${query}`);
   }
 }

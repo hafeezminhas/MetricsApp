@@ -7,7 +7,7 @@ interface Company {
   address?: Address;
   established: Date;
   metricId: number;
-  stateLicence: string;
+  stateLicense: string[];
   companySize: number;
   subscriptionType: number;
   userCount: number;

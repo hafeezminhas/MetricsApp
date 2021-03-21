@@ -1,7 +1,7 @@
 import {PlantPhaseHistory} from './phase-history';
 
-
 interface Plant {
+  _id?: string;
   name: string;
   metricId: string;
   strain: string;
@@ -11,6 +11,7 @@ interface Plant {
   currentPhase: string;
   phaseHistory: PlantPhaseHistory[];
   location: string;
+  company: string;
 }
 
 export { Plant };

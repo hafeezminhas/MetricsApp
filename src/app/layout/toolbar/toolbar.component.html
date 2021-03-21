@@ -5,10 +5,10 @@
     </a>
     <span class="menu-spacer"></span>
     <div class="px-12">
-      <a mat-button [routerLink]="'/plants'"> Plants </a>
-      <a mat-button [routerLink]="'/tests'"> Test </a>
-      <a mat-button [routerLink]="'/metrices'"> Metrics </a>
-      <a mat-button [routerLink]="'/users'" *ngIf="user.role === 'ADMIN'">Users</a>
+      <a class="navbar-link" mat-button [routerLink]="'/plants'" routerLinkActive="active"> Plants </a>
+      <a class="navbar-link" mat-button [routerLink]="'/tests'" routerLinkActive="active"> Test </a>
+      <a class="navbar-link" mat-button [routerLink]="'/metrics'" routerLinkActive="active"> Metrics </a>
+      <a class="navbar-link" mat-button [routerLink]="'/users'" routerLinkActive="active" *ngIf="user.role === 'ADMIN'">My Users</a>
     </div>
     <span fxFlex></span>
     <div fxFlexAlign="end center">

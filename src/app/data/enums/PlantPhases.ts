@@ -1,4 +1,4 @@
-export const phaseHistoryList = ['Seedling', 'Clone', 'Vegetative', 'Flowering', 'Mother'];
+export const phaseHistoryList = ['Seedling', 'Clone', 'Vegetative', 'Flowering', 'Mother', 'Harvested'];
 
 export enum PlantPhase {
   Seedling,
@@ -6,4 +6,5 @@ export enum PlantPhase {
   Vegetative,
   Flowering,
   Mother,
+  Harvested
 }
