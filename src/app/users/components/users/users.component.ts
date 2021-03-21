@@ -2,10 +2,10 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {NgPopupsService} from 'ng-popups';
-import {UsersService} from '../services/users.service';
-import {UsersDataSource} from '../datasources/users.datasource';
-import {UserDialogComponent} from '../dialogs/user-dialog/user-dialog.component';
-import {User} from '../../data/models/user';
+import {UsersService} from '../../services/users.service';
+import {UsersDataSource} from '../../datasources/users.datasource';
+import {UserDialogComponent} from '../../dialogs/user-dialog/user-dialog.component';
+import {User} from '../../../data/models/user';
 
 @Component({
   selector: 'app-users',
@@ -16,11 +16,12 @@ export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource: UsersDataSource;
 
-  displayedColumns = ['firstName', 'lastName', 'email', 'phone', 'address', 'active', 'locked', 'actions'];
+  displayedColumns = ['firstName', 'lastName', 'email', 'phone', 'address', 'role', 'active', 'locked', 'actions'];
 
   constructor(private dialog: MatDialog, private ngPopup: NgPopupsService, private usersService: UsersService) { }
 
   ngOnInit(): void {
+    this.usersService.load();
     this.dataSource = new UsersDataSource(this.usersService);
   }
 
@@ -67,7 +68,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   remove(user: User): void {
     this.ngPopup.confirm(`Are you sure you want to remove the selected user?`, { title: 'Confirm Removal' }).subscribe(res => {
       if(res) {
-        this.usersService.remove(user._id).subscribe();
+        this.usersService.remove(user._id);
       }
     });
   }

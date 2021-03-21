@@ -4,7 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, finalize, tap} from 'rxjs/operators';
 import {User} from '../../data/models/user';
 
-const API_PREFIX = 'users';
+const API_PREFIX = 'api';
 
 export class UserServiceState {
   users: User[];
@@ -21,12 +21,18 @@ export class UsersService {
     error: null,
     pending: false
   });
+  initialized = false;
 
-  state$ = this.usersState$.asObservable();
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
+  get state$(): Observable<UserServiceState> {
+    return this.usersState$.asObservable();
+  }
 
   load(): void {
+    if (this.initialized) {
+      return;
+    }
     this.usersState$.next({ ...this.usersState$.value, pending: true });
     this.http.get(`${API_PREFIX}/users`).pipe(
       catchError((error) => {
@@ -34,10 +40,11 @@ export class UsersService {
         return throwError(error);
       }),
       tap((users: User[]) => {
-        this.usersState$.next({ ...this.usersState$.value, users });
+        this.initialized = true;
+        this.usersState$.next({ pending: false, users, error: null });
       }),
       finalize(() => this.usersState$.next({ ...this.usersState$.value, pending: false }))
-    );
+    ).subscribe();
   }
 
   getUser(id: string): Observable<User | any> {
@@ -45,18 +52,21 @@ export class UsersService {
   }
 
   create(payload: User): Observable<User | any> {
+    this.initialized = false;
     return this.http.post(`${API_PREFIX}/users`, payload).pipe(
       tap(() => this.load())
     );
   }
 
   update(id: string, payload: string): Observable<User | any> {
+    this.initialized = false;
     return this.http.put(`${API_PREFIX}/users/${id}`, payload).pipe(
       tap(() => this.load())
     );
   }
 
   remove(id: string): Observable<User | any> {
+    this.initialized = false;
     return this.http.delete(`${API_PREFIX}/users/${id}`).pipe(
       tap(() => this.load())
     );

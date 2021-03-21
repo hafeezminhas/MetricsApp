@@ -19,7 +19,6 @@ import { FontSizeDirective } from './directives/font-size.directive';
   imports: [
     CommonModule,
     RouterModule,
-    MatIconModule,
     MatProgressSpinnerModule,
     NgPopupsModule,
   ],

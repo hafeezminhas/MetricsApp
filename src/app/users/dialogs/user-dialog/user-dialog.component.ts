@@ -1,11 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { User } from 'src/app/data/models/user';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Company } from 'src/app/data/models/company';
-import { debounceTime, finalize, switchMap, tap } from 'rxjs/operators';
-import { CompaniesService } from '../../services/companies.service';
-import { ErrorStateMatcher } from '@angular/material/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {User} from '../../../data/models/user';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Company} from '../../../data/models/company';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {CompaniesService} from '../../../admin/services/companies.service';
+import {confirmErrorStateMatcher} from '../../../admin/dialogs/user-dialog/user-dialog.component';
 import { PasswordConfirm } from '../../../shared/validators/confirm-password-validator';
 
 @Component({
@@ -29,15 +28,22 @@ export class UserDialogComponent implements OnInit {
   hideConfirmPassword = true;
   matcher = new confirmErrorStateMatcher();
 
+  isActive: boolean;
+  isLocked: boolean;
+
   constructor(private fb: FormBuilder,
-    private dialogRef: MatDialogRef<UserDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data,
-    private companiesService: CompaniesService) {
+              private dialogRef: MatDialogRef<UserDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) data,
+              private companiesService: CompaniesService) {
     this.user = data.user;
     this.update = data.update;
   }
 
   ngOnInit(): void {
+    console.log(this.user);
+    this.isActive = !!this.update ? this.user.isActive : true;
+    this.isLocked = !!this.update ? this.user.isLocked : false;
+
     if (this.update) { // Update
       this.form = this.fb.group({
         firstName: ['', Validators.required],
@@ -50,6 +56,8 @@ export class UserDialogComponent implements OnInit {
           state: ['', Validators.required],
           zip: [null, Validators.required]
         }),
+        isActive: [false, Validators.required],
+        isLocked: [false, Validators.required],
         company: ['', Validators.required]
       });
       this.form.patchValue(this.user);
@@ -65,25 +73,32 @@ export class UserDialogComponent implements OnInit {
           state: ['', Validators.required],
           zip: [null, Validators.required]
         }),
-        isActive: [true],
-        isLocked: [false],
         password: ['', Validators.required],
         confirm: ['', Validators.required],
-        company: ['', Validators.required],
-        role: ['ADMIN', Validators.required]
       }, {
         validator: PasswordConfirm('password', 'confirm')
       });
     }
-
-    this.setupCompaniesSearch();
   }
 
   get f(): any {
     return this.form.controls;
   }
 
+  statusChanged(target): void {
+    if (target === 'isActive') {
+      this.isActive = this.form.value.isActive;
+    }
+    if (target === 'isLocked') {
+      this.isLocked = this.form.value.isLocked;
+    }
+  }
+
   onSubmit(): void {
+    this.form.markAllAsTouched();
+    if (this.form.invalid) {
+      return;
+    }
     const payload = this.form.value;
     payload.company = payload.company ? this.selectedCompany.id : null;
     delete payload.isActive;
@@ -93,41 +108,5 @@ export class UserDialogComponent implements OnInit {
 
   close(): void {
     this.dialogRef.close();
-  }
-
-  companySelect(e): void {
-    this.selectedCompany = e.source.value;
-    this.form.controls.company.setValue(e.source.value.name);
-  }
-
-  private setupCompaniesSearch(): void {
-    this.form.controls.company.valueChanges.pipe(
-      debounceTime(500),
-      tap(() => {
-        this.companiesSearchErr = '';
-        this.companiesSearching = true;
-        this.filteredCompanies = [];
-      }),
-      switchMap(value => this.companiesService.searchCompany(value).pipe(
-        finalize(() => {
-          this.companiesSearching = false;
-        }))
-      )
-    ).subscribe((res: any) => {
-      if (res.error) {
-        this.companiesSearchErr = res.error;
-      } else {
-        this.filteredCompanies = res.companies;
-      }
-    });
-  }
-}
-
-export class confirmErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const invalidCtrl = !!(control?.invalid && control?.touched && control?.parent?.dirty);
-    const invalidParent = !!(control?.parent?.errors?.notSame);
-
-    return invalidCtrl || invalidParent;
   }
 }

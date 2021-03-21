@@ -1,0 +1,13 @@
+/* ----- Responsive Behavior Mixins ----  */
+
+
+/* ----- Div & Box Mixins ----  */
+
+
+/* ----- Font & Typography Mixins ----  */
+
+
+/* ----- Text Related Mixins ----  */
+@mixin text-shadow($x: 2px, $y: 2px, $blur: 5px, $color: rgba(0,0,0,.4)) {
+  text-shadow: $x $y $blur $color;
+}

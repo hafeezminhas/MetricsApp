@@ -3,6 +3,7 @@
 */
 @import "main/scaffolding";
 @import "main/typography";
+@import "main/mixins";
 
 .error-message {
   font-family: $lato-sans;
@@ -68,7 +69,7 @@ fieldset {
 /* -----  Plant Phases  ----- */
 $phase-seedling: #6f599f;
 $phase-clone: #811d2b;
-$phase-vegetative: #126e0e;
+$phase-vegetative: #3e63cb;
 $phase-flowering: #ff3452;
 $phase-mother: #207a6d;
 $phase-harvested: #75420b;
@@ -99,7 +100,32 @@ $phase-harvested: #75420b;
   }
 }
 
+/* ----- User Status ----- */
+.user-role {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.8rem;
+  border-radius: 15px;
+  color: #fff;
 
+  &.user {
+    background-color: #207a6d;
+  }
+
+  &.admin {
+    background-color: #886dc3;
+  }
+
+  &.xadmin {
+    background-color: #c3283e;
+  }
+}
+
+/* -----  Material Design Styles  ----- */
+.navbar-link {
+  &.active {
+    color: #18a212;
+  }
+}
 
 /* -----  Material Design Styles  ----- */
 $mat-table-row: #b8b8b8;

@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { LayoutModule } from './layout/layout.module';
 import { AuthModule } from './auth/auth.module';
@@ -38,6 +39,9 @@ const ngxPopupsConfig: NgPopupsGlobalConfig = {
     prompt: 'Website asks...'
   }
 };
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   declarations: [
@@ -53,6 +57,7 @@ const ngxPopupsConfig: NgPopupsGlobalConfig = {
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     NgPopupsModule.forRoot(ngxPopupsConfig),
+    NgxMaskModule.forRoot(maskConfig),
     LoadingBarHttpClientModule,
     LoadingBarModule,
     LoadingBarRouterModule,
