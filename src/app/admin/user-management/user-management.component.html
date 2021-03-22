@@ -41,18 +41,18 @@
             </ng-container>
 
             <ng-container matColumnDef="active">
-                <mat-header-cell *matHeaderCellDef>Is Active</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
                 <mat-cell class="description-cell" *matCellDef="let user">
-                    <mat-icon class="user-active" *ngIf="user.isActive">person_pin</mat-icon>
-                    <mat-icon class="user-inactive" *ngIf="!user.isActive">person_pin</mat-icon>
+                    <img src="assets/images/icons/active.png" width="30" *ngIf="user.isActive" alt="">
+                    <img src="assets/images/icons/inactive.png" width="30" *ngIf="!user.isActive" alt="">
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="locked">
-                <mat-header-cell *matHeaderCellDef>Is Locked</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Locked</mat-header-cell>
                 <mat-cell class="description-cell" *matCellDef="let user">
-                    <mat-icon class="user-locked" *ngIf="user.isLocked">lock</mat-icon>
-                    <mat-icon class="user-unlocked" *ngIf="!user.isLocked">lock_open</mat-icon>
+                    <img src="assets/images/icons/locked.png" width="30" *ngIf="user.isLocked" alt="">
+                    <img src="assets/images/icons/unlocked.png" width="30" *ngIf="!user.isLocked" alt="">
                 </mat-cell>
             </ng-container>
 
