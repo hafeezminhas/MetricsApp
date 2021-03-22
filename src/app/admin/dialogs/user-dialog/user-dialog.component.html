@@ -1,167 +1,168 @@
 <div class="dialog-wrapper" fxLayout="row wrap" fxLayoutAlign="center start">
-    <h2 mat-dialog-title>{{update? 'Update User' : 'Create User'}}</h2>
+  <h2 mat-dialog-title>{{update? 'Update' : 'Create'}} User</h2>
 
-    <mat-dialog-content fxFlex="100">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate>
-            <fieldset fxFlex="100" fxLayout="row wrap">
-                <legend>User Details</legend>
-                <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
-                    <div fxFlex="100" fxFlex.gt-md="49.5">
-                        <mat-form-field class="form-field" appearance="outline">
-                            <mat-label> First Name</mat-label>
-                            <input matInput formControlName="firstName">
-                            <mat-error *ngIf="f.firstName.touched && f.firstName.invalid">
-                                <span *ngIf="f.firstName.errors.required">firstName is required</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div fxFlex="100" fxFlex.gt-md="49.5">
-                        <mat-form-field class="form-field" appearance="outline">
-                            <mat-label> Last Name</mat-label>
-                            <input matInput formControlName="lastName">
-                            <mat-error *ngIf="f.lastName.touched && f.lastName.invalid">
-                                <span *ngIf="f.lastName.errors.required">lastName is required</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
+  <mat-dialog-content fxFlex="100">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate autocomplete="off">
+      <fieldset fxFlex="100" fxLayout="row wrap">
+        <legend>User Details</legend>
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5">
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label> First Name</mat-label>
+              <input matInput formControlName="firstName">
+              <mat-error *ngIf="f.firstName.touched && f.firstName.invalid">
+                <span *ngIf="f.firstName.errors.required">firstName is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="49.5">
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label> Last Name</mat-label>
+              <input matInput formControlName="lastName">
+              <mat-error *ngIf="f.lastName.touched && f.lastName.invalid">
+                <span *ngIf="f.lastName.errors.required">lastName is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
 
-                <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
-                    <div fxFlex="100" fxFlex.gt-md="49.5">
-                        <mat-form-field class="form-field" appearance="outline">
-                            <mat-label> Email </mat-label>
-                            <input matInput formControlName="email">
-                            <mat-error *ngIf="f.email.touched && f.email.invalid">
-                                <span *ngIf="f.email.errors.required">email is required</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div fxFlex="100" fxFlex.gt-md="49.5">
-                        <mat-form-field class="form-field" appearance="outline">
-                            <mat-label> Phone </mat-label>
-                            <input matInput formControlName="phone" [mask]="'(000) 000 0000'" maxlength="14">
-                            <mat-error *ngIf="f.phone.touched && f.phone.invalid">
-                                <span *ngIf="f.phone.errors.required">phone is required</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5">
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label> Email </mat-label>
+              <input matInput formControlName="email">
+              <mat-error *ngIf="f.email.touched && f.email.invalid">
+                <span *ngIf="f.email.errors.required">email is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="49.5">
+            <mat-form-field class="form-field" appearance="outline">
+              <mat-label> Phone </mat-label>
+              <input matInput formControlName="phone" [mask]="'(000) 000 0000'" maxlength="14">
+              <mat-error *ngIf="f.phone.touched && f.phone.invalid">
+                <span *ngIf="f.phone.errors.required">phone is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
 
-                <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
-                    <div fxFlex="100" fxFlex.gt-md="49.5">
-                        <mat-form-field class="form-field" appearance="outline">
-                            <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'"
-                                formControlName="password">
-                            <mat-icon matSuffix (click)="hidePassword = !hidePassword">
-                                {{ hidePassword ? 'visibility_off' : 'visibility'}}
-                            </mat-icon>
-                            <mat-error *ngIf="f.password.touched && f.password.invalid">
-                                <span *ngIf="f.password.errors.required">password is required</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div fxFlex="100" fxFlex.gt-md="49.5">
-                        <mat-form-field class="form-field" appearance="outline">
-                            <input matInput placeholder="Confirm Password" type="password" formControlName="confirm">
-                            <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
-                                <span *ngIf="f.confirm.errors.required"> Confirm Password is required </span>
-                                <span *ngIf="f.confirm.errors?.passwordConfirm"> Passwords do not match </span>
-                            </mat-error>
-                            <!-- <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
-                                <span *ngIf="f.confirm.errors.required">
-                                    Confirm Password is required
-                                </span>
-                            </mat-error>
-                            <mat-error *ngIf="form.errors?.passwordConfirm">
-                                Passwords do not match
-                            </mat-error> -->
-                        </mat-form-field>
-                    </div>
-                </div>
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5">
+            <mat-form-field class="form-field" appearance="outline">
+              <input matInput
+                     placeholder="Password"
+                     [type]="hidePassword ? 'password' : 'text'"
+                     formControlName="password">
+              <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+                {{ hidePassword ? 'visibility_off' : 'visibility'}}
+              </mat-icon>
+              <mat-error *ngIf="f.password.touched && f.password.invalid">
+                <span *ngIf="f.password.errors.required">password is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="49.5">
+            <mat-form-field class="form-field" appearance="outline">
+              <input matInput placeholder="Confirm Password" type="password" formControlName="confirm">
+              <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
+                <span *ngIf="f.confirm.errors.required"> Confirm Password is required </span>
+                <span *ngIf="f.confirm.errors?.passwordConfirm"> Passwords do not match </span>
+              </mat-error>
+              <!-- <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
+                  <span *ngIf="f.confirm.errors.required">
+                      Confirm Password is required
+                  </span>
+              </mat-error>
+              <mat-error *ngIf="form.errors?.passwordConfirm">
+                  Passwords do not match
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+        </div>
 
-                <!-- <div fxFlex="100">
-                    <mat-form-field class="form-field" appearance="outline">
-                        <mat-label> Role</mat-label>
-                        <input matInput formControlName="role">
-                        <mat-error *ngIf="f.role.touched && f.role.invalid">
-                            <span *ngIf="f.role.errors.required">role is required</span>
-                        </mat-error>
-                    </mat-form-field>
-                </div> -->
+        <!-- <div fxFlex="100">
+            <mat-form-field class="form-field" appearance="outline">
+                <mat-label> Role</mat-label>
+                <input matInput formControlName="role">
+                <mat-error *ngIf="f.role.touched && f.role.invalid">
+                    <span *ngIf="f.role.errors.required">role is required</span>
+                </mat-error>
+            </mat-form-field>
+        </div> -->
 
-                <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
-                    <mat-form-field class="pr-4" appearance="outline" fxFlex="100">
-                        <input matInput placeholder="Company" aria-label="company" [matAutocomplete]="company"
-                            formControlName="company">
-                        <mat-autocomplete #company="matAutocomplete">
-                            <mat-option *ngIf="companiesSearching" class="is-loading">loading...</mat-option>
-                            <ng-container *ngIf="!companiesSearching">
-                                <mat-option *ngFor="let company of filteredCompanies" [value]="company"
-                                    (onSelectionChange)="companySelect($event)">
-                                    <img class="autocomp-img" aria-hidden src="assets/images/icons/cann_leaf.png"
-                                        style="width: 25px; vertical-align: middle; margin-right: 8px">
-                                    <span>{{company.metricId}}</span> | <small>{{company.name}}</small>
-                                </mat-option>
-                            </ng-container>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-            </fieldset>
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
+          <mat-form-field class="pr-4" appearance="outline" fxFlex="100">
+            <input matInput placeholder="Company" aria-label="company" [matAutocomplete]="company"
+                   formControlName="company">
+            <mat-autocomplete #company="matAutocomplete">
+              <mat-option *ngIf="companiesSearching" class="is-loading">loading...</mat-option>
+              <ng-container *ngIf="!companiesSearching">
+                <mat-option *ngFor="let company of filteredCompanies" [value]="company"
+                            (onSelectionChange)="companySelect($event)">
+                  <img class="autocomp-img" aria-hidden src="assets/images/icons/cann_leaf.png"
+                       style="width: 25px; vertical-align: middle; margin-right: 8px">
+                  <span>{{company.metricId}}</span> |
+                  <small>{{company.name}}</small>
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </fieldset>
 
-            <fieldset formGroupName="address" fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
-                <legend>Address</legend>
+      <fieldset formGroupName="address" fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+        <legend>Address</legend>
 
-                <div fxFlex="100" fxFlex.gt-md="49">
-                    <mat-form-field class="form-field" appearance="outline">
-                        <mat-label> Street </mat-label>
-                        <input matInput formControlName="street">
-                        <mat-error
-                            *ngIf="form.get('address').get('street').touched && form.get('address').get('street').invalid">
-                            <span *ngIf="form.get('address').get('street').errors.required"> street is required</span>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div fxFlex="100" fxFlex.gt-md="49">
-                    <mat-form-field class="form-field" appearance="outline">
-                        <mat-label> City </mat-label>
-                        <input matInput formControlName="city">
-                        <mat-error
-                            *ngIf="form.get('address').get('city').touched && form.get('address').get('city').invalid">
-                            <span *ngIf="form.get('address').get('city').errors.required">City is required</span>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
+        <div fxFlex="100" fxFlex.gt-md="49">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label> Street</mat-label>
+            <input matInput formControlName="street">
+            <mat-error
+              *ngIf="form.get('address').get('street').touched && form.get('address').get('street').invalid">
+              <span *ngIf="form.get('address').get('street').errors.required"> street is required</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="49">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label> City</mat-label>
+            <input matInput formControlName="city">
+            <mat-error
+              *ngIf="form.get('address').get('city').touched && form.get('address').get('city').invalid">
+              <span *ngIf="form.get('address').get('city').errors.required">City is required</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-                <div fxFlex="100" fxFlex.gt-md="49">
-                    <mat-form-field class="form-field" appearance="outline">
-                        <mat-label> State </mat-label>
-                        <input matInput formControlName="state">
-                        <mat-error
-                            *ngIf="form.get('address').get('state').touched && form.get('address').get('state').invalid">
-                            <span *ngIf="form.get('address').get('state').errors.required">State is required</span>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div fxFlex="100" fxFlex.gt-md="49">
-                    <mat-form-field class="form-field" appearance="outline">
-                        <mat-label> Zip </mat-label>
-                        <input type="number" matInput formControlName="zip">
-                        <mat-error
-                            *ngIf="form.get('address').get('zip').touched && form.get('address').get('zip').invalid">
-                            <span *ngIf="form.get('address').get('zip').errors.required">Zip Code is required</span>
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </fieldset>
+        <div fxFlex="100" fxFlex.gt-md="49">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label> State</mat-label>
+            <input matInput formControlName="state">
+            <mat-error
+              *ngIf="form.get('address').get('state').touched && form.get('address').get('state').invalid">
+              <span *ngIf="form.get('address').get('state').errors.required">State is required</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-md="49">
+          <mat-form-field class="form-field" appearance="outline">
+            <mat-label> Zip </mat-label>
+            <input type="number" matInput formControlName="zip">
+            <mat-error
+              *ngIf="form.get('address').get('zip').touched && form.get('address').get('zip').invalid">
+              <span *ngIf="form.get('address').get('zip').errors.required">Zip Code is required</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </fieldset>
 
-            <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
-                <button type="submit" class="mat-raised-button mat-primary">{{ update ? 'Update' : 'Save' }}</button>
-                <button type="button" class="mat-raised-button" (click)="close()">Close</button>
-            </div>
-        </form>
-    </mat-dialog-content>
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button type="submit" class="mat-raised-button mat-primary">{{ update ? 'Update' : 'Save' }}</button>
+        <button type="button" class="mat-raised-button" (click)="close()">Close</button>
+      </div>
+    </form>
+  </mat-dialog-content>
 
-    <mat-dialog-actions fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
-    </mat-dialog-actions>
-
+  <mat-dialog-actions fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start"></mat-dialog-actions>
 </div>

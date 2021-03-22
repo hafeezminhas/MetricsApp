@@ -15,7 +15,7 @@ export class CompanyDialogComponent implements OnInit {
   form: FormGroup;
   update: boolean;
   emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
-  phoneRegx = /^[(]?\d{3}[)]?[(\s)?.-]\d{3}[\s.-]\d{4}$/g;
+  phoneRegx = /^\d{10,10}$/g;
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<CompanyDialogComponent>,
@@ -35,6 +35,7 @@ export class CompanyDialogComponent implements OnInit {
     Object.keys(CompanySize).forEach((k: string) => {
       this.CompanySizeOptions.push({ value: k, label: CompanySize[k] });
     });
+    console.log(this.CompanySizeOptions);
     Object.keys(StateLicenceType).filter(k => isNaN(k as any)).forEach((k: string) => {
       this.StateLicenceChecks.push({ name: k, selected: this.update ? (this.company.stateLicense.indexOf(k) !== -1) : false });
     });
@@ -59,6 +60,8 @@ export class CompanyDialogComponent implements OnInit {
       const body = { ...this.company };
       delete body.stateLicense;
       this.form.patchValue(body);
+      const companySizes = Object.keys(CompanySize).filter(k => typeof (k) === 'string');
+      this.form.controls.companySize.setValue(companySizes[body.companySize - 1]);
     }
   }
 
@@ -76,9 +79,9 @@ export class CompanyDialogComponent implements OnInit {
       return;
     }
     const payload: Company = this.form.value;
-    if (this.update) {
-      // TODO: Implement
-    }
+    console.log(this.form.value.companySize);
+    console.log(this.CompanySizeOptions.map(cs => cs.value));
+    payload.companySize = this.CompanySizeOptions.map(cs => cs.value).indexOf(this.form.value.companySize) + 1;
     payload.stateLicense = this.StateLicenceChecks.filter(sl => sl.selected).map(sl => sl.name as string);
 
     this.dialogRef.close(payload);

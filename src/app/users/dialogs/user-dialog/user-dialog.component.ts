@@ -40,8 +40,10 @@ export class UserDialogComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.user);
-    this.isActive = !!this.update ? this.user.isActive : true;
-    this.isLocked = !!this.update ? this.user.isLocked : false;
+    if (this.update) {
+      this.isActive = this.user.isActive;
+      this.isLocked = this.user.isLocked;
+    }
 
     if (this.update) { // Update
       this.form = this.fb.group({
@@ -55,9 +57,8 @@ export class UserDialogComponent implements OnInit {
           state: ['', Validators.required],
           zip: [null, Validators.required]
         }),
-        isActive: [false, Validators.required],
-        isLocked: [false, Validators.required],
-        company: ['', Validators.required]
+        isActive: [this.user.isActive, Validators.required],
+        isLocked: [this.user.isLocked, Validators.required],
       });
       this.form.patchValue(this.user);
     } else { // Create
@@ -85,12 +86,8 @@ export class UserDialogComponent implements OnInit {
   }
 
   statusChanged(target): void {
-    if (target === 'isActive') {
-      this.isActive = this.form.value.isActive;
-    }
-    if (target === 'isLocked') {
-      this.isLocked = this.form.value.isLocked;
-    }
+    this[target] = this.form.value[target];
+    console.log(target, this[target]);
   }
 
   onSubmit(): void {
@@ -99,9 +96,11 @@ export class UserDialogComponent implements OnInit {
       return;
     }
     const payload = this.form.value;
-    payload.company = payload.company ? this.selectedCompany.id : null;
-    delete payload.isActive;
-    delete payload.isLocked;
+    if (this.update) {
+      payload.isActive = this.isActive;
+      payload.isLocked = this.isLocked;
+    }
+    console.log(payload);
     this.dialogRef.close(payload);
   }
 

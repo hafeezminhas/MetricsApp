@@ -49,7 +49,9 @@ export class UserDialogComponent implements OnInit {
           state: ['', Validators.required],
           zip: [null, Validators.required]
         }),
-        company: ['', Validators.required]
+        company: ['', Validators.required],
+        isActive: [true],
+        isLocked: [false],
       });
       this.form.patchValue(this.user);
     } else { // Create
@@ -64,12 +66,12 @@ export class UserDialogComponent implements OnInit {
           state: ['', Validators.required],
           zip: [null, Validators.required]
         }),
-        isActive: [true],
-        isLocked: [false],
         password: ['', Validators.required],
         confirm: ['', Validators.required],
         company: ['', Validators.required],
-        role: ['ADMIN', Validators.required]
+        role: ['ADMIN', Validators.required],
+        isActive: [true],
+        isLocked: [false],
       }, {
         validator: PasswordConfirm('password', 'confirm')
       });
