@@ -47,49 +47,29 @@
           </div>
         </div>
 
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
-          <div fxFlex="100" fxFlex.gt-md="49.5">
-            <mat-form-field class="form-field" appearance="outline">
-              <input matInput
-                     placeholder="Password"
-                     [type]="hidePassword ? 'password' : 'text'"
-                     formControlName="password">
-              <mat-icon matSuffix (click)="hidePassword = !hidePassword">
-                {{ hidePassword ? 'visibility_off' : 'visibility'}}
-              </mat-icon>
-              <mat-error *ngIf="f.password.touched && f.password.invalid">
-                <span *ngIf="f.password.errors.required">password is required</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div fxFlex="100" fxFlex.gt-md="49.5">
-            <mat-form-field class="form-field" appearance="outline">
-              <input matInput placeholder="Confirm Password" type="password" formControlName="confirm">
-              <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
-                <span *ngIf="f.confirm.errors.required"> Confirm Password is required </span>
-                <span *ngIf="f.confirm.errors?.passwordConfirm"> Passwords do not match </span>
-              </mat-error>
-              <!-- <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
-                  <span *ngIf="f.confirm.errors.required">
-                      Confirm Password is required
-                  </span>
-              </mat-error>
-              <mat-error *ngIf="form.errors?.passwordConfirm">
-                  Passwords do not match
-              </mat-error> -->
-            </mat-form-field>
-          </div>
+        <div *ngIf="!update" fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+            <div fxFlex="100" fxFlex.gt-md="49.5">
+                <mat-form-field class="form-field" appearance="outline">
+                    <input matInput placeholder="Password" [type]="hidePassword ? 'password' : 'text'"
+                        formControlName="password">
+                    <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+                        {{ hidePassword ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                    <mat-error *ngIf="f.password.touched && f.password.invalid">
+                        <span *ngIf="f.password.errors.required">password is required</span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100" fxFlex.gt-md="49.5">
+                <mat-form-field class="form-field" appearance="outline">
+                    <input matInput placeholder="Confirm Password" type="password" formControlName="confirm">
+                    <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
+                        <span *ngIf="f.confirm.errors.required"> Confirm Password is required </span>
+                        <span *ngIf="f.confirm.errors?.passwordConfirm"> Passwords do not match </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
         </div>
-
-        <!-- <div fxFlex="100">
-            <mat-form-field class="form-field" appearance="outline">
-                <mat-label> Role</mat-label>
-                <input matInput formControlName="role">
-                <mat-error *ngIf="f.role.touched && f.role.invalid">
-                    <span *ngIf="f.role.errors.required">role is required</span>
-                </mat-error>
-            </mat-form-field>
-        </div> -->
 
         <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
           <mat-form-field class="pr-4" appearance="outline" fxFlex="100">

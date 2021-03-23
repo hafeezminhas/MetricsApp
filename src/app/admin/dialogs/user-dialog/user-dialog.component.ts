@@ -28,6 +28,8 @@ export class UserDialogComponent implements OnInit {
   hidePassword = true;
   matcher = new confirmErrorStateMatcher();
 
+  errors: string[];
+
   constructor(private fb: FormBuilder,
     private dialogRef: MatDialogRef<UserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
@@ -87,8 +89,24 @@ export class UserDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.errors = [];
+    if (this.form.invalid) {
+      this.errors.push('Please correct the following errors');
+    }
+    if (!this.update && !this.selectedCompany) {
+      this.errors.push('A company selection is required to create a user');
+    }
+    if (this.errors.length) {
+      return;
+    }
+
     const payload = this.form.value;
-    payload.company = payload.company ? this.selectedCompany.id : null;
+    if (this.selectedCompany) {
+      payload.company = this.selectedCompany._id;
+    } else {
+      delete payload.company;
+    }
+
     delete payload.isActive;
     delete payload.isLocked;
     this.dialogRef.close(payload);

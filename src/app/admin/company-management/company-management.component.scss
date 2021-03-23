@@ -1,7 +1,8 @@
-$lic-0: #3f51b5;
+$lic-0: #4a9fa7;
 $lic-1: #126e0e;
 $lic-2: #da150f;
-$lic-3: #da8a35;
+$lic-3: #8774bd;
+$lic-4: #935c9c;
 
 .spinner-container {
   position: relative;
@@ -12,10 +13,10 @@ $lic-3: #da8a35;
 .lic-type {
   padding: 0 0.3rem;
   margin-right: 2px;
-  border-radius: 1rem;
+  border-radius: 0.3rem;
   background-color: #cbcbcb;
   color: #fff;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 
   &.type-0 {
     background-color: $lic-0;
@@ -32,14 +33,18 @@ $lic-3: #da8a35;
   &.type-3 {
     background-color: $lic-3;
   }
+
+  &.type-4 {
+    background-color: $lic-4;
+  }
 }
 
 .subscription {
-  padding: 0.1rem 0.6rem;
-  border-radius: 1rem;
+  padding: 0 0.4rem;
+  border-radius: 0.3rem;
   background-color: #cbcbcb;
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
 
   &.sub-1 {
     background-color: #0ab9ff;

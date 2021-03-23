@@ -1,8 +1,13 @@
 <div fxLayout="row wrap">
   <section fxFlex="100" fxLayout="row" class="mt-1">
     <h5 class="m-0">Plants ({{dataSource.count || 0}})</h5>
-    <span fxFlex></span>
-    <button mat-icon-button color="primary" matTooltip="Add Plant" (click)="addNew()"> <mat-icon>add</mat-icon> </button>
+    <div fxFlex fxLayoutAlign="end start">
+      <button mat-button [matMenuTriggerFor]="menu"> <mat-icon>more_vertical</mat-icon> </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="addNew()"><mat-icon>add</mat-icon> Add New</button>
+        <button mat-menu-item><mat-icon>upload</mat-icon> Upload Multiple</button>
+      </mat-menu>
+    </div>
   </section>
 
   <section fxFlex="100">
