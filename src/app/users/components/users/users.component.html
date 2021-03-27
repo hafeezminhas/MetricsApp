@@ -27,7 +27,7 @@
 
       <ng-container matColumnDef="phone">
         <mat-header-cell *matHeaderCellDef>Phone</mat-header-cell>
-        <mat-cell class="description-cell" *matCellDef="let user">{{user.phone}}</mat-cell>
+        <mat-cell class="description-cell" *matCellDef="let user">{{user.phone | mask: '(000) 000-0000'}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="address">
@@ -49,16 +49,16 @@
       <ng-container matColumnDef="active">
         <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
         <mat-cell class="description-cell" *matCellDef="let user">
-          <img src="assets/images/icons/active.png" width="30" *ngIf="user.isActive" alt="">
-          <img src="assets/images/icons/inactive.png" width="30" *ngIf="!user.isActive" alt="">
+          <img src="assets/images/icons/active.png" width="25" *ngIf="user.isActive" alt="">
+          <img src="assets/images/icons/inactive.png" width="25" *ngIf="!user.isActive" alt="">
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="locked">
         <mat-header-cell *matHeaderCellDef>Locked</mat-header-cell>
         <mat-cell class="description-cell" *matCellDef="let user">
-          <img src="assets/images/icons/locked.png" width="30" *ngIf="user.isLocked" alt="">
-          <img src="assets/images/icons/unlocked.png" width="30" *ngIf="!user.isLocked" alt="">
+          <img src="assets/images/icons/locked.png" width="25" *ngIf="user.isLocked" alt="">
+          <img src="assets/images/icons/unlocked.png" width="25" *ngIf="!user.isLocked" alt="">
         </mat-cell>
       </ng-container>
 

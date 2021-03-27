@@ -28,7 +28,7 @@
           <div fxFlex="100" fxFlex.gt-md="49.5">
             <mat-form-field class="form-field" appearance="outline">
               <mat-label> Phone </mat-label>
-              <input matInput formControlName="phone">
+              <input matInput formControlName="phone" [mask]="'(000) 000 0000'">
               <mat-error *ngIf="f.phone.touched && f.phone.invalid">
                 <span *ngIf="f.phone.errors.required">phone is required</span>
               </mat-error>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { UsersService } from '../services/users.service';
 import { UsersDataSource } from '../datasources/UsersDataSource';
 import { tap } from 'rxjs/operators';
@@ -28,15 +28,16 @@ export class UserManagementComponent implements OnInit {
   constructor(private dialog: MatDialog, private userService: UsersService) { }
 
   ngOnInit(): void {
+    this.userService.load();
     this.dataSource = new UsersDataSource(this.userService);
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.loadUsers(this.paginator.pageIndex, this.paginator.pageSize);
-    this.paginator.page.pipe(
-      tap(() => this.userService.update(this.paginator.pageIndex, this.paginator.pageSize))
-    )
-      .subscribe();
+    this.dataSource.init();
+  }
+
+  pageChange($event: PageEvent) {
+    this.userService.changePage($event);
   }
 
   addNew() {

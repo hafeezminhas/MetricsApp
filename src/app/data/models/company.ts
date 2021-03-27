@@ -20,4 +20,11 @@ interface Address {
   country: string;
 }
 
-export { Address, Company };
+interface CompanyResponse {
+  companies: Company[],
+  page: number,
+  limit: number;
+  count: number;
+}
+
+export { Address, Company, CompanyResponse };

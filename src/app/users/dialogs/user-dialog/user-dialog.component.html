@@ -2,12 +2,12 @@
   <h2 mat-dialog-title>{{update? 'Update' : 'Create'}} Company User</h2>
 
   <mat-dialog-content fxFlex="100">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate autocomplete="off">
       <fieldset fxFlex="100" fxLayout="row wrap">
         <legend>User Details</legend>
         <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
           <div fxFlex="100" fxFlex.gt-md="49.5">
-            <mat-form-field class="form-field" appearance="outline">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> First Name</mat-label>
               <input matInput formControlName="firstName">
               <mat-error *ngIf="f.firstName.touched && f.firstName.invalid">
@@ -16,7 +16,7 @@
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.gt-md="49.5">
-            <mat-form-field class="form-field" appearance="outline">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> Last Name</mat-label>
               <input matInput formControlName="lastName">
               <mat-error *ngIf="f.lastName.touched && f.lastName.invalid">
@@ -28,7 +28,7 @@
 
         <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
           <div fxFlex="100" fxFlex.gt-md="49.5">
-            <mat-form-field class="form-field" appearance="outline">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> Email </mat-label>
               <input matInput formControlName="email">
               <mat-error *ngIf="f.email.touched && f.email.invalid">
@@ -37,9 +37,9 @@
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.gt-md="49.5">
-            <mat-form-field class="form-field" appearance="outline">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> Phone </mat-label>
-              <input matInput formControlName="phone" [mask]="'(000) 000 0000'">
+              <input matInput formControlName="phone" [mask]="'(000) 000 0000'" maxlength="14">
               <mat-error *ngIf="f.phone.touched && f.phone.invalid">
                 <span *ngIf="f.phone.errors.required">phone is required</span>
               </mat-error>
@@ -47,9 +47,9 @@
           </div>
         </div>
 
-        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%" *ngIf="!update">
+        <div *ngIf="!update" fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
           <div fxFlex="100" fxFlex.gt-md="49.5">
-            <mat-form-field class="form-field" appearance="outline">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> Password </mat-label>
               <input matInput
                      formControlName="password"
@@ -63,12 +63,9 @@
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.gt-md="49.5">
-            <mat-form-field class="form-field" appearance="outline">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> Confirm Password </mat-label>
-              <input matInput formControlName="confirm">
-              <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
-                {{ hideConfirmPassword ? 'visibility_off' : 'visibility'}}
-              </mat-icon>
+              <input matInput formControlName="confirm" type="password">
               <mat-error *ngIf="f.confirm.touched && f.confirm.invalid">
                 <span *ngIf="f.confirm.errors.required"> Confirm Password is required </span>
                 <span *ngIf="f.confirm.errors?.passwordConfirm"> Passwords do not match </span>
@@ -82,7 +79,7 @@
         <legend>Address</legend>
 
         <div fxFlex="100" fxFlex.gt-md="49">
-          <mat-form-field class="form-field" appearance="outline">
+          <mat-form-field class="form-field" appearance="outline" fxFlex="100">
             <mat-label> Street </mat-label>
             <input matInput formControlName="street">
             <mat-error
@@ -92,7 +89,7 @@
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-md="49">
-          <mat-form-field class="form-field" appearance="outline">
+          <mat-form-field class="form-field" appearance="outline" fxFlex="100">
             <mat-label> City </mat-label>
             <input matInput formControlName="city">
             <mat-error
@@ -103,7 +100,7 @@
         </div>
 
         <div fxFlex="100" fxFlex.gt-md="49">
-          <mat-form-field class="form-field" appearance="outline">
+          <mat-form-field class="form-field" appearance="outline" fxFlex="100">
             <mat-label> State </mat-label>
             <input matInput formControlName="state">
             <mat-error
@@ -113,7 +110,7 @@
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-md="49">
-          <mat-form-field class="form-field" appearance="outline">
+          <mat-form-field class="form-field" appearance="outline" fxFlex="100">
             <mat-label> Zip </mat-label>
             <input type="number" matInput formControlName="zip">
             <mat-error
@@ -154,7 +151,5 @@
     </form>
   </mat-dialog-content>
 
-  <mat-dialog-actions fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
-  </mat-dialog-actions>
-
+  <mat-dialog-actions fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start"></mat-dialog-actions>
 </div>

@@ -18,7 +18,7 @@ export class UserDialogComponent implements OnInit {
   form: FormGroup;
   update: boolean;
   emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
-  phoneRegx = /^[(]?\d{3}[)]?[(\s)?.-]\d{3}[\s.-]\d{4}$/g;
+  phoneRegx = /^\d{10,10}$/g;
 
   filteredCompanies: Company[] = [];
   selectedCompany: any;
@@ -26,8 +26,9 @@ export class UserDialogComponent implements OnInit {
   companiesSearchErr: string;
 
   hidePassword = true;
-  hideConfirmPassword = true;
   matcher = new confirmErrorStateMatcher();
+
+  errors: string[];
 
   constructor(private fb: FormBuilder,
     private dialogRef: MatDialogRef<UserDialogComponent>,
@@ -50,9 +51,13 @@ export class UserDialogComponent implements OnInit {
           state: ['', Validators.required],
           zip: [null, Validators.required]
         }),
-        company: ['', Validators.required]
+        company: ['', Validators.required],
+        isActive: [true],
+        isLocked: [false],
       });
-      this.form.patchValue(this.user);
+      const payload: any = { ...this.user };
+      payload.company = this.user.company?.name;
+      this.form.patchValue(payload);
     } else { // Create
       this.form = this.fb.group({
         firstName: ['', Validators.required],
@@ -65,12 +70,12 @@ export class UserDialogComponent implements OnInit {
           state: ['', Validators.required],
           zip: [null, Validators.required]
         }),
-        isActive: [true],
-        isLocked: [false],
         password: ['', Validators.required],
         confirm: ['', Validators.required],
         company: ['', Validators.required],
-        role: ['ADMIN', Validators.required]
+        role: ['ADMIN', Validators.required],
+        isActive: [true],
+        isLocked: [false],
       }, {
         validator: PasswordConfirm('password', 'confirm')
       });
@@ -84,8 +89,24 @@ export class UserDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.errors = [];
+    if (this.form.invalid) {
+      this.errors.push('Please correct the following errors');
+    }
+    if (!this.update && !this.selectedCompany) {
+      this.errors.push('A company selection is required to create a user');
+    }
+    if (this.errors.length) {
+      return;
+    }
+
     const payload = this.form.value;
-    payload.company = payload.company ? this.selectedCompany.id : null;
+    if (this.selectedCompany) {
+      payload.company = this.selectedCompany._id;
+    } else {
+      delete payload.company;
+    }
+
     delete payload.isActive;
     delete payload.isLocked;
     this.dialogRef.close(payload);

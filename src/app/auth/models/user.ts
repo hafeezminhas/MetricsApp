@@ -15,3 +15,10 @@ export interface Credentials {
   email: string;
   password: string;
 }
+
+export interface UserResponse {
+  users: User[],
+  page: number,
+  limit: number;
+  count: number;
+}

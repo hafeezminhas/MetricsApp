@@ -11,6 +11,6 @@ export interface User {
   role: string;
   password: string;
   company: Company;
-  isActive: string;
-  isLocked: string;
+  isActive: boolean;
+  isLocked: boolean;
 }

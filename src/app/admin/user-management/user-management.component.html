@@ -1,6 +1,6 @@
 <div fxLayout="row wrap">
     <section fxFlex="100" fxLayout="row" class="mt-1">
-        <h5 class="m-0">Users ({{dataSource.count}})</h5>
+        <h5 class="m-0">Users ({{dataSource.count || 0}})</h5>
         <span fxFlex></span>
         <button mat-icon-button matTooltip="Add User" (click)="addNew()">
             <mat-icon>add</mat-icon>
@@ -27,7 +27,7 @@
 
             <ng-container matColumnDef="phone">
                 <mat-header-cell *matHeaderCellDef>Phone</mat-header-cell>
-                <mat-cell class="description-cell" *matCellDef="let user">{{user.phone}}</mat-cell>
+                <mat-cell class="description-cell" *matCellDef="let user">{{user.phone | mask: '(000) 000-0000'}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="role">
@@ -41,18 +41,18 @@
             </ng-container>
 
             <ng-container matColumnDef="active">
-                <mat-header-cell *matHeaderCellDef>Is Active</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Active</mat-header-cell>
                 <mat-cell class="description-cell" *matCellDef="let user">
-                    <mat-icon class="user-active" *ngIf="user.isActive">person_pin</mat-icon>
-                    <mat-icon class="user-inactive" *ngIf="!user.isActive">person_pin</mat-icon>
+                    <img src="assets/images/icons/active.png" width="25" *ngIf="user.isActive" alt="">
+                    <img src="assets/images/icons/inactive.png" width="25" *ngIf="!user.isActive" alt="">
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="locked">
-                <mat-header-cell *matHeaderCellDef>Is Locked</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Locked</mat-header-cell>
                 <mat-cell class="description-cell" *matCellDef="let user">
-                    <mat-icon class="user-locked" *ngIf="user.isLocked">lock</mat-icon>
-                    <mat-icon class="user-unlocked" *ngIf="!user.isLocked">lock_open</mat-icon>
+                    <img src="assets/images/icons/locked.png" width="25" *ngIf="user.isLocked" alt="">
+                    <img src="assets/images/icons/unlocked.png" width="25" *ngIf="!user.isLocked" alt="">
                 </mat-cell>
             </ng-container>
 
@@ -73,7 +73,8 @@
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
         </mat-table>
-        <mat-paginator [length]="pageConfig" [pageSize]="pageConfig.limit" [pageSizeOptions]="pageSizes">
+        <mat-paginator [length]="dataSource.count || 0" [pageSize]="pageConfig.limit" [pageSizeOptions]="pageSizes"
+            (page)="pageChange($event)">
         </mat-paginator>
     </section>
 
