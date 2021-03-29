@@ -5,7 +5,6 @@ import { Plant, PlantResponse } from '../../data/models/plant';
 import { catchError, count, finalize, tap } from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
 
-
 class PlantServiceState {
   page: number;
   limit: number;

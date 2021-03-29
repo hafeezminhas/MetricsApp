@@ -27,6 +27,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgPopupsGlobalConfig, NgPopupsModule } from 'ng-popups';
 import { NotFoundComponent } from './not-found/not-found.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {TestsModule} from './tests/tests.module';
 
 const ngxPopupsConfig: NgPopupsGlobalConfig = {
   theme: 'material',
@@ -68,7 +69,7 @@ const maskConfig: Partial<IConfig> = {
     LayoutModule,
     HomeModule,
     DashboardModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

@@ -1,0 +1,57 @@
+:root {
+  --spacer: 0.5rem;
+  --spacer-lg: 0.5rem;
+  --global-border-radius: 5px;
+
+  --color-danger: #e14b3c;
+  --color-danger-lighter: #{lighten(#e14b3c, 35%)};
+  --color-info: #2f81a7;
+  --color-info-lighter: #{lighten(#38b1e8, 35%)};
+  --color-info-medium: #{lighten(#319bcb, 35%)};
+  --color-warning: #dcaa44;
+  --color-warning-lighter: #{lighten(#dcaa44, 35%)};
+  --color-success: #6abb4f;
+  --color-success-lighter: #{lighten(#6abb4f, 35%)};
+
+  --alert-padding: var(--spacer-lg);
+  --alert-margin-bottom: var(--spacer);
+  --alert-border-width: 1px;
+  --alert-border-radius: --global-border-radius;
+}
+
+.alert {
+  font-family: 'Open Sans', sans-serif;
+  padding: var(--alert-padding);
+  margin-bottom: var(--alert-margin-bottom);
+  border: var(--alert-border-width) solid var(--color-info-medium);
+  border-radius: var(--alert-border-radius);
+}
+
+@mixin alert-variant($color, $color-lighter) {
+  color: $color;
+  background: $color-lighter;
+}
+
+$variants: danger, warning, info, success;
+@each $variant in $variants {
+  .alert--#{$variant} {
+    @include alert-variant(var(--color-#{$variant}), var(--color-#{$variant}-lighter));
+  }
+}
+
+/*
+
+<div class="alert alert--danger" role="alert">
+  <strong>Oh snap!</strong> Change a few things up and try submitting again.
+</div>
+<div class="alert alert--success" role="alert">
+  <strong>Well done!</strong> You successfully read this important alert message.
+</div>
+<div class="alert alert--warning" role="alert">
+  <strong>Warning!</strong> Better check yourself, you're not looking too good.
+</div>
+<div class="alert alert--info" role="alert">
+  <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+</div>
+
+*/
