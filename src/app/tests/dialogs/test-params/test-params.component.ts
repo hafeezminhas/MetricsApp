@@ -23,7 +23,7 @@ export class TestParamsComponent implements OnInit {
               private dialogRef: MatDialogRef<TestParamsComponent>,
               private ngPopup: NgPopupsService,
               @Inject(MAT_DIALOG_DATA) data) {
-    this.testParams = data;
+    this.testParams = data.params;
     this.update = data.update;
   }
 
@@ -39,6 +39,7 @@ export class TestParamsComponent implements OnInit {
       waterOxygen:  ['', Validators.required],
     });
 
+    
     if (this.update) {
       this.form.patchValue(this.testParams);
     }
@@ -58,7 +59,7 @@ export class TestParamsComponent implements OnInit {
       return;
     }
 
-    this.dialogRef.close(this.testParams);
+    this.dialogRef.close(this.form.getRawValue());
   }
 
   close(): void {

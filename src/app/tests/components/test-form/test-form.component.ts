@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TestsService } from '../../services/tests.service';
-import { Test, TestParams} from '../../../data/models/test';
+import { Test, TestParams, TestUpdatePayload} from '../../../data/models/test';
 import { Plant } from '../../../data/models/plant';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, finalize, switchMap, tap } from 'rxjs/operators';
 import { PlantService } from '../../../plant/services/plant.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TestParamsComponent } from '../../dialogs/test-params/test-params.component';
+import { NgPopupsService } from 'ng-popups';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-test-form',
@@ -20,8 +22,8 @@ export class TestFormComponent implements OnInit {
   update: boolean;
 
   test: Test;
-  testParams: TestParams[];
-  plants: Plant[] = [];
+  testParams: TestParams[] = [];
+  plants: any[] = [];
 
   filteredPlants: Plant[] = [];
   selectedPlant: any;
@@ -33,7 +35,9 @@ export class TestFormComponent implements OnInit {
               private fb: FormBuilder,
               private dialog: MatDialog,
               private testsService: TestsService,
-              private plantService: PlantService) {
+              private ngPopup: NgPopupsService,
+              private plantService: PlantService,
+              private _snackBar: MatSnackBar) {
     this.update = this.route.snapshot.data.update;
   }
 
@@ -59,6 +63,17 @@ export class TestFormComponent implements OnInit {
     });
 
     this.setupPlantsSearch();
+
+    if (this.update) {
+      this.test = this.route.snapshot.data.test;
+      this.patchData();
+    }
+  }
+
+  patchData() {
+    this.form.patchValue(this.test);
+    this.testParams = this.test.testParams;
+    this.plants = [...this.test.plants];
   }
 
   get f(): any {
@@ -70,12 +85,29 @@ export class TestFormComponent implements OnInit {
   }
 
   plantSelect(e): void {
-    console.log(e.source.value);
-    this.selectedPlant = e.source.value;
     this.form.controls.plantSearch.setValue('');
+    if (this.plants.findIndex(p => p._id === e.source.value._id) !== -1) {
+      this.ngPopup.alert(`Plant '${e.source.value.name}' already exist`, 
+        { title: 'Duplicate Entry', okButtonText: 'I Understand' }
+      );
+      return;
+    }
+    this.selectedPlant = e.source.value;
     this.plants.push({ ...e.source.value, isNew: true });
   }
 
+  removePlant(plant: Plant) {
+    this.ngPopup.confirm(`Are you sure you want to remove this '${plant.name}'?`, { title: 'Confirm Removal' })
+      .subscribe(res => {
+        if (res) {
+          const index = this.plants.findIndex(p => p._id == plant._id);
+          if (index !== -1) {
+            this.plants.splice(index, 1);
+          }
+        }
+    });
+  }
+  
   getPlantType(type: number): string {
     return type === 1 ? 'Seed' : 'Clone';
   }
@@ -84,6 +116,17 @@ export class TestFormComponent implements OnInit {
     this.form.markAllAsTouched();
     if (this.form.invalid) {
       return;
+    }
+
+    if (this.update) {
+      let value = this.form.value;
+      delete value.plantSearch;
+      const updatePayload: TestUpdatePayload = { ...value };
+      updatePayload.plants = this.plants.filter(p => p.isNew).map(p => p._id);
+      updatePayload.testParams = this.testParams.filter(t => !t.hasOwnProperty('_id'));
+      this.updateTest(updatePayload);
+    } else {
+      this.addTest()
     }
   }
 
@@ -104,7 +147,7 @@ export class TestFormComponent implements OnInit {
     const addDialog = this.dialog.open(TestParamsComponent, dialogConfig);
     addDialog.afterClosed().subscribe(data => {
       if (data) {
-        this.testParams.push({ ...data });
+        this.testParams.push(data);
       }
     });
   }
@@ -127,6 +170,15 @@ export class TestFormComponent implements OnInit {
     });
   }
 
+  removeParams(i: number) {
+    this.ngPopup.confirm(`Are you sure you want to remove this entry?`, { title: 'Confirm Removal' })
+    .subscribe(res => {
+      if (res) {
+        this.testParams.splice(i, 1);
+      }
+    })
+  }
+
   private setupPlantsSearch(): void {
     this.form.controls.plantSearch.valueChanges.pipe(
       debounceTime(500),
@@ -146,6 +198,26 @@ export class TestFormComponent implements OnInit {
       } else {
         this.filteredPlants = res.plants;
       }
+    });
+  }
+
+  addTest() {
+    let value  = this.form.value;
+    const plants = this.plants.map(p => p._id);
+    delete value.plantSearch;
+    
+    value.plants = plants;
+    value.testParams = this.testParams;
+    const payload: Test = { ...value };
+
+    this.testsService.create(payload).subscribe(res => {
+      this._snackBar.open('Test Added', '', { duration: 2000 });
+    });
+  }
+
+  updateTest(updatePayload: TestUpdatePayload) {
+    this.testsService.edit(this.test._id, updatePayload).subscribe(res => {
+      this._snackBar.open('Test Updated', '', { duration: 2000 });
     });
   }
 }

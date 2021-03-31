@@ -17,7 +17,7 @@ export class TestsComponent implements OnInit, AfterViewInit {
 
   pageConfig = { page: 1, limit: 5, search: null };
   pageSizes = [5, 10, 20];
-  displayedColumns = ['name', 'metric', 'strain', 'type', 'planted', 'mother', 'phase', 'histories', 'actions'];
+  displayedColumns = ['name', 'createdAt', 'description', 'dryWeight', 'trimmedWeight', 'wetWeight', 'actions'];
 
   constructor(private router: Router,
               private ngPopup: NgPopupsService,
@@ -50,4 +50,11 @@ export class TestsComponent implements OnInit, AfterViewInit {
     this.router.navigateByUrl('/tests/create');
   }
 
+  edit(test): void {
+    this.router.navigateByUrl(`/tests/${test._id}/update`);
+  }
+
+  preview(test): void {
+
+  }
 }

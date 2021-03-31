@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Test, TestResponse} from '../../data/models/test';
+import {Test, TestResponse, TestUpdatePayload} from '../../data/models/test';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, finalize, tap} from 'rxjs/operators';
-import {Plant} from '../../data/models/plant';
 import {PageEvent} from '@angular/material/paginator';
 
 class TestsServiceState {
@@ -76,14 +75,14 @@ export class TestsService {
     return this.http.get(`${API_BASE_URL}/${id}`);
   }
 
-  create(payload: Plant): Observable<any> {
+  create(payload: Test): Observable<any> {
     this.initialized = false;
     return this.http.post(`${API_BASE_URL}`, payload).pipe(
       tap(() => this.load())
     );
   }
 
-  edit(id: string, payload: Plant): Observable<any> {
+  edit(id: string, payload: TestUpdatePayload): Observable<any> {
     this.initialized = false;
     return this.http.put(`${API_BASE_URL}/${id}`, payload).pipe(
       tap(() => this.load())

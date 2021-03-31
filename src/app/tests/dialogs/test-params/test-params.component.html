@@ -1,10 +1,10 @@
 <div class="dialog-wrapper" fxLayout="row wrap" fxLayoutAlign="center start">
-  <h2 mat-dialog-title>{{update? 'Update' : 'Create'}} Plant</h2>
+  <h2 mat-dialog-title>{{update? 'Update' : 'Create'}} Test Param</h2>
 
   <mat-dialog-content fxFlex="100">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate autocomplete="off">
       <fieldset fxFlex="100" fxLayout="row wrap">
-        <legend>Plant Details</legend>
+        <legend>Test Param Details</legend>
 
         <div fxFlex="100" fxLayout="row" fxLayoutGap="0" *ngIf="error">
           <ul class="errors-list" fxFlex="100">
@@ -15,7 +15,7 @@
         <div fxFlex="100" fxLayout="row" fxLayoutGap="0">
           <mat-form-field class="form-field" appearance="outline" fxFlex="100">
             <mat-label>Test Date</mat-label>
-            <input matInput [matDatepicker]="testDatePicker" [(ngModel)]="paramsDate" [ngModelOptions]="{standalone: true}">
+            <input matInput [matDatepicker]="testDatePicker" formControlName="date">
             <mat-datepicker-toggle matSuffix [for]="testDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #testDatePicker></mat-datepicker>
           </mat-form-field>
