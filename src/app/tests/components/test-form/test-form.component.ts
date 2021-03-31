@@ -8,6 +8,7 @@ import { debounceTime, finalize, switchMap, tap } from 'rxjs/operators';
 import { PlantService } from '../../../plant/services/plant.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TestParamsComponent } from '../../dialogs/test-params/test-params.component';
+import { NgPopupsService } from 'ng-popups';
 
 @Component({
   selector: 'app-test-form',
@@ -33,6 +34,7 @@ export class TestFormComponent implements OnInit {
               private fb: FormBuilder,
               private dialog: MatDialog,
               private testsService: TestsService,
+              private ngPopup: NgPopupsService,
               private plantService: PlantService) {
     this.update = this.route.snapshot.data.update;
   }
@@ -70,12 +72,30 @@ export class TestFormComponent implements OnInit {
   }
 
   plantSelect(e): void {
-    console.log(e.source.value);
-    this.selectedPlant = e.source.value;
+    // console.log(e.source.value);
     this.form.controls.plantSearch.setValue('');
+    if (this.plants.findIndex(p => p._id === e.source.value._id) !== -1) {
+      this.ngPopup.alert(`Plant '${e.source.value.name}' already exist`, 
+        { title: 'Duplicate Entry', okButtonText: 'I Understand' }
+      );
+      return;
+    }
+    this.selectedPlant = e.source.value;
     this.plants.push({ ...e.source.value, isNew: true });
   }
 
+  removePlant(plant: Plant) {
+    this.ngPopup.confirm(`Are you sure you want to remove this '${plant.name}'?`, { title: 'Confirm Removal' })
+      .subscribe(res => {
+        if (res) {
+          const index = this.plants.findIndex(p => p._id == plant._id);
+          if (index !== -1) {
+            this.plants.splice(index, 1);
+          }
+        }
+    });
+  }
+  
   getPlantType(type: number): string {
     return type === 1 ? 'Seed' : 'Clone';
   }

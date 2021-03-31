@@ -123,7 +123,7 @@
                 <td>{{getPlantType(p.type)}}</td>
                 <td>{{p.plantedOn | date}}</td>
                 <td fxLayoutAlign="end start">
-                  <a class="mat-icon-button mat-warn"> <mat-icon>close</mat-icon> </a>
+                  <a class="mat-icon-button mat-warn" (click)="removePlant(p)"> <mat-icon>close</mat-icon> </a>
                 </td>
               </tr>
               <tr *ngIf="!plants?.length">
