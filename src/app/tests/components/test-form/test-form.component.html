@@ -29,7 +29,7 @@
 
           <div fxFlex="100" fxFlex.gt-sm="49" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
-              <mat-label> Planted On </mat-label>
+              <mat-label> Harvest Date </mat-label>
               <input matInput formControlName="resultDate" [matDatepicker]="picker" (dateChange)="onDateChange($event)">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
@@ -42,40 +42,6 @@
               <textarea matInput formControlName="description" rows="5"></textarea>
               <mat-error *ngIf="f.description.touched && f.description.invalid">
                 <span *ngIf="f.description.errors.required">plant name is required</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-        </div>
-
-        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-xs="1%">
-
-          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
-            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
-              <mat-label> Wet Weight </mat-label>
-              <input type="number" matInput formControlName="wetWeight" >
-              <mat-error *ngIf="f.wetWeight.touched && f.wetWeight.invalid">
-                <span *ngIf="f.wetWeight.errors.required">plant name is required</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
-            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
-              <mat-label> Dry Weight </mat-label>
-              <input type="number" matInput formControlName="dryWeight" >
-              <mat-error *ngIf="f.dryWeight.touched && f.dryWeight.invalid">
-                <span *ngIf="f.dryWeight.errors.required">plant name is required</span>
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
-            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
-              <mat-label> Trimmed Weight </mat-label>
-              <input type="number" matInput formControlName="trimmedWeight" >
-              <mat-error *ngIf="f.trimmedWeight.touched && f.trimmedWeight.invalid">
-                <span *ngIf="f.trimmedWeight.errors.required">plant name is required</span>
               </mat-error>
             </mat-form-field>
           </div>
@@ -191,6 +157,40 @@
 
       <fieldset fxFlex="100" fxLayout="row wrap">
         <legend>Test Onetime Details</legend>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-xs="1%">
+
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Wet Weight </mat-label>
+              <input type="number" matInput formControlName="wetWeight" >
+              <mat-error *ngIf="f.wetWeight.touched && f.wetWeight.invalid">
+                <span *ngIf="f.wetWeight.errors.required">plant name is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Dry Weight </mat-label>
+              <input type="number" matInput formControlName="dryWeight" >
+              <mat-error *ngIf="f.dryWeight.touched && f.dryWeight.invalid">
+                <span *ngIf="f.dryWeight.errors.required">plant name is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Trimmed Weight </mat-label>
+              <input type="number" matInput formControlName="trimmedWeight" >
+              <mat-error *ngIf="f.trimmedWeight.touched && f.trimmedWeight.invalid">
+                <span *ngIf="f.trimmedWeight.errors.required">plant name is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
 
         <div fxLayout="row wrap" fxFlex="100" fxLayoutGap.gt-xs="1%">
 
