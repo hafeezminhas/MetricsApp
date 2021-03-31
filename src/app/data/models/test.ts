@@ -1,4 +1,5 @@
 import {Company} from './company';
+import { Plant } from './plant';
 
 interface TestParams {
   _id?: string;
@@ -13,6 +14,29 @@ interface TestParams {
 }
 
 interface Test {
+  _id?: string;
+  name: string;
+  description: string;
+  plants: Plant[];
+  testParams: TestParams[];
+  company: Company | string;
+  resultDate: Date;
+  wetWeight: number;
+  dryWeight: number;
+  trimmedWeight: number;
+  THCA: number;
+  DELTATHC: number;
+  THCVA: number;
+  CBDA: number;
+  CBGA: number;
+  CBL: number;
+  CBD: number;
+  CBN: number;
+  CBT: number;
+  TAC: number;
+}
+
+interface TestUpdatePayload {
   _id?: string;
   name: string;
   description: string;
@@ -43,4 +67,4 @@ interface TestResponse {
   search?: string;
 }
 
-export { TestParams, Test, TestResponse };
+export { TestParams, Test, TestResponse, TestUpdatePayload };

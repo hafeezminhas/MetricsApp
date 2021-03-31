@@ -23,7 +23,8 @@ const routes: Route[] = [
       {
         path: ':id/update',
         data: { update: true },
-        component: TestFormComponent
+        component: TestFormComponent,
+        resolve: { test: TestResolver }
       },
       {
         path: 'create',

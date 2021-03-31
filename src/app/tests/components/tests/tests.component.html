@@ -11,50 +11,40 @@
 
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell *matCellDef="let plant">{{plant.name}}</mat-cell>
+        <mat-cell *matCellDef="let test">{{test.name}}</mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="metric">
-        <mat-header-cell *matHeaderCellDef>Metric Id</mat-header-cell>
-        <mat-cell *matCellDef="let plant">{{plant.metricId}}</mat-cell>
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef>Created At</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.createdAt | date}}</mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="strain">
-        <mat-header-cell *matHeaderCellDef>Strain</mat-header-cell>
-        <mat-cell *matCellDef="let plant">{{plant.strain}}</mat-cell>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.description}}</mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="type">
-        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
-        <mat-cell *matCellDef="let plant">{{plant.type === 1? 'Seed': 'Clone'}}</mat-cell>
+      <ng-container matColumnDef="dryWeight">
+        <mat-header-cell *matHeaderCellDef>Dry Weight</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.dryWeight}}</mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="planted">
-        <mat-header-cell *matHeaderCellDef>Planted On</mat-header-cell>
-        <mat-cell class="duration-cell" *matCellDef="let plant">{{plant.plantedOn | date}} </mat-cell>
+      <ng-container matColumnDef="trimmedWeight">
+        <mat-header-cell *matHeaderCellDef>Trimmed Weight</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.trimmedWeight}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="mother">
-        <mat-header-cell *matHeaderCellDef>Mother</mat-header-cell>
-        <mat-cell *matCellDef="let plant"> <span *ngIf="plant.mother">{{plant.mother}}</span> <span *ngIf="!plant.mother" class="noval">None</span> </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="phase">
-        <mat-header-cell *matHeaderCellDef>Current Phase</mat-header-cell>
-        <mat-cell *matCellDef="let plant"> <div class="plant-phase {{plant.currentPhase | lowercase}}">{{plant.currentPhase}}</div> </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="histories">
-        <mat-header-cell *matHeaderCellDef>Phase Histories</mat-header-cell>
-        <mat-cell *matCellDef="let plant"><mat-icon>history</mat-icon> <span class="font-lg"> {{plant.phaseHistory.length}}</span></mat-cell>
-      </ng-container>
+      <ng-container matColumnDef="wetWeight">
+        <mat-header-cell *matHeaderCellDef>Wet Weight</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.wetWeight}}</mat-cell>
+      </ng-container> 
 
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let plant" fxLayout="row" fxLayoutGap="5px">
-          <button mat-icon-button color="primary" (click)="update(plant)"> <mat-icon>edit</mat-icon> </button>
-          <button mat-icon-button color="accent" (click)="preview(plant)"> <mat-icon>saved_search</mat-icon> </button>
-          <button mat-icon-button color="warn" (click)="remove(plant)"> <mat-icon>delete</mat-icon> </button>
+        <mat-cell *matCellDef="let test" fxLayout="row" fxLayoutGap="5px">
+          <button mat-icon-button color="primary" (click)="edit(test)"> <mat-icon>edit</mat-icon> </button>
+          <button mat-icon-button color="accent" (click)="preview(test)"> <mat-icon>saved_search</mat-icon> </button>
+          <button mat-icon-button color="warn" (click)="remove(test)"> <mat-icon>delete</mat-icon> </button>
         </mat-cell>
       </ng-container>
 
