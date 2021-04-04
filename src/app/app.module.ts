@@ -54,6 +54,7 @@ const maskConfig: Partial<IConfig> = {
     RouterModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    AuthModule,
     StoreModule.forRoot(fromApp.reducers),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
@@ -65,7 +66,6 @@ const maskConfig: Partial<IConfig> = {
 
     MaterialModule,
     SharedModule,
-    AuthModule,
     LayoutModule,
     HomeModule,
     DashboardModule,
