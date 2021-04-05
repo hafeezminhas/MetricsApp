@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, delay, map, mergeMap, startWith, switchMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -12,10 +13,12 @@ import { AuthService } from './../../auth/services/auth.service';
 
 import { AuthResponse } from './../models/response';
 
+
 @Injectable()
 export class AuthEffects {
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
     private router: Router,
     private route: ActivatedRoute,
     private actions$: Actions,
@@ -26,7 +29,7 @@ export class AuthEffects {
   init$ = this.actions$.pipe(
     ofType(AuthActions.InitAction),
     tap((action: any) => {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate([this.router.url || '/dashboard']);
     })
   );
 
@@ -56,7 +59,10 @@ export class AuthEffects {
     map((action: any) => {
       localStorage.setItem('token', action.token);
       localStorage.setItem('refresh_token', action.refresh);
-      this.router.navigateByUrl('/dashboard');
+      this.router.navigateByUrl(this.router.url !== '/login' ? this.router.url : '/dashboard');
+      setTimeout(() => {
+        this.document.defaultView.location.reload();
+      }, 1000);
     })
   );
 

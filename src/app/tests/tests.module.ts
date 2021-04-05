@@ -6,6 +6,7 @@ import { TestFormComponent } from './components/test-form/test-form.component';
 import {Route, RouterModule} from '@angular/router';
 import { TestsBaseComponent } from './components/tests-base/tests-base.component';
 import {MaterialModule} from '../material/material.module';
+
 import { TestParamsComponent } from './dialogs/test-params/test-params.component';
 import {TestResolver} from './services/test.resolver';
 

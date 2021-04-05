@@ -164,9 +164,6 @@
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> Wet Weight </mat-label>
               <input type="number" matInput formControlName="wetWeight" >
-              <mat-error *ngIf="f.wetWeight.touched && f.wetWeight.invalid">
-                <span *ngIf="f.wetWeight.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
 
@@ -174,9 +171,6 @@
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> Dry Weight </mat-label>
               <input type="number" matInput formControlName="dryWeight" >
-              <mat-error *ngIf="f.dryWeight.touched && f.dryWeight.invalid">
-                <span *ngIf="f.dryWeight.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
 
@@ -184,9 +178,6 @@
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> Trimmed Weight </mat-label>
               <input type="number" matInput formControlName="trimmedWeight" >
-              <mat-error *ngIf="f.trimmedWeight.touched && f.trimmedWeight.invalid">
-                <span *ngIf="f.trimmedWeight.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
 
@@ -198,90 +189,60 @@
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> THCA </mat-label>
               <input type="number" matInput formControlName="THCA" >
-              <mat-error *ngIf="f.THCA.touched && f.THCA.invalid">
-                <span *ngIf="f.THCA.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> DELTATHC </mat-label>
               <input type="number" matInput formControlName="DELTATHC" >
-              <mat-error *ngIf="f.DELTATHC.touched && f.DELTATHC.invalid">
-                <span *ngIf="f.DELTATHC.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> THCVA </mat-label>
               <input type="number" matInput formControlName="THCVA" >
-              <mat-error *ngIf="f.THCVA.touched && f.THCVA.invalid">
-                <span *ngIf="f.THCVA.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> CBDA </mat-label>
               <input type="number" matInput formControlName="CBDA" >
-              <mat-error *ngIf="f.CBDA.touched && f.CBDA.invalid">
-                <span *ngIf="f.CBDA.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> CBGA </mat-label>
               <input type="number" matInput formControlName="CBGA" >
-              <mat-error *ngIf="f.CBGA.touched && f.CBGA.invalid">
-                <span *ngIf="f.CBGA.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> CBL </mat-label>
               <input type="number" matInput formControlName="CBL" >
-              <mat-error *ngIf="f.CBL.touched && f.CBL.invalid">
-                <span *ngIf="f.CBL.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> CBD </mat-label>
               <input type="number" matInput formControlName="CBD" >
-              <mat-error *ngIf="f.CBD.touched && f.CBD.invalid">
-                <span *ngIf="f.CBD.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> CBN </mat-label>
               <input type="number" matInput formControlName="CBN" >
-              <mat-error *ngIf="f.CBN.touched && f.CBN.invalid">
-                <span *ngIf="f.CBN.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> CBT </mat-label>
               <input type="number" matInput formControlName="CBT" >
-              <mat-error *ngIf="f.CBT.touched && f.CBT.invalid">
-                <span *ngIf="f.CBT.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
           <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
             <mat-form-field class="form-field" appearance="outline" fxFlex="100">
               <mat-label> TAC </mat-label>
               <input type="number" matInput formControlName="TAC" >
-              <mat-error *ngIf="f.TAC.touched && f.TAC.invalid">
-                <span *ngIf="f.TAC.errors.required">plant name is required</span>
-              </mat-error>
             </mat-form-field>
           </div>
         </div>

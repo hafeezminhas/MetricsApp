@@ -29,17 +29,16 @@ export class TestParamsComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      date:         ['', Validators.required],
-      airTemp:      ['', Validators.required],
-      airRH:        ['', Validators.required],
-      co2:          ['', Validators.required],
-      lightIntensity: ['', Validators.required],
-      waterPH:      ['', Validators.required],
-      waterTDS:     ['', Validators.required],
-      waterOxygen:  ['', Validators.required],
+      date:           ['', Validators.required],
+      airTemp:        null,
+      airRH:          null,
+      co2:            null,
+      lightIntensity: null,
+      waterPH:        null,
+      waterTDS:       null,
+      waterOxygen:    null,
     });
 
-    
     if (this.update) {
       this.form.patchValue(this.testParams);
     }

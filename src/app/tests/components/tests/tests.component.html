@@ -21,7 +21,7 @@
 
       <ng-container matColumnDef="description">
         <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-        <mat-cell *matCellDef="let test">{{test.description}}</mat-cell>
+        <mat-cell *matCellDef="let test">{{getTruncated(test.description, 30)}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="dryWeight">

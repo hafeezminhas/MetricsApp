@@ -37,7 +37,7 @@ export class TestFormComponent implements OnInit {
               private testsService: TestsService,
               private ngPopup: NgPopupsService,
               private plantService: PlantService,
-              private _snackBar: MatSnackBar) {
+              private snackBar: MatSnackBar) {
     this.update = this.route.snapshot.data.update;
   }
 
@@ -46,19 +46,19 @@ export class TestFormComponent implements OnInit {
       name:           ['', Validators.required],
       description:    ['', Validators.required],
       resultDate:     [null, Validators.required],
-      wetWeight:      [null, Validators.required],
-      dryWeight:      [null, Validators.required],
-      trimmedWeight:  [null, Validators.required],
-      THCA:           [null, Validators.required],
-      DELTATHC:       [null, Validators.required],
-      THCVA:          [null, Validators.required],
-      CBDA:           [null, Validators.required],
-      CBGA:           [null, Validators.required],
-      CBL:            [null, Validators.required],
-      CBD:            [null, Validators.required],
-      CBN:            [null, Validators.required],
-      CBT:            [null, Validators.required],
-      TAC:            [null, Validators.required],
+      wetWeight:      null,
+      dryWeight:      null,
+      trimmedWeight:  null,
+      THCA:           null,
+      DELTATHC:       null,
+      THCVA:          null,
+      CBDA:           null,
+      CBGA:           null,
+      CBL:            null,
+      CBD:            null,
+      CBN:            null,
+      CBT:            null,
+      TAC:            null,
       plantSearch:    '',
     });
 
@@ -70,7 +70,7 @@ export class TestFormComponent implements OnInit {
     }
   }
 
-  patchData() {
+  patchData(): void {
     this.form.patchValue(this.test);
     this.testParams = this.test.testParams;
     this.plants = [...this.test.plants];
@@ -87,8 +87,8 @@ export class TestFormComponent implements OnInit {
   plantSelect(e): void {
     this.form.controls.plantSearch.setValue('');
     if (this.plants.findIndex(p => p._id === e.source.value._id) !== -1) {
-      this.ngPopup.alert(`Plant '${e.source.value.name}' already exist`, 
-        { title: 'Duplicate Entry', okButtonText: 'I Understand' }
+      this.ngPopup.alert(`Plant '${e.source.value.name}' already exist`,
+      { title: 'Duplicate Entry', okButtonText: 'I Understand' }
       );
       return;
     }
@@ -96,18 +96,18 @@ export class TestFormComponent implements OnInit {
     this.plants.push({ ...e.source.value, isNew: true });
   }
 
-  removePlant(plant: Plant) {
+  removePlant(plant: Plant): void {
     this.ngPopup.confirm(`Are you sure you want to remove this '${plant.name}'?`, { title: 'Confirm Removal' })
       .subscribe(res => {
         if (res) {
-          const index = this.plants.findIndex(p => p._id == plant._id);
+          const index = this.plants.findIndex(p => p._id === plant._id);
           if (index !== -1) {
             this.plants.splice(index, 1);
           }
         }
     });
   }
-  
+
   getPlantType(type: number): string {
     return type === 1 ? 'Seed' : 'Clone';
   }
@@ -119,14 +119,14 @@ export class TestFormComponent implements OnInit {
     }
 
     if (this.update) {
-      let value = this.form.value;
+      const value = this.form.value;
       delete value.plantSearch;
       const updatePayload: TestUpdatePayload = { ...value };
       updatePayload.plants = this.plants.filter(p => p.isNew).map(p => p._id);
       updatePayload.testParams = this.testParams.filter(t => !t.hasOwnProperty('_id'));
       this.updateTest(updatePayload);
     } else {
-      this.addTest()
+      this.addTest();
     }
   }
 
@@ -170,13 +170,13 @@ export class TestFormComponent implements OnInit {
     });
   }
 
-  removeParams(i: number) {
+  removeParams(i: number): void {
     this.ngPopup.confirm(`Are you sure you want to remove this entry?`, { title: 'Confirm Removal' })
     .subscribe(res => {
       if (res) {
         this.testParams.splice(i, 1);
       }
-    })
+    });
   }
 
   private setupPlantsSearch(): void {
@@ -201,23 +201,25 @@ export class TestFormComponent implements OnInit {
     });
   }
 
-  addTest() {
-    let value  = this.form.value;
+  addTest(): void {
+    const value  = this.form.value;
     const plants = this.plants.map(p => p._id);
     delete value.plantSearch;
-    
+
     value.plants = plants;
     value.testParams = this.testParams;
     const payload: Test = { ...value };
 
     this.testsService.create(payload).subscribe(res => {
-      this._snackBar.open('Test Added', '', { duration: 2000 });
+      this.snackBar.open('Test Added Successfully', '', { duration: 2000 });
+      this.router.navigate(['/tests']);
     });
   }
 
-  updateTest(updatePayload: TestUpdatePayload) {
+  updateTest(updatePayload: TestUpdatePayload): void {
     this.testsService.edit(this.test._id, updatePayload).subscribe(res => {
-      this._snackBar.open('Test Updated', '', { duration: 2000 });
+      this.snackBar.open('Test Updated Successfully', '', { duration: 2000 });
+      this.router.navigate(['/tests']);
     });
   }
 }

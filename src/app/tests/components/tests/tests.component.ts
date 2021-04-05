@@ -57,4 +57,13 @@ export class TestsComponent implements OnInit, AfterViewInit {
   preview(test): void {
 
   }
+
+  getTruncated(target: string, maxLength: number = 50): string {
+    const htmlStripped = target.replace(/(<([^>]+)>)/gi, '');
+
+    if (htmlStripped.length >= maxLength) {
+      return `${htmlStripped.slice(0, maxLength)}...`;
+    }
+    return htmlStripped;
+  }
 }
