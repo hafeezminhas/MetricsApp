@@ -55,7 +55,7 @@ export class TestsComponent implements OnInit, AfterViewInit {
   }
 
   preview(test): void {
-
+    this.router.navigateByUrl(`/tests/${test._id}/preview`);
   }
 
   getTruncated(target: string, maxLength: number = 50): string {
