@@ -18,8 +18,7 @@ const routes: Route[] = [
       { path: '', component: TestsComponent },
       {
         path: ':id/preview',
-        component: TestComponent,
-        resolve: { test: TestResolver }
+        component: TestComponent
       },
       {
         path: ':id/update',

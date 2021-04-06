@@ -7,7 +7,6 @@ import {HomeComponent} from './home/home.component';
 import {AdminModuleGuard} from './auth/guards/admin-module.guard';
 
 import {AuthGuard} from './auth/guards/auth.guard';
-import {TestResolver} from './tests/services/test.resolver';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -28,10 +27,7 @@ const routes: Routes = [
     path: 'tests',
     loadChildren: () => import('./tests/tests.module').then(m => m.TestsModule),
     data: { role: 'USER' },
-    canActivate: [AuthGuard],
-    resolve: {
-
-    }
+    canActivate: [AuthGuard]
   },
   {
     path: 'users',
@@ -51,7 +47,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes),
   ],
   exports: [RouterModule]
 })

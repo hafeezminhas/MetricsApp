@@ -60,9 +60,7 @@ export class AuthEffects {
       localStorage.setItem('token', action.token);
       localStorage.setItem('refresh_token', action.refresh);
       this.router.navigateByUrl(this.router.url !== '/login' ? this.router.url : '/dashboard');
-      setTimeout(() => {
-        this.document.defaultView.location.reload();
-      }, 1000);
+      setTimeout(() => this.document.defaultView.location.reload());
     })
   );
 

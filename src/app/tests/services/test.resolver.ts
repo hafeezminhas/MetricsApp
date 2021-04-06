@@ -18,7 +18,6 @@ export class TestResolver implements Resolve<boolean> {
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.testsService.getTest(route.params.id).pipe(
-      delay(2000),
       catchError(err => {
         if (err.status === 404) {
           this.ngPopup.alert(`The requested test object not found`, { title: 'Test Not Found', okButtonText: 'Ok' });

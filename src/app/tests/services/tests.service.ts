@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, finalize, tap} from 'rxjs/operators';
 import {PageEvent} from '@angular/material/paginator';
+import {NgPopupsService} from 'ng-popups';
 
 class TestsServiceState {
   page: number;
@@ -32,7 +33,7 @@ export class TestsService {
   });
   initialized = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private ngPopup: NgPopupsService) { }
 
   get state$(): Observable<TestsServiceState> {
     return this.testsState$.asObservable();
@@ -72,7 +73,14 @@ export class TestsService {
   }
 
   getTest(id: string): Observable<any> {
-    return this.http.get(`${API_BASE_URL}/${id}`);
+    return this.http.get(`${API_BASE_URL}/${id}`).pipe(
+      catchError(err => {
+        if (err.status === 404) {
+          this.ngPopup.alert(`The requested test object not found`, { title: 'Test Not Found', okButtonText: 'Ok' });
+        }
+        throw err;
+      })
+    );
   }
 
   create(payload: Test): Observable<any> {
