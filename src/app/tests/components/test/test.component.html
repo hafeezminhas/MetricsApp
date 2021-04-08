@@ -100,7 +100,7 @@
               <td>{{tp.waterOxygen}}</td>
               <td fxLayoutAlign="end start">
                 <a class="mat-icon-button" (click)="updateParams(tp, i)"> <mat-icon>edit</mat-icon> </a>
-                <a class="mat-icon-button mat-warn" (click)="removeParams(i)"> <mat-icon>close</mat-icon> </a>
+                <a class="mat-icon-button mat-warn" (click)="removeParams(tp, i)"> <mat-icon>close</mat-icon> </a>
               </td>
             </tr>
             <tr *ngIf="!testItem?.testParams?.length">

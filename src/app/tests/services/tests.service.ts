@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Test, TestResponse, TestUpdatePayload} from '../../data/models/test';
+import {Test, TestParams, TestResponse, TestUpdatePayload} from '../../data/models/test';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, finalize, tap} from 'rxjs/operators';
@@ -102,6 +102,18 @@ export class TestsService {
     return this.http.delete(`${API_BASE_URL}/${id}`).pipe(
       tap(() => this.load())
     );
+  }
+
+  removePlant(id: string, pid: string): Observable<any> {
+    return this.http.delete(`${API_BASE_URL}/${id}/plants/${pid}`)
+  }
+
+  removeParam(id: string, pid: string): Observable<any> {
+    return this.http.delete(`${API_BASE_URL}/${id}/params/${pid}`)
+  }
+
+  updateParams(id: string, payload: TestParams): Observable<any> {
+    return this.http.put(`${API_BASE_URL}/params/${id}`, payload)
   }
 
   changePage(pageEvent: PageEvent): void {
