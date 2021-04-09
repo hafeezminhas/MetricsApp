@@ -1,5 +1,14 @@
 # MetricsMonitor
 
-Angular NGRX with a MultiModule and MultiStore Concept that has a root store and child stores for each module
+Application built with Angular 11, NGRX etc
 
-https://www.positronx.io/free-angular-tutorials/
+To run the project run the following commans on a shell command line.
+`npm install`
+
+for development run (Make sure API code is running already)
+`npm start`
+
+for production build run
+`ng build --prod`
+and copy the contents of dist folder into the API's code > public folder
+
