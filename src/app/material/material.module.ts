@@ -24,7 +24,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MAT_DATE_FORMATS, MatNativeDateModule} from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatSlideToggle, MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export const MY_FORMATS = {
   parse: {
@@ -97,7 +98,8 @@ export const MY_FORMATS = {
     MatSlideToggleModule,
     MatTableModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   providers: [
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},

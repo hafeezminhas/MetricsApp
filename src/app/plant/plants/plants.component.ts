@@ -32,7 +32,7 @@ export class PlantsComponent implements OnInit, AfterViewInit {
     this.dataSource.init();
   }
 
-  pageChange($event: PageEvent) {
+  pageChange($event: PageEvent): void {
     this.plantService.changePage($event);
   }
 

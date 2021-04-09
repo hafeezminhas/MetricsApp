@@ -68,7 +68,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   remove(user: User): void {
     this.ngPopup.confirm(`Are you sure you want to remove the selected user?`, { title: 'Confirm Removal' }).subscribe(res => {
       if(res) {
-        this.usersService.remove(user._id);
+        this.usersService.remove(user._id).subscribe();
       }
     });
   }

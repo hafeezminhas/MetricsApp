@@ -1,0 +1,63 @@
+<div fxLayout="row wrap">
+  <section fxFlex="100" fxLayout="row" class="my-4">
+    <h5 class="m-0">Tests ({{dataSource.count || 0}})</h5>
+    <span fxFlex></span>
+    <button mat-mini-fab color="primary" (click)="addNew()"><mat-icon>add</mat-icon></button>
+  </section>
+
+  <section fxFlex="100">
+    <mat-progress-bar mode="indeterminate" *ngIf="dataSource.loading$ | async as loading"></mat-progress-bar>
+    <mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.name}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef>Created At</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.createdAt | date}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{getTruncated(test.description, 30)}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dryWeight">
+        <mat-header-cell *matHeaderCellDef>Dry Weight</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.dryWeight}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="trimmedWeight">
+        <mat-header-cell *matHeaderCellDef>Trimmed Weight</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.trimmedWeight}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="wetWeight">
+        <mat-header-cell *matHeaderCellDef>Wet Weight</mat-header-cell>
+        <mat-cell *matCellDef="let test">{{test.wetWeight}}</mat-cell>
+      </ng-container> 
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let test" fxLayout="row" fxLayoutGap="5px">
+          <button mat-icon-button color="primary" (click)="edit(test)"> <mat-icon>edit</mat-icon> </button>
+          <button mat-icon-button color="accent" (click)="preview(test)"> <mat-icon>saved_search</mat-icon> </button>
+          <button mat-icon-button color="warn" (click)="remove(test)"> <mat-icon>delete</mat-icon> </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    </mat-table>
+    <mat-paginator [length]="dataSource.count || 0"
+                   [pageSize]="pageConfig.limit"
+                   [pageSizeOptions]="pageSizes"
+                   (page)="pageChange($event)">
+    </mat-paginator>
+  </section>
+
+</div>

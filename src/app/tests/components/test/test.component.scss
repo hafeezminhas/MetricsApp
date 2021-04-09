@@ -1,0 +1,21 @@
+.info-block {
+  padding: 1rem 0.2rem;
+
+  h5 {
+    width: 100%;
+    margin: 0.2rem 0;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #888888;
+  }
+
+  &-item {
+    margin: 0.2rem 0;
+    padding: 0.2rem 0.4rem;
+    background-color: #e8e8e8;
+    font-size: 1rem;
+
+    .label, .value {
+      width: 50%;
+    }
+  }
+}

@@ -1,7 +1,6 @@
 import { NgPopupsModule } from 'ng-popups';
 import { RouterModule } from '@angular/router';
 import { WINDOW_PROVIDERS } from './helpers/window.helper';
-import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';

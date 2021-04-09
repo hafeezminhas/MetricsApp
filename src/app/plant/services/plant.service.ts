@@ -5,7 +5,6 @@ import { Plant, PlantResponse } from '../../data/models/plant';
 import { catchError, count, finalize, tap } from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
 
-
 class PlantServiceState {
   page: number;
   limit: number;
@@ -16,7 +15,7 @@ class PlantServiceState {
   count: number;
 }
 
-const API_PREFIX = 'api';
+const API_PREFIX = 'api/plants';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +52,7 @@ export class PlantService {
       params.set('search', `${query}`);
     }
 
-    const url = `${API_PREFIX}/plants?` + params.toString();
+    const url = `${API_PREFIX}?` + params.toString();
 
     this.http.get(url).pipe(
       catchError((error) => {
@@ -69,31 +68,31 @@ export class PlantService {
   }
 
   searchPlants(query: string): Observable<any> {
-    return this.http.get(`${API_PREFIX}/plants?search=${query}`);
+    return this.http.get(`${API_PREFIX}?search=${query}`);
   }
 
   create(payload: Plant): Observable<any> {
     this.initialized = false;
-    return this.http.post(`${API_PREFIX}/plants`, payload).pipe(
+    return this.http.post(`${API_PREFIX}`, payload).pipe(
       tap(() => this.load())
     );
   }
 
   edit(id: string, payload: Plant): Observable<any> {
     this.initialized = false;
-    return this.http.put(`${API_PREFIX}/plants/${id}`, payload).pipe(
+    return this.http.put(`${API_PREFIX}/${id}`, payload).pipe(
       tap(() => this.load())
     );
   }
 
   remove(id: string): Observable<any> {
     this.initialized = false;
-    return this.http.delete(`${API_PREFIX}/plants/${id}`).pipe(
+    return this.http.delete(`${API_PREFIX}/${id}`).pipe(
       tap(() => this.load())
     );
   }
 
-  changePage(pageEvent: PageEvent) {
+  changePage(pageEvent: PageEvent): void {
     this.initialized = false;
     this.plantState$.next({
       ...this.plantState$.value,
@@ -103,9 +102,11 @@ export class PlantService {
     this.load();
   }
 
-  update(page: number = this.plantState$.value.page,
+  update(
+    page: number = this.plantState$.value.page,
     limit: number = this.plantState$.value.limit,
-    search?: string): void {
+    search?: string
+  ): void {
     const params = new HttpParams()
       .set('page', `${page}`)
       .set('limit', `${limit}`);
@@ -113,7 +114,7 @@ export class PlantService {
       params.set('search', `${search}`);
     }
 
-    this.http.get(`${API_PREFIX}/plants?${params}`).subscribe((res: any) => {
+    this.http.get(`${API_PREFIX}?${params}`).subscribe((res: any) => {
       this.plantState$.next(res.plants);
     });
   }

@@ -1,5 +1,5 @@
 <div class="dialog-wrapper" fxLayout="row wrap" fxLayoutAlign="center start">
-  <h2 mat-dialog-title>{{update? 'Update Company' : 'Create Plant'}}</h2>
+  <h2 mat-dialog-title>{{update? 'Update' : 'Create'}} Plant</h2>
 
   <mat-dialog-content fxFlex="100">
     <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate autocomplete="off">

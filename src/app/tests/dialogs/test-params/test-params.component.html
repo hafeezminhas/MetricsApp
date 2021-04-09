@@ -1,0 +1,109 @@
+<div class="dialog-wrapper" fxLayout="row wrap" fxLayoutAlign="center start">
+  <h2 mat-dialog-title>{{update? 'Update' : 'Create'}} Test Param</h2>
+
+  <mat-dialog-content fxFlex="100">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate autocomplete="off">
+      <fieldset fxFlex="100" fxLayout="row wrap">
+        <legend>Test Param Details</legend>
+
+        <div fxFlex="100" fxLayout="row" fxLayoutGap="0" *ngIf="error">
+          <ul class="errors-list" fxFlex="100">
+            <li><span><mat-icon>error</mat-icon></span> {{error}}</li>
+          </ul>
+        </div>
+
+        <div fxFlex="100" fxLayout="row" fxLayoutGap="0">
+          <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+            <mat-label>Test Date</mat-label>
+            <input matInput [matDatepicker]="testDatePicker" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="testDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #testDatePicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxLayout="row" fxLayoutGap="0">
+          <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+            <mat-label> Air Temprature </mat-label>
+            <input matInput formControlName="airTemp" >
+            <mat-error *ngIf="f.airTemp.touched && f.airTemp.invalid">
+              <span *ngIf="f.airTemp.errors.required">Air temp is required</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Air RH </mat-label>
+              <input matInput formControlName="airRH" >
+              <mat-error *ngIf="f.airRH.touched && f.airRH.invalid">
+                <span *ngIf="f.airRH.errors.required">Air RH is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> CO2 </mat-label>
+              <input matInput formControlName="co2">
+              <mat-error *ngIf="f.co2.touched && f.co2.invalid">
+                <span *ngIf="f.co2.errors.required">co2 value is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Light Intensity </mat-label>
+              <input matInput formControlName="lightIntensity" >
+              <mat-error *ngIf="f.lightIntensity.touched && f.lightIntensity.invalid">
+                <span *ngIf="f.lightIntensity.errors.required">Light intensity is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Water PH </mat-label>
+              <input matInput formControlName="waterPH">
+              <mat-error *ngIf="f.waterPH.touched && f.waterPH.invalid">
+                <span *ngIf="f.waterPH.errors.required">Water PH value is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Water TDS </mat-label>
+              <input matInput formControlName="waterTDS" >
+              <mat-error *ngIf="f.waterTDS.touched && f.waterTDS.invalid">
+                <span *ngIf="f.waterTDS.errors.required">Water TDS value is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.gt-md="49.5" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Water Oxygen </mat-label>
+              <input matInput formControlName="waterOxygen">
+              <mat-error *ngIf="f.waterOxygen.touched && f.waterOxygen.invalid">
+                <span *ngIf="f.waterOxygen.errors.required">Water Oxygen value is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
+        <button type="submit" mat-raised-button color="primary">Save</button>
+        <button type="button" mat-raised-button color="default" (click)="close()">Close</button>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start">
+  </mat-dialog-actions>
+
+</div>

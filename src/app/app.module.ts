@@ -28,6 +28,7 @@ import { NgPopupsGlobalConfig, NgPopupsModule } from 'ng-popups';
 import { NotFoundComponent } from './not-found/not-found.component';
 import {ReactiveFormsModule} from '@angular/forms';
 
+
 const ngxPopupsConfig: NgPopupsGlobalConfig = {
   theme: 'material',
   okButtonText: 'Yes',
@@ -46,16 +47,18 @@ const maskConfig: Partial<IConfig> = {
 @NgModule({
   declarations: [
     AppComponent,
-    NotFoundComponent
+    NotFoundComponent,
    ],
   imports: [
     BrowserModule,
     RouterModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    AuthModule,
     StoreModule.forRoot(fromApp.reducers),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+
     NgPopupsModule.forRoot(ngxPopupsConfig),
     NgxMaskModule.forRoot(maskConfig),
     LoadingBarHttpClientModule,
@@ -64,11 +67,10 @@ const maskConfig: Partial<IConfig> = {
 
     MaterialModule,
     SharedModule,
-    AuthModule,
     LayoutModule,
     HomeModule,
     DashboardModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

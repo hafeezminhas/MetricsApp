@@ -1,0 +1,261 @@
+<div fxLayout="row wrap">
+  <section fxFlex="100" fxLayout="row" class="py-12">
+    <h5 class="m-0">{{update ? 'Update' : 'Create' }} Test</h5>
+    <span fxFlex></span>
+  </section>
+
+  <section fxFlex="100">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" fxLayout="row wrap" novalidate autocomplete="off">
+      <fieldset fxFlex="100" fxLayout="row wrap">
+        <legend>Test Info</legend>
+
+        <div fxFlex="100" fxLayout="row" fxLayoutGap="0" *ngIf="errors?.length">
+          <ul class="errors-list" fxFlex="100">
+            <li *ngFor="let err of errors"><span><mat-icon>error</mat-icon></span> {{err}}</li>
+          </ul>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+
+          <div fxFlex="100" fxFlex.gt-sm="49" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Name</mat-label>
+              <input matInput formControlName="name" >
+              <mat-error *ngIf="f.name.touched && f.name.invalid">
+                <span *ngIf="f.name.errors.required">plant name is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxFlex.gt-sm="49" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Harvest Date </mat-label>
+              <input matInput formControlName="resultDate" [matDatepicker]="picker" (dateChange)="onDateChange($event)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="99">
+              <mat-label> Description</mat-label>
+              <textarea matInput formControlName="description" rows="5"></textarea>
+              <mat-error *ngIf="f.description.touched && f.description.invalid">
+                <span *ngIf="f.description.errors.required">plant name is required</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+      </fieldset>
+
+      <fieldset fxFlex="100" fxLayout="row wrap">
+        <legend>Plants</legend>
+
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
+          <mat-form-field class="pr-4" appearance="outline" fxFlex="100">
+            <mat-label> Search Plants </mat-label>
+            <input matInput placeholder="Search Plant" aria-label="mother" [matAutocomplete]="plant" formControlName="plantSearch">
+            <mat-autocomplete #plant="matAutocomplete">
+              <mat-option *ngIf="plantsSearching" class="is-loading">loading...</mat-option>
+              <ng-container *ngIf="!plantsSearching">
+                <mat-option *ngFor="let plant of filteredPlants" [value]="plant" (onSelectionChange)="plantSelect($event)">
+                  <img class="autocomp-img" aria-hidden src="assets/images/icons/cann_leaf.png" style="width: 25px; vertical-align: middle; margin-right: 8px">
+                  <span>{{plant.metricId}}</span> | <small>{{plant.name}}</small>
+                </mat-option>
+              </ng-container>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
+          <table class="table" fxFlex="100">
+            <thead *ngIf="plants?.length">
+              <tr>
+                <th>Name</th>
+                <th>Metric-ID</th>
+                <th>Strain</th>
+                <th>Type</th>
+                <th>Planted On</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of plants">
+                <td>{{p.name}}</td>
+                <td>{{p.metricId}}</td>
+                <td>{{p.strain}}</td>
+                <td>{{getPlantType(p.type)}}</td>
+                <td>{{p.plantedOn | date}}</td>
+                <td fxLayoutAlign="end start">
+                  <a class="mat-icon-button mat-warn" *ngIf="p.isNew" (click)="removePlant(p)"> <mat-icon>close</mat-icon> </a>
+                </td>
+              </tr>
+              <tr *ngIf="!plants?.length">
+                <td colspan="6">
+                  <div class="alert alert--info" role="alert">
+                    <strong>No Plants! </strong> No plants selected to show.
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </fieldset>
+
+      <fieldset fxFlex="100" fxLayout="row wrap">
+        <legend>Test Params</legend>
+
+        <div fxFlex="100" fxLayoutAlign="end start">
+          <button type="button" mat-icon-button color="primary" (click)="addParams()" matTooltip="Upload Multiple"> <mat-icon>upload</mat-icon> </button>
+          <button type="button" mat-icon-button color="primary" (click)="addParams()" matTooltip="Add Params"> <mat-icon>add</mat-icon> </button>
+        </div>
+
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
+          <table class="table" fxFlex="100">
+            <thead *ngIf="testParams?.length">
+              <tr>
+                <th>Date</th>
+                <th>Air Temp</th>
+                <th>Air RH</th>
+                <th>CO2</th>
+                <th>Light Intensity</th>
+                <th>Water PH</th>
+                <th>Water TDS</th>
+                <th>Water Oxygen</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tp of testParams; let i = index">
+                <td>{{tp.date | date}}</td>
+                <td>{{tp.airTemp}}</td>
+                <td>{{tp.airRH}}</td>
+                <td>{{tp.co2}}</td>
+                <td>{{tp.lightIntensity}}</td>
+                <td>{{tp.waterPH}}</td>
+                <td>{{tp.waterTDS}}</td>
+                <td>{{tp.waterOxygen}}</td>
+                <td fxLayoutAlign="end start" *ngIf="!tp._id">
+                  <a class="mat-icon-button mat-warn" (click)="updateParams(tp, i)"> <mat-icon>edit</mat-icon> </a>
+                  <a class="mat-icon-button mat-warn" (click)="removeParams(i)"> <mat-icon>close</mat-icon> </a>
+                </td>
+              </tr>
+              <tr *ngIf="!testParams?.length">
+                <td colspan="6">
+                  <div class="alert alert--info" role="alert">
+                    <strong>Nothing to show! </strong> No test params added, please click the plus button to add a few.
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </fieldset>
+
+      <fieldset fxFlex="100" fxLayout="row wrap">
+        <legend>Test Onetime Details</legend>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-xs="1%">
+
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Wet Weight </mat-label>
+              <input type="number" matInput formControlName="wetWeight" >
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Dry Weight </mat-label>
+              <input type="number" matInput formControlName="dryWeight" >
+            </mat-form-field>
+          </div>
+
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> Trimmed Weight </mat-label>
+              <input type="number" matInput formControlName="trimmedWeight" >
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap.gt-xs="1%">
+
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> THCA </mat-label>
+              <input type="number" matInput formControlName="THCA" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> DELTATHC </mat-label>
+              <input type="number" matInput formControlName="DELTATHC" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> THCVA </mat-label>
+              <input type="number" matInput formControlName="THCVA" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> CBDA </mat-label>
+              <input type="number" matInput formControlName="CBDA" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> CBGA </mat-label>
+              <input type="number" matInput formControlName="CBGA" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> CBL </mat-label>
+              <input type="number" matInput formControlName="CBL" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> CBD </mat-label>
+              <input type="number" matInput formControlName="CBD" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> CBN </mat-label>
+              <input type="number" matInput formControlName="CBN" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> CBT </mat-label>
+              <input type="number" matInput formControlName="CBT" >
+            </mat-form-field>
+          </div>
+          <div fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <mat-form-field class="form-field" appearance="outline" fxFlex="100">
+              <mat-label> TAC </mat-label>
+              <input type="number" matInput formControlName="TAC" >
+            </mat-form-field>
+          </div>
+        </div>
+
+      </fieldset>
+
+      <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="end start" class="py-20 px-12">
+        <button type="submit" mat-raised-button color="primary">Save</button>
+        <button type="button" mat-raised-button color="default" (click)="close()">Close</button>
+      </div>
+
+    </form>
+
+  </section>
+</div>

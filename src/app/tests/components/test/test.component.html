@@ -1,0 +1,188 @@
+<div fxLayout="row wrap">
+  <section fxFlex="100" fxLayout="row" class="py-12">
+    <h5 class="m-0">Test - {{testItem?.name}}</h5>
+    <span fxFlex></span>
+  </section>
+
+  <section fxFlex="100">
+    <div fxLayout="row wrap">
+
+      <div class="info-block" fxFlex="100" fxLayout="row wrap">
+        <h5>Test Info</h5>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-md="1%">
+
+          <div class="info-block-item" fxFlex="100" fxFlex.gt-sm="49" fxLayout="row">
+            <div class="label"> Test Name </div>
+            <div class="value"> {{testItem?.name}} </div>
+          </div>
+
+          <div class="info-block-item" fxFlex="100" fxFlex.gt-sm="49" fxLayout="row">
+              <div class="label"> Harvest Date </div>
+              <div class="value"> {{testItem?.resultDate | date: 'medium'}} </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="info-block" fxFlex="100" fxLayout="row wrap">
+        <h5 fxFlex="100"> Description</h5>
+        <div fxFlex="100">{{testItem?.description}}</div>
+      </div>
+
+      <div class="info-block" fxFlex="100" fxLayout="row wrap">
+        <h5>Plants</h5>
+
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
+          <table class="table" fxFlex="100">
+            <thead *ngIf="testItem?.plants?.length">
+            <tr>
+              <th>Name</th>
+              <th>Metric-ID</th>
+              <th>Strain</th>
+              <th>Type</th>
+              <th>Planted On</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let p of testItem?.plants">
+              <td>{{p.name}}</td>
+              <td>{{p.metricId}}</td>
+              <td>{{p.strain}}</td>
+              <td>{{getPlantType(p.type)}}</td>
+              <td>{{p.plantedOn | date}}</td>
+              <td fxLayoutAlign="end start">
+                <a class="mat-icon-button mat-warn" (click)="removePlant(p)"> <mat-icon>close</mat-icon> </a>
+              </td>
+            </tr>
+            <tr *ngIf="!testItem?.plants?.length">
+              <td colspan="6">
+                <div class="alert alert--info" role="alert">
+                  <strong>No Plants! </strong> No plants selected for this test
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="info-block" fxFlex="100" fxLayout="row wrap">
+        <h5>Test Params</h5>
+
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutGap="0" fxLayoutGap.gt-md="2%">
+          <table class="table" fxFlex="100">
+            <thead *ngIf="testItem?.testParams?.length">
+            <tr>
+              <th>Date</th>
+              <th>Air Temp</th>
+              <th>Air RH</th>
+              <th>CO2</th>
+              <th>Light Intensity</th>
+              <th>Water PH</th>
+              <th>Water TDS</th>
+              <th>Water Oxygen</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let tp of testItem?.testParams; let i = index">
+              <td>{{tp.date | date}}</td>
+              <td>{{tp.airTemp}}</td>
+              <td>{{tp.airRH}}</td>
+              <td>{{tp.co2}}</td>
+              <td>{{tp.lightIntensity}}</td>
+              <td>{{tp.waterPH}}</td>
+              <td>{{tp.waterTDS}}</td>
+              <td>{{tp.waterOxygen}}</td>
+              <td fxLayoutAlign="end start">
+                <a class="mat-icon-button" (click)="updateParams(tp, i)"> <mat-icon>edit</mat-icon> </a>
+                <a class="mat-icon-button mat-warn" (click)="removeParams(tp, i)"> <mat-icon>close</mat-icon> </a>
+              </td>
+            </tr>
+            <tr *ngIf="!testItem?.testParams?.length">
+              <td colspan="6">
+                <div class="alert alert--info" role="alert">
+                  <strong>Nothing to show! </strong> No test params added
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="info-block" fxFlex="100" fxLayout="row wrap">
+        <h5>Test Calculations</h5>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap="0" fxLayoutGap.gt-xs="1%">
+
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> Wet Weight</div>
+            <div class="value"> {{testItem?.wetWeight}}</div>
+          </div>
+
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> Dry Weight</div>
+            <div class="value"> {{testItem?.dryWeight}}</div>
+          </div>
+
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> Trimmed Weight</div>
+            <div class="value"> {{testItem?.trimmedWeight}}</div>
+          </div>
+        </div>
+
+        <div fxLayout="row wrap" fxFlex="100" fxLayoutGap.gt-xs="1%">
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> THCA</div>
+            <div class="value"> {{testItem?.THCA}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> DELTATHC</div>
+            <div class="value"> {{testItem?.DELTATHC}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> THCVA</div>
+            <div class="value"> {{testItem?.THCVA}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> CBDA</div>
+            <div class="value"> {{testItem?.CBDA}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> CBGA</div>
+            <div class="value"> {{testItem?.CBGA}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> CBL</div>
+            <div class="value"> {{testItem?.CBL}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> CBD</div>
+            <div class="value"> {{testItem?.CBD}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> CBN</div>
+            <div class="value"> {{testItem?.CBN}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> CBT</div>
+            <div class="value"> {{testItem?.CBT}} </div>
+          </div>
+          <div class="info-block-item" fxFlex="100" fxFlex.sm="49" fxFlex.md="32" fxFlex.gt-md="24" fxFlex.xl="19" fxLayout="row">
+            <div class="label"> TAC</div>
+            <div class="value"> {{testItem?.TAC}} </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+</div>

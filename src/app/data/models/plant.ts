@@ -15,8 +15,8 @@ interface Plant {
 }
 
 interface PlantResponse {
-  plants: Plant[],
-  page: number,
+  plants: Plant[];
+  page: number;
   limit: number;
   count: number;
 }
